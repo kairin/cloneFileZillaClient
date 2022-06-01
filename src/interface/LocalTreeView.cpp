@@ -972,7 +972,7 @@ void CLocalTreeView::OnBeginDrag(wxTreeEvent& event)
 
 	DropSource source(this);
 	source.SetData(obj);
-	int res = source.DoFileDragDrop();
+	int res = source.DoFileDragDrop(wxDrag_AllowMove);
 
 	bool handled_internally = pDragDropManager->pDropTarget != 0;
 
