@@ -231,7 +231,7 @@ std::string BuildDigestAuthorization(HttpAuthParams const& params, unsigned int 
 	auth += ", algorithm=" + fullAlgorithm;
 
 	unsigned int nc = nonceCounter++;
-	auth += ", nc=" + fz::sprintf("%x", nc);
+	auth += ", nc=" + fz::sprintf("%08x", nc);
 
 
 	bool sess = false;
@@ -277,7 +277,7 @@ std::string BuildDigestAuthorization(HttpAuthParams const& params, unsigned int 
 
 	if (qop) {
 		auth += ", qop=auth";
-		response = fz::hex_encode<std::string>(h(a1 + ":" + nonce + ":" + fz::sprintf("%x", nc) + ":" + cnonce + ":auth:" + ha2));
+		response = fz::hex_encode<std::string>(h(a1 + ":" + nonce + ":" + fz::sprintf("%08x", nc) + ":" + cnonce + ":auth:" + ha2));
 	}
 	else {
 		response = fz::hex_encode<std::string>(h(a1 + ":" + nonce + ":" + ha2));
