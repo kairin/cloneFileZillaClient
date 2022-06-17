@@ -417,8 +417,10 @@ bool CLocalPath::ChangePath(std::wstring const& new_path)
 
 bool CLocalPath::Exists(std::wstring *error) const
 {
-	assert(!m_path->empty());
 	if (m_path->empty()) {
+		if (error) {
+			*error = _("No path given");
+		}
 		return false;
 	}
 
