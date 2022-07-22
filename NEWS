@@ -12,7 +12,7 @@ Legend:
 
 3.60.2 (2022-07-22)
 
-- Updated to libfilezilla 0.38.1 to address an issue with child process termination resulting resulting in freezes
+- Updated to libfilezilla 0.38.1 to address an issue with child process termination resulting in freezes
 
 3.60.1 (2022-06-01)
 
