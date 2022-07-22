@@ -10,6 +10,10 @@ Legend:
     *nix: Unix (e.g BSD) and Unix-like systems (e.g. Linux)
     macOS/OS X: Apple macOS
 
+3.60.2 (2022-07-22)
+
+- Updated to libfilezilla 0.38.1 to address an issue with child process termination resulting resulting in freezes
+
 3.60.1 (2022-06-01)
 
 - Fixed a regression drag-moving local files
