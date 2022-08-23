@@ -152,7 +152,9 @@ RFile *open_existing_file(const char *name, uint64_t offset,
     sfree(s);
 
     uint8_t* memory = mmap(NULL, memory_size, PROT_READ|PROT_WRITE, MAP_SHARED, mapping, 0);
-    if (!memory) {
+    if (!memory || memory == MAP_FAILED) {
+        int err = errno;
+        fzprintf(sftpError, "mmap failed: %d %s", err, strerror(err));
         return NULL;
     }
 
@@ -288,7 +290,9 @@ WFile *open_new_file(const char *name, long perms)
     sfree(s);
 
     uint8_t* memory = mmap(0, memory_size, PROT_READ|PROT_WRITE, MAP_SHARED, mapping, 0);
-    if (!memory) {
+    if (!memory || memory == MAP_FAILED) {
+        int err = errno;
+        fzprintf(sftpError, "mmap failed: %d %s", err, strerror(err));
         return NULL;
     }
 
@@ -341,7 +345,9 @@ WFile *open_existing_wfile(const char *name, uint64_t *size)
     sfree(s);
 
     uint8_t* memory = mmap(0, memory_size, PROT_READ|PROT_WRITE, MAP_SHARED, mapping, 0);
-    if (!memory) {
+    if (!memory || memory == MAP_FAILED) {
+        int err = errno;
+        fzprintf(sftpError, "mmap failed: %d %s", err, strerror(err));
         return NULL;
     }
 
