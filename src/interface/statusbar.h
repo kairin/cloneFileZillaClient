@@ -7,6 +7,8 @@
 
 #include <wx/timer.h>
 
+#include <array>
+
 enum widgets
 {
 	widget_led_send,
