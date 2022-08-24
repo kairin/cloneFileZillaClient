@@ -25,15 +25,14 @@ public:
 
 private:
 	virtual void operator()(fz::event_base const& ev) override;
-	void OnReaderEvent(reader_base*);
-	void OnWriterEvent(writer_base*);
+	void OnBufferAvailability(fz::aio_waitable const* w);
 
-	std::unique_ptr<reader_base> reader_;
-	std::unique_ptr<writer_base> writer_;
+	std::unique_ptr<fz::reader_base> reader_;
+	std::unique_ptr<fz::writer_base> writer_;
 	bool finalizing_{};
 
 	uint8_t const* base_address_{};
-	fz::nonowning_buffer buffer_;
+	fz::buffer_lease buffer_;
 };
 
 #endif

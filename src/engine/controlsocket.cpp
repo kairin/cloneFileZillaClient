@@ -33,12 +33,13 @@
 	#endif
 #endif
 
-CControlSocket::CControlSocket(CFileZillaEnginePrivate & engine)
+CControlSocket::CControlSocket(CFileZillaEnginePrivate & engine, bool use_shm)
 	: event_handler(engine.event_loop_)
 	, engine_(engine)
 	, opLockManager_(engine.opLockManager_)
 	, logger_(engine.GetLogger())
 {
+	InitBufferPool(use_shm);
 }
 
 CControlSocket::~CControlSocket()
@@ -374,7 +375,7 @@ int CControlSocket::CheckOverwriteFile()
 	data.localFileTime_ = data.download() ? data.writer_factory_.mtime() : data.reader_factory_.mtime();
 
 	if (data.download()) {
-		if (data.localFileSize_ == aio_base::nosize && data.localFileTime_.empty()) {
+		if (data.localFileSize_ == fz::aio_base::nosize && data.localFileTime_.empty()) {
 			return FZ_REPLY_OK;
 		}
 	}
@@ -1012,7 +1013,7 @@ bool CControlSocket::SetFileExistsAction(CFileExistsNotification *pFileExistsNot
 		}
 		break;
 	case CFileExistsNotification::resume:
-		if (data.download() && data.localFileSize_ != aio_base::nosize) {
+		if (data.download() && data.localFileSize_ != fz::aio_base::nosize) {
 			data.resume_ = true;
 		}
 		else if (!data.download() && data.remoteFileSize_ >= 0) {
@@ -1165,6 +1166,47 @@ void CControlSocket::CallSetAsyncRequestReply(CAsyncRequestNotification *pNotifi
 void CControlSocket::Sleep(fz::duration const& delay)
 {
 	Push(std::make_unique<SleepOpData>(*this, delay));
+}
+
+bool CControlSocket::InitBufferPool(bool use_shm)
+{
+	if (!buffer_pool_) {
+		buffer_pool_.emplace(logger_, 8, 0, use_shm);
+	}
+	return *buffer_pool_;
+}
+
+std::unique_ptr<fz::writer_base> CControlSocket::OpenWriter(fz::writer_factory_holder & factory, uint64_t resumeOffset, bool withProgress)
+{
+	if (!factory || !buffer_pool_) {
+		return {};
+	}
+
+	auto file_writer = dynamic_cast<fz::file_writer_factory*>(&*factory);
+	if (file_writer) {
+		std::wstring tmp;
+		CLocalPath local_path(file_writer->name(), &tmp);
+		if (local_path.HasParent()) {
+			fz::native_string last_created;
+			fz::mkdir(fz::to_native(local_path.GetPath()), true, fz::mkdir_permissions::normal, &last_created);
+			if (!last_created.empty()) {
+				// Send out notification
+				auto n = std::make_unique<CLocalDirCreatedNotification>();
+				if (n->dir.SetPath(fz::to_wstring(last_created))) {
+					engine_.AddNotification(std::move(n));
+				}
+			}
+		}
+	}
+
+	fz::writer_base::progress_cb_t status_update;
+	if (withProgress) {
+		status_update = [&s = engine_.transfer_status_](fz::writer_base const*, uint64_t written) {
+			s.SetMadeProgress();
+			s.Update(written);
+		};
+	}
+	return factory->open(*buffer_pool_, resumeOffset, status_update, buffer_pool_->buffer_count());
 }
 
 int64_t CalculateNextChunkSize(int64_t remaining, int64_t lastChunkSize, fz::duration const& lastChunkDuration, int64_t minChunkSize, int64_t multiple, int64_t partCount, int64_t maxPartCount, int64_t maxChunkSize)

@@ -2813,6 +2813,6 @@ void CRemoteListView::OnMenuNewfile(wxCommandEvent&)
 		return;
 	}
 
-	CFileTransferCommand *cmd = new CFileTransferCommand(memory_reader_factory(L"Empty file", std::string_view()), m_pDirectoryListing->path, newFileName, transfer_flags());
+	CFileTransferCommand *cmd = new CFileTransferCommand(fz::view_reader_factory(L"Empty file", std::string_view()), m_pDirectoryListing->path, newFileName, transfer_flags());
 	m_state.m_pCommandQueue->ProcessCommand(cmd);
 }

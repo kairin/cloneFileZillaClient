@@ -139,13 +139,13 @@ public:
 	// starts the actual transfer
 	bool transferInitiated_{};
 
-	reader_factory_holder reader_factory_;
-	writer_factory_holder writer_factory_;
+	fz::reader_factory_holder reader_factory_;
+	fz::writer_factory_holder writer_factory_;
 	std::wstring localName_;
 	std::wstring remoteFile_;
 	CServerPath remotePath_;
 
-	uint64_t localFileSize_{aio_base::nosize};
+	uint64_t localFileSize_{fz::aio_base::nosize};
 	fz::datetime localFileTime_;
 
 	int64_t remoteFileSize_{-1};
@@ -191,7 +191,7 @@ class CTransferStatus;
 class CControlSocket : public fz::event_handler
 {
 public:
-	CControlSocket(CFileZillaEnginePrivate & engine);
+	CControlSocket(CFileZillaEnginePrivate & engine, bool use_shm = false);
 	virtual ~CControlSocket();
 
 	CControlSocket(CControlSocket const&) = delete;
@@ -300,6 +300,11 @@ protected:
 
 	OpLock Lock(locking_reason reason, CServerPath const& path, bool inclusive = false);
 
+	bool InitBufferPool(bool use_shm);
+
+	std::unique_ptr<fz::writer_base> OpenWriter(fz::writer_factory_holder & h, uint64_t resumeOffset, bool withProgress);
+
+	std::optional<fz::aio_buffer_pool> buffer_pool_;
 	std::vector<std::unique_ptr<COpData>> operations_;
 	CFileZillaEnginePrivate & engine_;
 	CServer currentServer_;

@@ -37,6 +37,10 @@ int CSftpConnectOpData::Send()
 		{
 			log(logmsg::status, _("Connecting to %s..."), currentServer_.Format(ServerFormat::with_optional_port, controlSocket_.credentials_));
 
+			if (!controlSocket_.buffer_pool_) {
+				return FZ_REPLY_INTERNALERROR | FZ_REPLY_DISCONNECTED;
+			}
+
 			engine_.GetRateLimiter().add(&controlSocket_);
 			if (!controlSocket_.credentials_.keyFile_.empty()) {
 				keyfiles_ = fz::strtok(controlSocket_.credentials_.keyFile_, L"\r\n");
@@ -68,27 +72,12 @@ int CSftpConnectOpData::Send()
 			if (options_.get_int(OPTION_SFTP_COMPRESSION)) {
 				args.push_back(fzT("-C"));
 			}
-#ifndef FZ_WINDOWS
-			if (controlSocket_.shm_fd_ == -1) {
-#if HAVE_MEMFD_CREATE
-				controlSocket_.shm_fd_ = memfd_create("fzsftp", MFD_CLOEXEC);
-#else
-				std::string name = "/" + fz::base32_encode(fz::random_bytes(16), fz::base32_type::locale_safe, false);
-				controlSocket_.shm_fd_ = shm_open(name.c_str(), O_CREAT|O_EXCL|O_RDWR, S_IRUSR|S_IWUSR);
-				if (controlSocket_.shm_fd_ != -1) {
-					shm_unlink(name.c_str());
-				}
-#endif
-				if (controlSocket_.shm_fd_ == -1) {
-					log(logmsg::debug_warning, L"Could not create shm_fd_");
-					return FZ_REPLY_ERROR | FZ_REPLY_DISCONNECTED;
-				}
-			}
-#endif
+
 			controlSocket_.process_ = std::make_unique<fz::process>(engine_.GetThreadPool(), controlSocket_);
 #ifndef FZ_WINDOWS
 			std::vector<int> fds;
-			fds.push_back(controlSocket_.shm_fd_);
+			auto info = controlSocket_.buffer_pool_->shared_memory_info();
+			fds.push_back(std::get<0>(info));
 			if (!controlSocket_.process_->spawn(executable, args, fds)) {
 #else
 			if (!controlSocket_.process_->spawn(executable, args)) {

@@ -3,8 +3,9 @@
 
 #include "server.h"
 #include "serverpath.h"
-#include "reader.h"
-#include "writer.h"
+
+#include <libfilezilla/aio/reader.hpp>
+#include <libfilezilla/aio/writer.hpp>
 
 #include <libfilezilla/uri.hpp>
 
@@ -223,8 +224,8 @@ namespace ftp_transfer_flags
 class FZC_PUBLIC_SYMBOL CFileTransferCommand final : public CCommandHelper<CFileTransferCommand, Command::transfer>
 {
 public:
-	CFileTransferCommand(reader_factory_holder const& reader, CServerPath const& remotePath, std::wstring const& remoteFile, transfer_flags const& flags, std::wstring const& extraflags = {});
-	CFileTransferCommand(writer_factory_holder const& writer, CServerPath const& remotePath, std::wstring const& remoteFile, transfer_flags const& flags, std::wstring const& extraFlags = {});
+	CFileTransferCommand(fz::reader_factory_holder const& reader, CServerPath const& remotePath, std::wstring const& remoteFile, transfer_flags const& flags, std::wstring const& extraflags = {});
+	CFileTransferCommand(fz::writer_factory_holder const& writer, CServerPath const& remotePath, std::wstring const& remoteFile, transfer_flags const& flags, std::wstring const& extraFlags = {});
 
 	CServerPath GetRemotePath() const;
 	std::wstring GetRemoteFile() const;
@@ -234,12 +235,12 @@ public:
 
 	bool valid() const;
 
-	reader_factory_holder const& GetReader() const { return reader_; }
-	writer_factory_holder const& GetWriter() const { return writer_; }
+	fz::reader_factory_holder const& GetReader() const { return reader_; }
+	fz::writer_factory_holder const& GetWriter() const { return writer_; }
 
 protected:
-	reader_factory_holder const reader_;
-	writer_factory_holder const writer_;
+	fz::reader_factory_holder const reader_;
+	fz::writer_factory_holder const writer_;
 	CServerPath const m_remotePath;
 	std::wstring const m_remoteFile;
 	transfer_flags const flags_;
@@ -249,7 +250,7 @@ protected:
 class FZC_PUBLIC_SYMBOL CHttpRequestCommand final : public CCommandHelper<CHttpRequestCommand, Command::httprequest>
 {
 public:
-	CHttpRequestCommand(fz::uri const& uri, writer_factory_holder const& output, std::string const& verb = std::string("GET"), reader_factory_holder const& body = reader_factory_holder(), bool confidential_qs = false)
+	CHttpRequestCommand(fz::uri const& uri, fz::writer_factory_holder const& output, std::string const& verb = std::string("GET"), fz::reader_factory_holder const& body = fz::reader_factory_holder(), bool confidential_qs = false)
 		: uri_(uri)
 		, verb_(verb)
 		, body_(body)
@@ -260,8 +261,8 @@ public:
 	fz::uri const uri_;
 	std::string const verb_;
 
-	reader_factory_holder body_;
-	writer_factory_holder output_;
+	fz::reader_factory_holder body_;
+	fz::writer_factory_holder output_;
 
 	bool confidential_qs_{};
 };

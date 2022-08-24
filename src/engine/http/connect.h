@@ -14,7 +14,7 @@ public:
 		, CHttpOpData(controlSocket)
 	{}
 
-	virtual int Send() override { return FZ_REPLY_OK; }
+	virtual int Send() override;
 	virtual int ParseResponse() override { return FZ_REPLY_INTERNALERROR; }
 };
 

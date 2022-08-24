@@ -152,7 +152,7 @@ public:
 
 	virtual void ProcessNotification(CFileZillaEngine* pEngine, std::unique_ptr<CNotification>&& pNotification) override;
 
-	void RenameFileInTransfer(CFileZillaEngine *pEngine, std::wstring const& newName, bool local, writer_factory_holder & new_writer);
+	void RenameFileInTransfer(CFileZillaEngine *pEngine, std::wstring const& newName, bool local, fz::writer_factory_holder & new_writer);
 
 	static std::wstring ReplaceInvalidCharacters(std::wstring const& filename, bool includeQuotesAndBreaks = false);
 

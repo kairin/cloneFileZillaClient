@@ -141,13 +141,6 @@ cd "$OLD_DIR"
 
 if test "$buildmain" = "yes"; then
 
-  if ! echo $host_os | grep "cygwin\|mingw" > /dev/null 2>&1; then
-    CHECK_MEMFD_CREATE
-    if test "$have_memfd_create" != "yes"; then
-      CHECK_LRT_FOR_SHM_OPEN
-    fi
-  fi
-
   # Require pkg-config
   # ------------------
   PKG_PROG_PKG_CONFIG

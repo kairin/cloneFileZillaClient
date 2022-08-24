@@ -74,8 +74,8 @@ public:
 	};
 	int flags_{};
 
-	std::unique_ptr<reader_base> body_;
-	fz::nonowning_buffer body_buffer_;
+	std::unique_ptr<fz::reader_base> body_;
+	fz::buffer_lease body_buffer_;
 
 	uint64_t update_content_length();
 
@@ -122,7 +122,7 @@ public:
 	std::function<int(std::shared_ptr<HttpRequestResponseInterface> const&)> on_header_;
 
 	// Writer isn't called if !success()
-	std::unique_ptr<writer_base> writer_;
+	std::unique_ptr<fz::writer_base> writer_;
 
 	// Holds error body and success body if there is no writer.
 	fz::buffer body_;
@@ -227,6 +227,7 @@ protected:
 	friend class CHttpFileTransferOpData;
 	friend class CHttpInternalConnectOpData;
 	friend class CHttpRequestOpData;
+	friend class CHttpConnectOpData;
 
 private:
 	std::wstring connected_host_;

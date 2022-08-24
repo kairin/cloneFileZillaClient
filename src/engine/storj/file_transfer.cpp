@@ -102,31 +102,20 @@ int CStorjFileTransferOpData::Send()
 		return FZ_REPLY_CONTINUE;
 	case filetransfer_transfer:
 		{
-
-#ifdef FZ_WINDOWS
-			aio_base::shm_flag shm = true;
-#else
-			aio_base::shm_flag shm = controlSocket_.shm_fd_;
-#endif
-			uint64_t offset{};
-
-			decltype(std::declval<aio_base>().shared_memory_info()) info;
+		    uint64_t offset{};
 			if (download()) {
-				writer_ = writer_factory_.open(offset, engine_, this, shm);
+				writer_ = controlSocket_.OpenWriter(writer_factory_, offset, true);
 				if (!writer_) {
 					return FZ_REPLY_CRITICALERROR;
 				}
-				info = writer_->shared_memory_info();
 			}
 			else {
-				reader_ = reader_factory_.open(offset, engine_, this, shm);
+				reader_ = reader_factory_->open(*controlSocket_.buffer_pool_, offset, fz::aio_base::nosize, controlSocket_.buffer_pool_->buffer_count());
 				if (!reader_) {
 					return FZ_REPLY_CRITICALERROR;
 				}
-				else {
-					info = reader_->shared_memory_info();
-				}
 			}
+			auto info = controlSocket_.buffer_pool_->shared_memory_info();
 #ifdef FZ_WINDOWS
 			HANDLE target;
 			if (!DuplicateHandle(GetCurrentProcess(), std::get<0>(info), controlSocket_.process_->handle(), &target, 0, false, DUPLICATE_SAME_ACCESS)) {
@@ -216,29 +205,42 @@ int CStorjFileTransferOpData::SubcommandResult(int prevResult, COpData const&)
 void CStorjFileTransferOpData::OnNextBufferRequested(uint64_t processed)
 {
 	if (reader_) {
-		auto r = reader_->read();
-		if (r == aio_result::wait) {
+		fz::aio_result r;
+		std::tie(r, buffer_) = reader_->get_buffer(*this);
+		if (r == fz::aio_result::wait) {
 			return;
 		}
-		if (r.type_ == aio_result::error) {
-			controlSocket_.AddToStream("--1\n");
+		if (r == fz::aio_result::error) {
+			controlSocket_.AddToSendBuffer("--1\n");
 			return;
 		}
-		controlSocket_.AddToStream(fz::sprintf("-%d %d\n", r.buffer_.get() - base_address_, r.buffer_.size()));
+		if (buffer_->size()) {
+			controlSocket_.AddToSendBuffer(fz::sprintf("-%d %d\n", buffer_->get() - base_address_, buffer_->size()));
+		}
+		else {
+			controlSocket_.AddToSendBuffer(fz::sprintf("-0\n"));
+		}
 	}
 	else if (writer_) {
 		controlSocket_.RecordActivity(activity_logger::recv, processed);
-		buffer_.resize(processed);
-		auto r = writer_->get_write_buffer(buffer_);
-		if (r == aio_result::wait) {
+		buffer_->resize(processed);
+		auto r = writer_->add_buffer(std::move(buffer_), *this);
+		if (r == fz::aio_result::ok) {
+			buffer_ = controlSocket_.buffer_pool_->get_buffer(*this);
+			if (!buffer_) {
+				r = fz::aio_result::wait;
+			}
+		}
+		if (r == fz::aio_result::wait) {
 			return;
 		}
-		if (r.type_ == aio_result::error) {
-			controlSocket_.AddToStream("--1\n");
+
+		if (r == fz::aio_result::error) {
+			controlSocket_.AddToSendBuffer("--1\n");
 			return;
 		}
-		buffer_ = r.buffer_;
-		controlSocket_.AddToStream(fz::sprintf("-%d %d\n", buffer_.get() - base_address_, buffer_.capacity()));
+
+		controlSocket_.AddToSendBuffer(fz::sprintf("-%d %d\n", buffer_->get() - base_address_, buffer_->capacity()));
 	}
 	else {
 		controlSocket_.AddToStream("--1\n");
@@ -249,16 +251,41 @@ void CStorjFileTransferOpData::OnNextBufferRequested(uint64_t processed)
 void CStorjFileTransferOpData::OnFinalizeRequested(uint64_t lastWrite)
 {
 	finalizing_ = true;
-	buffer_.resize(lastWrite);
-	auto res = writer_->finalize(buffer_);
-	if (res == aio_result::wait) {
+	buffer_->resize(lastWrite);
+	auto r = writer_->add_buffer(std::move(buffer_), *this);
+	if (r == fz::aio_result::ok) {
+		r = writer_->finalize(*this);
+	}
+	if (r == fz::aio_result::wait) {
 		return;
 	}
-	else if (res == aio_result::ok) {
+	else if (r == fz::aio_result::ok) {
 		controlSocket_.AddToStream(fz::sprintf("-1\n"));
 	}
 	else {
 		controlSocket_.AddToStream(fz::sprintf("-0\n"));
+	}
+}
+
+void CStorjFileTransferOpData::operator()(fz::event_base const& ev)
+{
+	fz::dispatch<fz::aio_buffer_event>(ev, this,
+	    &CStorjFileTransferOpData::OnBufferAvailability
+	);
+}
+
+void CStorjFileTransferOpData::OnBufferAvailability(fz::aio_waitable const* w)
+{
+	if (w == reader_.get()) {
+		OnNextBufferRequested(0);
+	}
+	else if (w == writer_.get()) {
+		if (finalizing_) {
+			OnFinalizeRequested(0);
+		}
+		else {
+			OnNextBufferRequested(0);
+		}
 	}
 }
 

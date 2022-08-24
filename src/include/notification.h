@@ -190,7 +190,7 @@ public:
 	std::wstring newName;
 
 	// On downloads: New writer if overwriteAction is rename
-	writer_factory_holder new_writer_factory_;
+	fz::writer_factory_holder new_writer_factory_;
 };
 
 class FZC_PUBLIC_SYMBOL CInteractiveLoginNotification final : public CAsyncRequestNotification

@@ -47,6 +47,10 @@ int CFtpLogonOpData::Send()
 	{
 	case LOGON_CONNECT:
 		{
+			if (!controlSocket_.buffer_pool_) {
+				return FZ_REPLY_INTERNALERROR | FZ_REPLY_DISCONNECTED;
+			}
+
 			// Do not use FTP proxy if generic proxy is set
 			int const generic_proxy_type = options_.get_int(OPTION_PROXY_TYPE);
 			if ((generic_proxy_type <= static_cast<int>(ProxyType::NONE) || generic_proxy_type >= static_cast<int>(ProxyType::count)) && !currentServer_.GetBypassProxy()) {

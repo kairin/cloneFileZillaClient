@@ -55,13 +55,13 @@ bool CListCommand::valid() const
 	return true;
 }
 
-CFileTransferCommand::CFileTransferCommand(reader_factory_holder const& reader,
+CFileTransferCommand::CFileTransferCommand(fz::reader_factory_holder const& reader,
 	CServerPath const& remotePath, std::wstring const& remoteFile, transfer_flags const& flags, std::wstring const& extraFlags)
 	: reader_(reader), m_remotePath(remotePath), m_remoteFile(remoteFile), flags_(flags), extraFlags_(extraFlags)
 {
 }
 
-CFileTransferCommand::CFileTransferCommand(writer_factory_holder const& writer,
+CFileTransferCommand::CFileTransferCommand(fz::writer_factory_holder const& writer,
 	CServerPath const& remotePath, std::wstring const& remoteFile, transfer_flags const& flags, std::wstring const& extraFlags)
 	: writer_(writer), m_remotePath(remotePath), m_remoteFile(remoteFile), flags_(flags), extraFlags_(extraFlags)
 {

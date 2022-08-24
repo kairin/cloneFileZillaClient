@@ -37,12 +37,12 @@ CHttpRequestOpData::~CHttpRequestOpData()
 	for (auto & rr : requests_) {
 		if (rr) {
 			if (rr->request().body_) {
-				rr->request().body_->set_handler(nullptr);
+				rr->request().body_->remove_waiter(*this);
 			}
 		}
 	}
 	if (!requests_.empty() && requests_.front() && requests_.front()->response().writer_) {
-		requests_.front()->response().writer_->set_handler(nullptr);
+		requests_.front()->response().writer_->remove_waiter(*this);
 	}
 
 	remove_handler();
@@ -103,9 +103,6 @@ int CHttpRequestOpData::Send()
 		int res = req.reset();
 		if (res != FZ_REPLY_CONTINUE) {
 			return res;
-		}
-		if (req.body_) {
-			req.body_->set_handler(this);
 		}
 
 		res = rr.response().reset();
@@ -179,7 +176,7 @@ int CHttpRequestOpData::Send()
 				if (!(req.flags_ & HttpRequest::flag_sending_header)) {
 					dataToSend_ = req.update_content_length();
 
-					if (dataToSend_ == aio_base::nosize) {
+					if (dataToSend_ == fz::aio_base::nosize) {
 						log(logmsg::error, _("Malformed request header: %s"), _("Invalid Content-Length"));
 						return FZ_REPLY_INTERNALERROR;
 					}
@@ -252,28 +249,28 @@ int CHttpRequestOpData::Send()
 
 			while (dataToSend_) {
 
-				if (req.body_buffer_.empty()) {
-					read_result r = req.body_->read();
-					if (r.type_ == aio_result::wait) {
+				if (req.body_buffer_->empty()) {
+					auto [r, buffer] = req.body_->get_buffer(*this);
+					if (r == fz::aio_result::wait) {
 						return FZ_REPLY_WOULDBLOCK;
 					}
-					else if (r.type_ == aio_result::error) {
+					else if (r == fz::aio_result::error) {
 						return FZ_REPLY_ERROR;
 					}
-					req.body_buffer_ = r.buffer_;
+					req.body_buffer_ = std::move(buffer);
 
-					if (req.body_buffer_.empty() && dataToSend_) {
+					if (req.body_buffer_->empty() && dataToSend_) {
 						log(logmsg::error, _("Unexpected end-of-file on '%s'"), req.body_->name());
 						return FZ_REPLY_ERROR;
 					}
-					else if (req.body_buffer_.size() > dataToSend_) {
+					else if (req.body_buffer_->size() > dataToSend_) {
 						log(logmsg::error, _("Excess data read from '%s'"), req.body_->name());
 						return FZ_REPLY_ERROR;
 					}
 				}
 
 				int error;
-				int written = controlSocket_.active_layer_->write(req.body_buffer_.get(), req.body_buffer_.size(), error);
+				int written = controlSocket_.active_layer_->write(req.body_buffer_->get(), req.body_buffer_->size(), error);
 				if (written < 0) {
 					if (error != EAGAIN) {
 						log(logmsg::error, _("Could not write to socket: %s"), fz::socket_error_description(error));
@@ -284,7 +281,7 @@ int CHttpRequestOpData::Send()
 				}
 				else if (written) {
 					controlSocket_.SetAlive();
-					req.body_buffer_.consume(static_cast<size_t>(written));
+					req.body_buffer_->consume(static_cast<size_t>(written));
 					dataToSend_ -= written;
 					if (req.flags_ & HttpRequest::flag_update_transferstatus) {
 						engine_.transfer_status_.Update(written);
@@ -346,11 +343,11 @@ int CHttpRequestOpData::FinalizeResponseBody()
 		if (!(response.flags_ & (HttpResponse::flag_ignore_body | HttpResponse::flag_no_body))) {
 			response.flags_ |= HttpResponse::flag_got_body;
 			if (response.success() && response.writer_) {
-				auto r = response.writer_->finalize(read_state_.writer_buffer_);
+				auto r = response.writer_->finalize(*this);
 				switch (r) {
-				case aio_result::ok:
+				case fz::aio_result::ok:
 					return FZ_REPLY_OK;
-				case aio_result::wait:
+				case fz::aio_result::wait:
 					return FZ_REPLY_WOULDBLOCK;
 				default:
 					return FZ_REPLY_ERROR;
@@ -470,12 +467,8 @@ int CHttpRequestOpData::OnReceive(bool repeatedProcessing)
 			if (res == FZ_REPLY_OK) {
 				log(logmsg::debug_info, L"Finished a response");
 				if (requests_.front()) {
-					if (requests_.front()->request().body_) {
-						requests_.front()->request().body_->set_handler(nullptr);
-					}
-					if (requests_.front()->response().writer_) {
-						requests_.front()->response().writer_->set_handler(nullptr);
-					}
+					requests_.front()->request().body_.reset();
+					requests_.front()->response().writer_.reset();
 				}
 
 				requests_.pop_front();
@@ -723,21 +716,12 @@ int CHttpRequestOpData::ProcessCompleteHeader()
 	if (response.on_header_) {
 		res = response.on_header_(srr);
 
-		if (res == FZ_REPLY_CONTINUE) {
-			if (response.writer_) {
-				response.writer_->set_handler(this);
-			}
-		}
-		else {
-			if (res == FZ_REPLY_OK) {
-				if (send_pos_) {
-					// Clear the pointer, we no longer need the request to finish, all needed information is in read_state_
-					if (request.body_) {
-						request.body_->set_handler(nullptr);
-					}
-					srr.reset();
-					res = FZ_REPLY_CONTINUE;
-				}
+		if (res == FZ_REPLY_OK) {
+			if (send_pos_) {
+				// Clear the pointer, we no longer need the request to finish, all needed information is in read_state_
+				request.body_.reset();
+				srr.reset();
+				res = FZ_REPLY_CONTINUE;
 			}
 		}
 	}
@@ -862,22 +846,15 @@ int CHttpRequestOpData::ProcessData(unsigned char* data, size_t & remaining)
 			if (response.success()) {
 				if (response.writer_) {
 					while (remaining) {
-						if (read_state_.writer_buffer_.size() >= read_state_.writer_buffer_.capacity()) {
-							auto r = response.writer_->get_write_buffer(read_state_.writer_buffer_);
-							if (r == aio_result::wait) {
+						if (read_state_.writer_buffer_->size() >= read_state_.writer_buffer_->capacity()) {
+							read_state_.writer_buffer_ = controlSocket_.buffer_pool_->get_buffer(*this);
+							if (!read_state_.writer_buffer_) {
 								res = FZ_REPLY_WOULDBLOCK;
-								break;
 							}
-							else if (r == aio_result::error) {
-								res =  FZ_REPLY_CRITICALERROR;
-								break;
-							}
-
-							read_state_.writer_buffer_ = r.buffer_;
 						}
 
-						size_t s = std::min(remaining, read_state_.writer_buffer_.capacity() - read_state_.writer_buffer_.size());
-						read_state_.writer_buffer_.append(data, s);
+						size_t s = std::min(remaining, read_state_.writer_buffer_->capacity() - read_state_.writer_buffer_->size());
+						read_state_.writer_buffer_->append(data, s);
 						data += s;
 						remaining -= s;
 					}
@@ -937,39 +914,35 @@ int CHttpRequestOpData::Reset(int result)
 
 void CHttpRequestOpData::operator()(fz::event_base const& ev)
 {
-	fz::dispatch<read_ready_event, write_ready_event, fz::timer_event>(ev, this, &CHttpRequestOpData::OnReaderReady, &CHttpRequestOpData::OnWriterReady, &CHttpRequestOpData::OnTimer);
+	fz::dispatch<fz::aio_buffer_event, fz::timer_event>(ev, this, &CHttpRequestOpData::OnBufferAvailability, &CHttpRequestOpData::OnTimer);
 }
 
-void CHttpRequestOpData::OnReaderReady(reader_base * r)
+void CHttpRequestOpData::OnBufferAvailability(fz::aio_waitable const* w)
 {
-	if (requests_.empty() || !requests_[send_pos_]) {
-		return;
-	}
+	if (!requests_.empty()) {
+		if (send_pos_ < requests_.size() && requests_[send_pos_]) {
+			auto & rr = *requests_[send_pos_];
+			auto & req = rr.request();
+			if (req.body_.get() == w) {
+				if (req.flags_ & HttpRequest::flag_sent_header && !(req.flags_ & HttpRequest::flag_sent_body)) {
+					controlSocket_.SendNextCommand();
+				}
+				return;
+			}
+		}
 
-	auto & rr = *requests_[send_pos_];
-	auto & req = rr.request();
-	if (req.body_.get() != r) {
-		return;
+		if (&*controlSocket_.buffer_pool_ == w || requests_.back()->response().writer_.get() == w) {
+			int res = OnReceive(true);
+			if (res == FZ_REPLY_CONTINUE) {
+				controlSocket_.SendNextCommand();
+			}
+			else if (res != FZ_REPLY_WOULDBLOCK) {
+				controlSocket_.ResetOperation(res);
+			}
+			return;
+		}
 	}
-	if (req.flags_ & HttpRequest::flag_sent_header && !(req.flags_ & HttpRequest::flag_sent_body)) {
-		controlSocket_.SendNextCommand();
-	}
-}
-
-void CHttpRequestOpData::OnWriterReady(writer_base* writer)
-{
-	if (requests_.empty() || requests_.back()->response().writer_.get() != writer) {
-		log(logmsg::debug_warning, L"Stale writer event");
-		return;
-	}
-
-	int res = OnReceive(true);
-	if (res == FZ_REPLY_CONTINUE) {
-		controlSocket_.SendNextCommand();
-	}
-	else if (res != FZ_REPLY_WOULDBLOCK) {
-		controlSocket_.ResetOperation(res);
-	}
+	log(logmsg::debug_warning, L"Stale buffer_availability_event");
 }
 
 void CHttpRequestOpData::OnTimer(fz::timer_id)

@@ -63,7 +63,7 @@ int CFtpFileTransferOpData::Send()
 			if (download()) {
 				// Potentially racy
 				localFileSize_ = writer_factory_.size(); 
-				fileDidExist_ = localFileSize_ != aio_base::nosize;
+				fileDidExist_ = localFileSize_ != fz::aio_base::nosize;
 
 				if (resume_) {
 					resumeOffset = fileDidExist_ ? static_cast<int64_t>(localFileSize_) : 0;
@@ -87,7 +87,7 @@ int CFtpFileTransferOpData::Send()
 					if (remoteFileSize_ > 0) {
 						resumeOffset = remoteFileSize_;
 
-						if (localFileSize_ != aio_base::nosize && resumeOffset >= static_cast<int64_t>(localFileSize_) && binary) {
+						if (localFileSize_ != fz::aio_base::nosize && resumeOffset >= static_cast<int64_t>(localFileSize_) && binary) {
 							log(logmsg::debug_info, L"No need to resume, remote file size matches local file size.");
 
 							if (options_.get_int(OPTION_PRESERVE_TIMESTAMPS) &&
@@ -110,13 +110,13 @@ int CFtpFileTransferOpData::Send()
 			controlSocket_.m_pTransferSocket = std::make_unique<CTransferSocket>(engine_, controlSocket_, download() ? TransferMode::download : TransferMode::upload);
 			controlSocket_.m_pTransferSocket->m_binaryMode = binary;
 			if (download()) {
-				auto writer = writer_factory_.open(resumeOffset, engine_, controlSocket_.m_pTransferSocket.get(), aio_base::shm_flag_none);
+				auto writer = controlSocket_.OpenWriter(writer_factory_, resumeOffset, true);
 				if (!writer) {
 					return FZ_REPLY_CRITICALERROR;
 				}
 				if (options_.get_int(OPTION_PREALLOCATE_SPACE)) {
 					if (remoteFileSize_ >= 0 && remoteFileSize_ > resumeOffset) {
-						if (writer->preallocate(static_cast<uint64_t>(remoteFileSize_ - resumeOffset)) != aio_result::ok) {
+						if (writer->preallocate(static_cast<uint64_t>(remoteFileSize_ - resumeOffset)) != fz::aio_result::ok) {
 							return FZ_REPLY_ERROR;
 						}
 					}
@@ -124,7 +124,7 @@ int CFtpFileTransferOpData::Send()
 				controlSocket_.m_pTransferSocket->set_writer(std::move(writer), flags_ & ftp_transfer_flags::ascii);
 			}
 			else {
-				auto reader = reader_factory_.open(resumeOffset, engine_, nullptr, aio_base::shm_flag_none);
+				auto reader = reader_factory_->open(*controlSocket_.buffer_pool_, resumeOffset, fz::aio_base::nosize, controlSocket_.buffer_pool_->buffer_count());
 				if (!reader) {
 					return FZ_REPLY_CRITICALERROR;
 				}
@@ -427,7 +427,7 @@ int CFtpFileTransferOpData::SubcommandResult(int prevResult, COpData const&)
 				}
 			}
 			else if (download() && !remoteFileTime_.empty()) {
-				if (!writer_factory_.set_mtime(remoteFileTime_)) {
+				if (!writer_factory_->set_mtime(remoteFileTime_)) {
 					log(logmsg::debug_warning, L"Could not set modification time");
 				}
 			}

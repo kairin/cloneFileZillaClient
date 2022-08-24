@@ -20,12 +20,17 @@
 #include <assert.h>
 #include <string.h>
 
+int CHttpConnectOpData::Send()
+{
+	return controlSocket_.buffer_pool_ ? FZ_REPLY_OK : (FZ_REPLY_ERROR | FZ_REPLY_DISCONNECTED);
+}
+
 uint64_t HttpRequest::update_content_length()
 {
 	uint64_t ret{};
 	if (body_) {
 		ret = body_->size();
-		if (ret != aio_base::nosize) {
+		if (ret != fz::aio_base::nosize) {
 			headers_["Content-Length"] = fz::to_string(ret);
 		}
 		else {
@@ -48,11 +53,10 @@ int HttpRequest::reset()
 	flags_ &= (flag_update_transferstatus | flag_confidential_querystring);
 
 	if (body_) {
-		aio_result res = body_->rewind();
-		if (res != aio_result::ok) {
+		if (!body_->rewind()) {
 			return FZ_REPLY_ERROR;
 		}
-		body_buffer_ = fz::nonowning_buffer();
+		body_buffer_.release();
 	}
 
 	return FZ_REPLY_CONTINUE;

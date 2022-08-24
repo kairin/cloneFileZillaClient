@@ -39,8 +39,10 @@
 #include "../include/optionsbase.h"
 
 #include <libfilezilla/buffer.hpp>
+#include <libfilezilla/event_handler.hpp>
 #include <libfilezilla/uri.hpp>
 
+#include <deque>
 #include <functional>
 #include <list>
 

@@ -16,7 +16,6 @@
 #include "../include/FileZillaEngine.h"
 #include "../include/misc.h"
 #include "../include/version.h"
-#include "../include/writer.h"
 
 #include <libfilezilla/file.hpp>
 #include <libfilezilla/hash.hpp>
@@ -296,7 +295,7 @@ int CUpdater::Request(fz::uri const& uri)
 
 	CServer server(fz::equal_insensitive_ascii(uri.scheme_, std::string("http")) ? HTTP : HTTPS, DEFAULT, fz::to_wstring_from_utf8(uri.host_), uri.port_);
 	pending_commands_.emplace_back(new CConnectCommand(server, ServerHandle(), Credentials()));
-	pending_commands_.emplace_back(new CHttpRequestCommand(uri, writer_factory_holder(std::make_unique<memory_writer_factory>(L"Updater", output_buffer_, 1024*1024)), "GET", reader_factory_holder(), true));
+	pending_commands_.emplace_back(new CHttpRequestCommand(uri, fz::writer_factory_holder(std::make_unique<fz::buffer_writer_factory>(output_buffer_, L"Updater", 1024*1024)), "GET", fz::reader_factory_holder(), true));
 
 	return ContinueDownload();
 }
@@ -349,9 +348,9 @@ bool CUpdater::CreateTransferCommand(std::wstring const& url, std::wstring const
 	path = path.GetParent();
 
 	transfer_flags const flags = transfer_flags::download;
-	auto cmd = new CFileTransferCommand(file_writer_factory(local_file, true), path, file, flags);
+	auto cmd = new CFileTransferCommand(fz::file_writer_factory(local_file, engine_context_.GetThreadPool(), fz::file_writer_flags::fsync), path, file, flags);
 	resume_offset_ = cmd->GetWriter().size();
-	if (resume_offset_ == aio_base::nosize) {
+	if (resume_offset_ == fz::aio_base::nosize) {
 		resume_offset_ = 0;
 	}
 	pending_commands_.emplace_back(cmd);

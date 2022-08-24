@@ -29,7 +29,7 @@
 #endif
 
 CStorjControlSocket::CStorjControlSocket(CFileZillaEnginePrivate & engine)
-	: CControlSocket(engine)
+    : CControlSocket(engine, true)
 {
 	m_useUTF8 = true;
 }
@@ -349,13 +349,6 @@ int CStorjControlSocket::DoClose(int nErrorCode)
 		event_loop_.filter_events(threadEventsFilter);
 	}
 	process_.reset();
-
-#ifndef FZ_WINDOWS
-	if (shm_fd_ != -1) {
-		close(shm_fd_);
-		shm_fd_ = -1;
-	}
-#endif
 
 	return CControlSocket::DoClose(nErrorCode);
 }

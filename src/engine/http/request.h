@@ -20,7 +20,7 @@ enum requestStates
 	request_send_mask = 0xf
 };
 
-class CHttpRequestOpData final : public COpData, public CHttpOpData, fz::event_handler
+class CHttpRequestOpData final : public COpData, public CHttpOpData, private fz::event_handler
 {
 public:
 	CHttpRequestOpData(CHttpControlSocket & controlSocket, std::shared_ptr<HttpRequestResponseInterface> const& request);
@@ -38,8 +38,7 @@ public:
 
 private:
 	virtual void operator()(fz::event_base const& ev) override;
-	void OnReaderReady(reader_base * r);
-	void OnWriterReady(writer_base * writer);
+	void OnBufferAvailability(fz::aio_waitable const* w);
 	void OnTimer(fz::timer_id);
 
 	int ParseReceiveBuffer();
@@ -76,7 +75,7 @@ private:
 		int64_t responseContentLength_{-1};
 		int64_t receivedData_{};
 
-		fz::nonowning_buffer writer_buffer_;
+		fz::buffer_lease writer_buffer_;
 
 		bool done_{};
 		bool keep_alive_{};

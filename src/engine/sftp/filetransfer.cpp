@@ -132,7 +132,7 @@ int CSftpFileTransferOpData::ParseResponse()
 		if (controlSocket_.result_ == FZ_REPLY_OK && options_.get_int(OPTION_PRESERVE_TIMESTAMPS)) {
 			if (download()) {
 				if (!remoteFileTime_.empty()) {
-					if (!writer_factory_.set_mtime(remoteFileTime_)) {
+					if (!writer_factory_->set_mtime(remoteFileTime_)) {
 						log(logmsg::debug_warning, L"Could not set modification time");
 					}
 				}
@@ -313,16 +313,10 @@ void CSftpFileTransferOpData::OnOpenRequested(uint64_t offset)
 		return;
 	}
 
-#ifdef FZ_WINDOWS
-	aio_base::shm_flag shm = true;
-#else
-	aio_base::shm_flag shm = controlSocket_.shm_fd_;
-#endif
-	decltype(std::declval<aio_base>().shared_memory_info()) info;
 	if (download()) {
 		if (resume_) {
 			offset = writer_factory_.size();
-			if (offset == aio_base::nosize) {
+			if (offset == fz::aio_base::nosize) {
 				controlSocket_.AddToSendBuffer("-1\n");
 				return;
 			}
@@ -330,23 +324,20 @@ void CSftpFileTransferOpData::OnOpenRequested(uint64_t offset)
 		else {
 			offset = 0;
 		}
-		writer_ = writer_factory_.open(offset, engine_, this, shm);
+		writer_ = controlSocket_.OpenWriter(writer_factory_, offset, true);
 		if (!writer_) {
 			controlSocket_.AddToSendBuffer("--\n");
 			return;
 		}
-		info = writer_->shared_memory_info();
 	}
 	else {
-		reader_ = reader_factory_.open(offset, engine_, this, shm);
+		reader_ = reader_factory_->open(*controlSocket_.buffer_pool_, offset, fz::aio_base::nosize, controlSocket_.buffer_pool_->buffer_count());
 		if (!reader_) {
 			controlSocket_.AddToSendBuffer("--\n");
 			return;
 		}
-		else {
-			info = reader_->shared_memory_info();
-		}
 	}
+	auto info = controlSocket_.buffer_pool_->shared_memory_info();
 #ifdef FZ_WINDOWS
 	HANDLE target;
 	if (!DuplicateHandle(GetCurrentProcess(), std::get<0>(info), controlSocket_.process_->handle(), &target, 0, false, DUPLICATE_SAME_ACCESS)) {
@@ -366,28 +357,39 @@ void CSftpFileTransferOpData::OnOpenRequested(uint64_t offset)
 void CSftpFileTransferOpData::OnNextBufferRequested(uint64_t processed)
 {
 	if (reader_) {
-		auto r = reader_->read();
-		if (r == aio_result::wait) {
+		fz::aio_result r;
+		std::tie(r, buffer_) = reader_->get_buffer(*this);
+		if (r == fz::aio_result::wait) {
 			return;
 		}
-		if (r.type_ == aio_result::error) {
+		if (r == fz::aio_result::error) {
 			controlSocket_.AddToSendBuffer("--1\n");
 			return;
 		}
-		controlSocket_.AddToSendBuffer(fz::sprintf("-%d %d\n", r.buffer_.get() - base_address_, r.buffer_.size()));
+		if (buffer_->size()) {
+			controlSocket_.AddToSendBuffer(fz::sprintf("-%d %d\n", buffer_->get() - base_address_, buffer_->size()));
+		}
+		else {
+			controlSocket_.AddToSendBuffer(fz::sprintf("-0\n"));
+		}
 	}
 	else if (writer_) {
-		buffer_.resize(processed);
-		auto r = writer_->get_write_buffer(buffer_);
-		if (r == aio_result::wait) {
+		buffer_->resize(processed);
+		auto r = writer_->add_buffer(std::move(buffer_), *this);
+		if (r == fz::aio_result::ok) {
+			buffer_ = controlSocket_.buffer_pool_->get_buffer(*this);
+			if (!buffer_) {
+				r = fz::aio_result::wait;
+			}
+		}
+		if (r == fz::aio_result::wait) {
 			return;
 		}
-		if (r.type_ == aio_result::error) {
+		if (r == fz::aio_result::error) {
 			controlSocket_.AddToSendBuffer("--1\n");
 			return;
 		}
-		buffer_ = r.buffer_;
-		controlSocket_.AddToSendBuffer(fz::sprintf("-%d %d\n", buffer_.get() - base_address_, buffer_.capacity()));
+		controlSocket_.AddToSendBuffer(fz::sprintf("-%d %d\n", buffer_->get() - base_address_, buffer_->capacity()));
 	}
 	else {
 		controlSocket_.AddToSendBuffer("--1\n");
@@ -398,12 +400,15 @@ void CSftpFileTransferOpData::OnNextBufferRequested(uint64_t processed)
 void CSftpFileTransferOpData::OnFinalizeRequested(uint64_t lastWrite)
 {
 	finalizing_ = true;
-	buffer_.resize(lastWrite);
-	auto res = writer_->finalize(buffer_);
-	if (res == aio_result::wait) {
+	buffer_->resize(lastWrite);
+	auto r = writer_->add_buffer(std::move(buffer_), *this);
+	if (r == fz::aio_result::ok) {
+		r = writer_->finalize(*this);
+	}
+	if (r == fz::aio_result::wait) {
 		return;
 	}
-	else if (res == aio_result::ok) {
+	else if (r == fz::aio_result::ok) {
 		controlSocket_.AddToSendBuffer(fz::sprintf("-1\n"));
 	}
 	else {
@@ -413,14 +418,14 @@ void CSftpFileTransferOpData::OnFinalizeRequested(uint64_t lastWrite)
 
 void CSftpFileTransferOpData::OnSizeRequested()
 {
-	uint64_t size = aio_base::nosize;
+	uint64_t size = fz::aio_base::nosize;
 	if (reader_) {
 		size = reader_->size();
 	}
 	else if (writer_) {
-		size = writer_->size();
+		size = writer_factory_->size();
 	}
-	if (size == aio_base::nosize) {
+	if (size == fz::aio_base::nosize) {
 		controlSocket_.AddToSendBuffer("--1\n");
 	}
 	else {
@@ -430,23 +435,22 @@ void CSftpFileTransferOpData::OnSizeRequested()
 
 void CSftpFileTransferOpData::operator()(fz::event_base const& ev)
 {
-	fz::dispatch<read_ready_event, write_ready_event>(ev, this,
-		&CSftpFileTransferOpData::OnReaderEvent,
-		&CSftpFileTransferOpData::OnWriterEvent
+	fz::dispatch<fz::aio_buffer_event>(ev, this,
+		&CSftpFileTransferOpData::OnBufferAvailability
 	);
 }
 
-void CSftpFileTransferOpData::OnReaderEvent(reader_base*)
+void CSftpFileTransferOpData::OnBufferAvailability(fz::aio_waitable const* w)
 {
-	OnNextBufferRequested(0);
-}
-
-void CSftpFileTransferOpData::OnWriterEvent(writer_base*)
-{
-	if (finalizing_) {
-		OnFinalizeRequested(0);
-	}
-	else {
+	if (w == reader_.get()) {
 		OnNextBufferRequested(0);
+	}
+	else if (w == writer_.get()) {
+		if (finalizing_) {
+			OnFinalizeRequested(0);
+		}
+		else {
+			OnNextBufferRequested(0);
+		}
 	}
 }

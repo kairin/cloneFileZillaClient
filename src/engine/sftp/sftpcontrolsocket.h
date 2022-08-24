@@ -48,9 +48,6 @@ protected:
 	virtual void wakeup(fz::direction::type const d) override;
 	void OnQuotaRequest(fz::direction::type const d);
 
-#ifndef FZ_WINDOWS
-	int shm_fd_{-1};
-#endif
 	std::unique_ptr<fz::process> process_;
 	std::unique_ptr<SftpInputParser> input_parser_;
 

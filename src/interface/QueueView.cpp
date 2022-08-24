@@ -1256,12 +1256,12 @@ void CQueueView::SendNextCommand(t_EngineData& engineData)
 
 			int res;
 			if (!fileItem->Download()) {
-				auto cmd = CFileTransferCommand(file_reader_factory(fileItem->GetLocalPath().GetPath() + fileItem->GetLocalFile()),
+				auto cmd = CFileTransferCommand(fz::file_reader_factory(fileItem->GetLocalPath().GetPath() + fileItem->GetLocalFile(), m_pMainFrame->GetEngineContext().GetThreadPool()),
 					fileItem->GetRemotePath(), fileItem->GetRemoteFile(), fileItem->flags(), extraFlags);
 				res = engineData.pEngine->Execute(cmd);
 			}
 			else {
-				auto cmd = CFileTransferCommand(file_writer_factory(fileItem->GetLocalPath().GetPath() + fileItem->GetLocalFile()),
+				auto cmd = CFileTransferCommand(fz::file_writer_factory(fileItem->GetLocalPath().GetPath() + fileItem->GetLocalFile(), m_pMainFrame->GetEngineContext().GetThreadPool()),
 					fileItem->GetRemotePath(), fileItem->GetRemoteFile(), fileItem->flags(), extraFlags);
 				res = engineData.pEngine->Execute(cmd);
 			}
@@ -2929,7 +2929,7 @@ void CQueueView::OnSize(wxSizeEvent& event)
 	event.Skip();
 }
 
-void CQueueView::RenameFileInTransfer(CFileZillaEngine *pEngine, std::wstring const& newName, bool local, writer_factory_holder & new_writer)
+void CQueueView::RenameFileInTransfer(CFileZillaEngine *pEngine, std::wstring const& newName, bool local, fz::writer_factory_holder & new_writer)
 {
 	t_EngineData* const pEngineData = GetEngineData(pEngine);
 	if (!pEngineData || !pEngineData->pItem) {
@@ -2945,7 +2945,7 @@ void CQueueView::RenameFileInTransfer(CFileZillaEngine *pEngine, std::wstring co
 		wxFileName fn(pFile->GetLocalPath().GetPath(), pFile->GetLocalFile());
 		fn.SetFullName(newName);
 		pFile->SetTargetFile(fn.GetFullName().ToStdWstring());
-		new_writer = file_writer_factory(fn.GetFullPath().ToStdWstring());
+		new_writer = fz::file_writer_factory(fn.GetFullPath().ToStdWstring(), m_pMainFrame->GetEngineContext().GetThreadPool());
 	}
 	else {
 		pFile->SetTargetFile(newName);
