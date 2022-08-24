@@ -211,14 +211,14 @@ void CStorjFileTransferOpData::OnNextBufferRequested(uint64_t processed)
 			return;
 		}
 		if (r == fz::aio_result::error) {
-			controlSocket_.AddToSendBuffer("--1\n");
+			controlSocket_.AddToStream("--1\n");
 			return;
 		}
 		if (buffer_->size()) {
-			controlSocket_.AddToSendBuffer(fz::sprintf("-%d %d\n", buffer_->get() - base_address_, buffer_->size()));
+			controlSocket_.AddToStream(fz::sprintf("-%d %d\n", buffer_->get() - base_address_, buffer_->size()));
 		}
 		else {
-			controlSocket_.AddToSendBuffer(fz::sprintf("-0\n"));
+			controlSocket_.AddToStream(fz::sprintf("-0\n"));
 		}
 	}
 	else if (writer_) {
@@ -236,11 +236,11 @@ void CStorjFileTransferOpData::OnNextBufferRequested(uint64_t processed)
 		}
 
 		if (r == fz::aio_result::error) {
-			controlSocket_.AddToSendBuffer("--1\n");
+			controlSocket_.AddToStream("--1\n");
 			return;
 		}
 
-		controlSocket_.AddToSendBuffer(fz::sprintf("-%d %d\n", buffer_->get() - base_address_, buffer_->capacity()));
+		controlSocket_.AddToStream(fz::sprintf("-%d %d\n", buffer_->get() - base_address_, buffer_->capacity()));
 	}
 	else {
 		controlSocket_.AddToStream("--1\n");
@@ -286,28 +286,5 @@ void CStorjFileTransferOpData::OnBufferAvailability(fz::aio_waitable const* w)
 		else {
 			OnNextBufferRequested(0);
 		}
-	}
-}
-
-void CStorjFileTransferOpData::operator()(fz::event_base const& ev)
-{
-	fz::dispatch<read_ready_event, write_ready_event>(ev, this,
-		&CStorjFileTransferOpData::OnReaderEvent,
-		&CStorjFileTransferOpData::OnWriterEvent
-	);
-}
-
-void CStorjFileTransferOpData::OnReaderEvent(reader_base*)
-{
-	OnNextBufferRequested(0);
-}
-
-void CStorjFileTransferOpData::OnWriterEvent(writer_base*)
-{
-	if (finalizing_) {
-		OnFinalizeRequested(0);
-	}
-	else {
-		OnNextBufferRequested(0);
 	}
 }
