@@ -1916,8 +1916,8 @@ void CSiteManagerDialog::OnExportSelected(wxCommandEvent&)
 
 	wxTreeItemId ancestor;
 	for (auto const& item : selections) {
-		if (!item.IsOk() || item == tree_->GetRootItem()) {
-			return;
+		if (!item.IsOk()) {
+			continue;
 		}
 
 		// Only keep items that do not have an ancestor that is already being copied
@@ -1927,7 +1927,12 @@ void CSiteManagerDialog::OnExportSelected(wxCommandEvent&)
 		}
 		if (!parent) {
 			ancestor = item;
-			SaveChild(servers, item);
+			if (item == m_ownSites || item == m_predefinedSites) {
+				Save(servers, item);
+			}
+			else {
+				SaveChild(servers, item);
+			}
 		}
 	}
 
