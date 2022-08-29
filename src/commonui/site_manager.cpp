@@ -62,10 +62,11 @@ void site_manager::UpdateOneDrivePath(CServerPath& path)
 	if (!path.empty()) {
 		auto const & remoteDir = path.GetPath();
 		if (!(fz::starts_with(remoteDir, fztranslate("/SharePoint")) ||
-			fz::starts_with(remoteDir, fztranslate("/Groups")) ||
-			fz::starts_with(remoteDir, fztranslate("/Sites")) ||
-			fz::starts_with(remoteDir, fztranslate("/My Drives")))) {
-
+		      fz::starts_with(remoteDir, fztranslate("/Groups")) ||
+		      fz::starts_with(remoteDir, fztranslate("/Sites")) ||
+		      fz::starts_with(remoteDir, fztranslate("/My Drives")) ||
+		      fz::starts_with(remoteDir, fztranslate("/Shared with me"))))
+		{
 			path = CServerPath(fztranslate("/My Drives/OneDrive") + remoteDir);
 		}
 	}
