@@ -559,6 +559,9 @@ std::wstring CUpdater::GetLocalFile(build const& b, bool allow_existing)
 {
 	std::wstring const fn = GetFilename(b.url_);
 	std::wstring const dl = GetDownloadDir().GetPath();
+	if (dl.empty()) {
+		return {};
+	}
 
 	int i = 1;
 	std::wstring f = dl + fn;
