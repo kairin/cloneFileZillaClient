@@ -118,7 +118,7 @@ public:
 // during another operation, e.g. file transfers.
 //
 // Primary notifications are those resulting from a CListCommand, other ones
-// can happen 	 through other actions.
+// can happen spontaneously through other actions.
 class CDirectoryListing;
 class FZC_PUBLIC_SYMBOL CDirectoryListingNotification final : public CNotificationHelper<nId_listing>
 {
