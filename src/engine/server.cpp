@@ -231,7 +231,6 @@ bool CServer::operator<(const CServer &op) const
 		return false;
 	}
 
-
 	// Do not compare number of allowed multiple connections
 
 	return false;
@@ -271,6 +270,10 @@ void CServer::SetProtocol(ServerProtocol serverProtocol)
 	m_protocol = serverProtocol;
 
 	// Clear out parameters not supported by the current protocol
+	if (!ProtocolHasUser(serverProtocol)) {
+		m_user.clear();
+	}
+
 	std::map<std::string, std::wstring, std::less<>> oldParams;
 	std::swap(extraParameters_, oldParams);
 	for (auto const& param : oldParams) {
@@ -889,6 +892,17 @@ std::vector<LogonType> GetSupportedLogonTypes(ServerProtocol protocol)
 	}
 
 	return {LogonType::anonymous};
+}
+
+bool FZC_PUBLIC_SYMBOL IsSupportedLogonType(ServerProtocol protocol, LogonType type)
+{
+	auto const types = GetSupportedLogonTypes(protocol);
+	for (auto const& t : types) {
+		if (t == type) {
+			return true;
+		}
+	}
+	return false;
 }
 
 std::vector<ParameterTraits> const& ExtraServerParameterTraits(ServerProtocol protocol)

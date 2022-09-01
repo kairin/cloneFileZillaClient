@@ -471,7 +471,7 @@ bool CServerPath::IsSubdirOf(CServerPath const& path, bool cmpNoCase, bool allow
 	if (!HasParent()) {
 		return false;
 	}
-	
+
 	auto const& ld = *m_data;
 	auto const& rd = *path.m_data;
 	if (traits[m_type].prefixmode != 1) {
@@ -655,7 +655,7 @@ bool CServerPath::DoChangePath(std::wstring &subdir, bool isFile)
 		break;
 	case MVS:
 		{
-			// Remove the double quoation some servers send in PWD reply
+			// Remove the double quotation some servers send in PWD reply
 			size_t i = 0;
 			wchar_t c = dir[i];
 			while (c == FTP_MVS_DOUBLE_QUOTE) {

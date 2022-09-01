@@ -20,7 +20,7 @@ class FZCUI_PUBLIC_SYMBOL local_recursion_root final
 public:
 	local_recursion_root() = default;
 
-	void add_dir_to_visit(CLocalPath const& localPath, CServerPath const& remotePath = CServerPath());
+	void add_dir_to_visit(CLocalPath const& localPath, CServerPath const& remotePath = CServerPath(), bool recurse = true);
 
 	bool empty() const { return m_dirsToVisit.empty(); }
 
@@ -32,6 +32,7 @@ private:
 	public:
 		CLocalPath localPath;
 		CServerPath remotePath;
+		bool recurse{true};
 	};
 
 	std::set<CLocalPath> m_visitedDirs;
@@ -81,7 +82,7 @@ protected:
 	virtual void on_listed_directory() = 0;
 
 protected:
-	void EnqueueEnumeratedListing(fz::scoped_lock& l, listing&& d);
+	void EnqueueEnumeratedListing(fz::scoped_lock& l, listing&& d, bool recurse);
 
 	std::deque<local_recursion_root> recursion_roots_;
 

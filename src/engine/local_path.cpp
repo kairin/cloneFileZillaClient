@@ -365,7 +365,7 @@ void CLocalPath::AddSegment(std::wstring const& segment)
 	}
 }
 
-bool CLocalPath::ChangePath(std::wstring const& new_path)
+bool CLocalPath::ChangePath(std::wstring const& new_path, std::wstring* file)
 {
 	if (new_path.empty()) {
 		return false;
@@ -379,11 +379,11 @@ bool CLocalPath::ChangePath(std::wstring const& new_path)
 
 	if (new_path.size() >= 2 && new_path[0] == '\\' && new_path[1] == '\\') {
 		// Absolute UNC
-		return SetPath(new_path);
+		return SetPath(new_path, file);
 	}
 	if (new_path.size() >= 2 && new_path[0] && new_path[1] == ':') {
 		// Absolute new_path
-		return SetPath(new_path);
+		return SetPath(new_path, file);
 	}
 
 	// Relative new_path
@@ -393,16 +393,16 @@ bool CLocalPath::ChangePath(std::wstring const& new_path)
 
 	if (new_path.size() >= 2 && (new_path[0] == '\\' || new_path[0] == '/') && m_path->size() > 2 && (*m_path)[1] == ':') {
 		// Relative to drive root
-		return SetPath(m_path->substr(0, 2) + new_path);
+		return SetPath(m_path->substr(0, 2) + new_path, file);
 	}
 	else {
 		// Relative to current directory
-		return SetPath(*m_path + new_path);
+		return SetPath(*m_path + new_path, file);
 	}
 #else
 	if (!new_path.empty() && new_path[0] == path_separator) {
 		// Absolute new_path
-		return SetPath(new_path);
+		return SetPath(new_path, file);
 	}
 	else {
 		// Relative new_path
@@ -410,7 +410,7 @@ bool CLocalPath::ChangePath(std::wstring const& new_path)
 			return false;
 		}
 
-		return SetPath(*m_path + new_path);
+		return SetPath(*m_path + new_path, file);
 	}
 #endif
 }

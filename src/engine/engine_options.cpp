@@ -42,7 +42,7 @@ unsigned int register_engine_options()
 		// Make it large enough by default
 		// to enable a large TCP window scale
 		{ "Socket recv buffer size (v2)", 4194304, option_flags::numeric_clamp, -1, 64 * 1024 * 1024, [](int& v)
-			{ 
+			{
 				if (v >= 0 && v < 4096) {
 					v = 4096;
 				}

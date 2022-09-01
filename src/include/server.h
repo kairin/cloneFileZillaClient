@@ -250,7 +250,7 @@ std::wstring FZC_PUBLIC_SYMBOL GetNameFromLogonType(LogonType type);
 LogonType FZC_PUBLIC_SYMBOL GetLogonTypeFromName(std::wstring const& name);
 
 std::vector<LogonType> FZC_PUBLIC_SYMBOL GetSupportedLogonTypes(ServerProtocol protocol);
-
+bool FZC_PUBLIC_SYMBOL IsSupportedLogonType(ServerProtocol protocol, LogonType type);
 
 namespace ParameterSection {
     enum type {

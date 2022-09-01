@@ -578,7 +578,7 @@ void CFileZillaEnginePrivate::InvalidateCurrentWorkingDirs(const CServerPath& pa
 		// May happen during destruction
 		return;
 	}
-	
+
 	fz::scoped_lock lock(global_mutex_);
 	for (auto & engine : m_engineList) {
 		if (!engine || engine == this) {

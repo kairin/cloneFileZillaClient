@@ -11,12 +11,13 @@ recursion_root::recursion_root(CServerPath const& start_dir, bool allow_parent)
 {
 }
 
-void recursion_root::add_dir_to_visit(CServerPath const& path, std::wstring const& subdir, CLocalPath const& localDir, bool is_link)
+void recursion_root::add_dir_to_visit(CServerPath const& path, std::wstring const& subdir, CLocalPath const& localDir, bool is_link, bool recurse)
 {
 	new_dir dirToVisit;
 
 	dirToVisit.localDir = localDir;
 	dirToVisit.parent = path;
+	dirToVisit.recurse = recurse;
 	dirToVisit.subdir = subdir;
 	dirToVisit.link = is_link ? 2 : 0;
 	m_dirsToVisit.push_back(dirToVisit);
@@ -65,7 +66,7 @@ void remote_recursive_operation::start_recursive_operation(OperationMode mode, A
 	m_processedDirectories = 0;
 
 	m_operationMode = mode;
-	
+
 	do_start_recursive_operation(mode, filters);
 }
 
@@ -86,7 +87,7 @@ bool remote_recursive_operation::NextOperation()
 		while (!root.m_dirsToVisit.empty()) {
 			const recursion_root::new_dir& dirToVisit = root.m_dirsToVisit.front();
 
-			if (m_operationMode == recursive_delete && !dirToVisit.doVisit) {
+			if (m_operationMode == recursive_delete && !dirToVisit.doVisit && dirToVisit.recurse) {
 				process_command(std::make_unique<CRemoveDirCommand>(dirToVisit.parent, dirToVisit.subdir));
 				root.m_dirsToVisit.pop_front();
 				continue;
@@ -243,7 +244,7 @@ void remote_recursive_operation::ProcessDirectoryListing(CDirectoryListing const
 		return;
 	}
 
-	if (m_operationMode == recursive_delete && dir.doVisit && !dir.subdir.empty()) {
+	if (m_operationMode == recursive_delete && dir.doVisit && dir.recurse && !dir.subdir.empty()) {
 		// After recursing into directory to delete its contents, delete directory itself
 		// Gets handled in NextOperation
 		recursion_root::new_dir dir2 = dir;
@@ -317,7 +318,7 @@ void remote_recursive_operation::ListingFailed(int error)
 		root.m_dirsToVisit.push_front(dir);
 	}
 	else {
-		if (m_operationMode == recursive_delete && dir.doVisit && !dir.subdir.empty()) {
+		if (m_operationMode == recursive_delete && dir.doVisit && dir.recurse && !dir.subdir.empty()) {
 			// After recursing into directory to delete its contents, delete directory itself
 			// Gets handled in NextOperation
 			recursion_root::new_dir dir2 = dir;

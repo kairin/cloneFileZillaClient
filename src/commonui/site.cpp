@@ -310,23 +310,36 @@ bool Site::ParseUrl(std::wstring host, unsigned int port, std::wstring user, std
 	}
 
 	server.SetHost(host, port);
+	if (server.GetProtocol() == UNKNOWN) {
+		server.SetProtocol(CServer::GetProtocolFromPort(port));
+	}
 
 	credentials.account_.clear();
 
+	if (!IsSupportedLogonType(server.GetProtocol(), credentials.logonType_)) {
+		credentials.logonType_ = GetSupportedLogonTypes(server.GetProtocol()).front();
+	}
+
 	if (credentials.logonType_ != LogonType::ask && credentials.logonType_ != LogonType::interactive) {
-		if (user.empty()) {
-			credentials.logonType_ = LogonType::anonymous;
-		}
-		else if (user == L"anonymous") {
-			if (pass.empty() || pass == L"anonymous@example.com") {
+		if (ProtocolHasUser(server.GetProtocol())) {
+			if (user.empty()) {
 				credentials.logonType_ = LogonType::anonymous;
 			}
-			else {
-				credentials.logonType_ = LogonType::normal;
+			else if (user == L"anonymous") {
+				if (pass.empty() || pass == L"anonymous@example.com") {
+					credentials.logonType_ = LogonType::anonymous;
+				}
+				else {
+					credentials.logonType_ = LogonType::normal;
+				}
+			}
+			else if (credentials.logonType_ == LogonType::anonymous) {
+				credentials.logonType_ = pass.empty() ? LogonType::ask : LogonType::normal;
 			}
 		}
-		else {
-			credentials.logonType_ = LogonType::normal;
+		else if (!user.empty()) {
+			error = fztranslate("Selected protocol has no concept of usernames.");
+			return false;
 		}
 	}
 	if (credentials.logonType_ == LogonType::anonymous) {
@@ -335,10 +348,6 @@ bool Site::ParseUrl(std::wstring host, unsigned int port, std::wstring user, std
 	}
 	server.SetUser(user);
 	credentials.SetPass(pass);
-
-	if (server.GetProtocol() == UNKNOWN) {
-		server.SetProtocol(CServer::GetProtocolFromPort(port));
-	}
 
 	return true;
 }

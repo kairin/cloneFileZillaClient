@@ -127,7 +127,7 @@ void CManualTransfer::Run(wxWindow* parent, CState* pState)
 
 		inner->Add(impl_->server_current_);
 		inner->Add(impl_->server_site_);
-		
+
 		auto row = lay.createFlex(2);
 		inner->Add(row, 0, wxLEFT, lay.indent);
 		row->Add(new wxStaticText(box, nullID, _("Server:")));
@@ -207,7 +207,7 @@ void CManualTransfer::Run(wxWindow* parent, CState* pState)
 
 	wxString localPath = state_->GetLocalDir().GetPath();
 	impl_->local_file_->ChangeValue(localPath);
-	
+
 	impl_->remote_path_->ChangeValue(state_->GetRemotePath().GetPath());
 
 	SetControlState();

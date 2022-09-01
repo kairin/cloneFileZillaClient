@@ -184,6 +184,8 @@ bool CFileZillaApp::OnInit()
 		return false;
 	}
 
+	options_ = std::make_unique<COptions>();
+
 #if USE_MAC_SANDBOX
 	// Set PUTTYDIR so that fzsftp uses the sandboxed home to put settings.
 	std::wstring home = GetEnv("HOME");
@@ -194,8 +196,6 @@ bool CFileZillaApp::OnInit()
 		wxSetEnv("PUTTYDIR", home + L".config/putty");
 	}
 #endif
-
-	options_ = std::make_unique<COptions>();
 
 	InitLocale();
 

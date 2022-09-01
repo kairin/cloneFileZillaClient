@@ -2,9 +2,90 @@
 #include "fz_paths.h"
 #include "ipcmutex.h"
 
+#include "xmlfunctions.h"
+
 #include <libfilezilla/translate.hpp>
 
 #include <cstring>
+
+bool site_manager::Save(std::wstring const& settings_file, CSiteManagerSaveXmlHandler& pHandler, std::wstring& error)
+{
+	CXmlFile file(settings_file);
+	auto document = file.Load();
+	if (!document) {
+		error = file.GetError();
+		return false;
+	}
+
+	auto servers = document.child("Servers");
+	while (servers) {
+		document.remove_child(servers);
+		servers = document.child("Servers");
+	}
+	auto element = document.append_child("Servers");
+
+	if (!element) {
+		return true;
+	}
+
+	bool res = pHandler.SaveTo(element);
+
+	if (!file.Save()) {
+		error = fz::sprintf(L"Could not write \"%s\", any changes to the Site Manager could not be saved: %s", file.GetFileName(), file.GetError());
+		return false;
+	}
+
+	return res;
+}
+
+void site_manager::Save(pugi::xml_node element, Site const& site, login_manager& lim, COptionsBase& options)
+{
+	SetServer(element, site, lim, options);
+
+	// Save comments
+	if (!site.comments_.empty()) {
+		AddTextElement(element, "Comments", site.comments_);
+	}
+
+	// Save colour
+	if (site.m_colour != site_colour::none) {
+		AddTextElement(element, "Colour", static_cast<int64_t>(site.m_colour));
+	}
+
+	// Save local dir
+	if (!site.m_default_bookmark.m_localDir.empty()) {
+		AddTextElement(element, "LocalDir", site.m_default_bookmark.m_localDir);
+	}
+
+	// Save remote dir
+	auto const sp = site.m_default_bookmark.m_remoteDir.GetSafePath();
+	if (!sp.empty()) {
+		AddTextElement(element, "RemoteDir", sp);
+	}
+
+	AddTextElementUtf8(element, "SyncBrowsing", site.m_default_bookmark.m_sync ? "1" : "0");
+	AddTextElementUtf8(element, "DirectoryComparison", site.m_default_bookmark.m_comparison ? "1" : "0");
+
+	for (auto const& bookmark : site.m_bookmarks) {
+		auto node = element.append_child("Bookmark");
+
+		AddTextElement(node, "Name", bookmark.m_name);
+
+		// Save local dir
+		if (!bookmark.m_localDir.empty()) {
+			AddTextElement(node, "LocalDir", bookmark.m_localDir);
+		}
+
+		// Save remote dir
+		auto const sp = bookmark.m_remoteDir.GetSafePath();
+		if (!sp.empty()) {
+			AddTextElement(node, "RemoteDir", sp);
+		}
+
+		AddTextElementUtf8(node, "SyncBrowsing", bookmark.m_sync ? "1" : "0");
+		AddTextElementUtf8(node, "DirectoryComparison", bookmark.m_comparison ? "1" : "0");
+	}
+}
 
 bool site_manager::Load(std::wstring const& settings_file, CSiteManagerXmlHandler& handler, std::wstring& error)
 {

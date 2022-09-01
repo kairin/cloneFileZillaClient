@@ -26,12 +26,14 @@ libfzclient_commonui_private_la_SOURCES = \
 	misc.cpp \
 	remote_recursive_operation.cpp \
 	options.cpp \
+	protect.cpp \
 	site.cpp \
 	site_manager.cpp \
 	updater.cpp \
 	updater_cert.cpp \
 	xml_cert_store.cpp \
-	xml_file.cpp
+	xml_file.cpp \
+	xmlfunctions.cpp
 
 noinst_HEADERS = \
 	auto_ascii_files.h \
@@ -46,6 +48,7 @@ noinst_HEADERS = \
 	login_manager.h \
 	misc.h \
 	options.h \
+	protect.h \
 	recursive_operation.h \
 	remote_recursive_operation.h \
 	site.h \
@@ -54,7 +57,8 @@ noinst_HEADERS = \
 	updater_cert.h \
 	visibility.h \
 	xml_cert_store.h \
-	xml_file.h
+	xml_file.h \
+	xmlfunctions.h
 
 if MINGW
 libfzclient_commonui_private_la_LDFLAGS += -lole32 -Wl,-luuid

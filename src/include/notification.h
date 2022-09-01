@@ -28,7 +28,7 @@
 
 enum NotificationId : unsigned int
 {
-	nId_logmsg,				// notification about new messages for the message log
+	nId_logmsg,				// notification about new messages for the message log 
 	nId_operation,			// operation reply codes
 	nId_transferstatus,		// transfer information: bytes transferred, transfer speed and such
 	nId_listing,			// directory listings
@@ -113,12 +113,12 @@ public:
 	Command commandId_{Command::none};
 };
 
-// You get this type of notification everytime a directory listing has been
-// requested explicitely or when a directory listing was retrieved implicitely
+// You get this type of notification every time a directory listing has been
+// requested explicitly or when a directory listing was retrieved implicitly
 // during another operation, e.g. file transfers.
 //
 // Primary notifications are those resulting from a CListCommand, other ones
-// can happen spontanously through other actions.
+// can happen 	 through other actions.
 class CDirectoryListing;
 class FZC_PUBLIC_SYMBOL CDirectoryListingNotification final : public CNotificationHelper<nId_listing>
 {

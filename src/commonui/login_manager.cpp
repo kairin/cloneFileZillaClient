@@ -114,7 +114,9 @@ fz::private_key login_manager::GetDecryptor(fz::public_key const& pub, bool * fo
 
 void login_manager::Remember(const fz::private_key &key, std::string_view const& pass)
 {
-	decryptors_[key.pubkey()] = key;
+	if (key) {
+		decryptors_[key.pubkey()] = key;
+	}
 
 	if (!pass.empty()) {
 		for (auto const& pw : decryptorPasswords_) {

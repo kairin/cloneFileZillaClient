@@ -5,7 +5,6 @@
 #include "Options.h"
 #include "textctrlex.h"
 
-
 CLoginManager CLoginManager::m_theLoginManager;
 
 
@@ -380,7 +379,7 @@ bool CLoginManager::AskDecryptor(fz::public_key const& pub, bool allowForgotten,
 				continue;
 			}
 			decryptors_[pub] = key;
-			decryptorPasswords_.push_back(pass);
+			decryptorPasswords_.emplace_back(std::move(pass));
 		}
 		break;
 	}

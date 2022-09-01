@@ -37,7 +37,7 @@ public:
 	void clear();
 
 	// On failure the path is undefined
-	bool ChangePath(std::wstring const& new_path);
+	bool ChangePath(std::wstring const& new_path, std::wstring* file = nullptr);
 
 	// Do not call with separators in the segment
 	void AddSegment(std::wstring const& segment);

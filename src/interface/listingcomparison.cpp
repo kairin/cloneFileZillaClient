@@ -4,6 +4,7 @@
 #include "Options.h"
 #include "state.h"
 #include "../commonui/filter.h"
+#include "../commonui/misc.h"
 
 CComparableListing::CComparableListing(wxWindow* pParent)
 {
@@ -128,17 +129,7 @@ bool CComparisonManager::CompareListings()
 				else {
 					CComparableListing::t_fileEntryFlags localFlag, remoteFlag;
 
-					int dateCmp = localDate.compare(remoteDate);
-					if (dateCmp < 0) {
-						localDate += threshold;
-					}
-					else if (dateCmp > 0 ) {
-						remoteDate += threshold;
-					}
-					int adjustedDateCmp = localDate.compare(remoteDate);
-					if (dateCmp && dateCmp == -adjustedDateCmp) {
-						dateCmp = 0;
-					}
+					int const dateCmp = CompareWithThreshold(localDate, remoteDate, threshold);
 
 					localFlag = CComparableListing::normal;
 					remoteFlag = CComparableListing::normal;

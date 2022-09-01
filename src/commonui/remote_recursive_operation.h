@@ -23,7 +23,7 @@ public:
 	recursion_root() = default;
 	recursion_root(CServerPath const& start_dir, bool allow_parent);
 
-	void add_dir_to_visit(CServerPath const& path, std::wstring const& subdir, CLocalPath const& localDir = CLocalPath(), bool is_link = false);
+	void add_dir_to_visit(CServerPath const& path, std::wstring const& subdir, CLocalPath const& localDir = CLocalPath(), bool is_link = false, bool recurse = true);
 
 	// Queue a directory but restrict processing to the named subdirectory
 	void add_dir_to_visit_restricted(CServerPath const& path, std::wstring const& restricted, bool recurse);

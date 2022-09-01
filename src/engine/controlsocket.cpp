@@ -379,7 +379,7 @@ int CControlSocket::CheckOverwriteFile()
 			return FZ_REPLY_OK;
 		}
 	}
-	
+
 	CDirentry entry;
 	bool dirDidExist;
 	bool matchedCase;
@@ -409,7 +409,7 @@ int CControlSocket::CheckOverwriteFile()
 		}
 	}
 
-	
+
 
 	auto notification = std::make_unique<CFileExistsNotification>();
 
@@ -458,7 +458,11 @@ void SleepOpData::operator()(fz::event_base const&)
 CFileTransferOpData::CFileTransferOpData(wchar_t const* name, CFileTransferCommand const& cmd)
 	: COpData(Command::transfer, name)
 	, flags_(cmd.GetFlags())
-	, reader_factory_(cmd.GetReader()), writer_factory_(cmd.GetWriter()), localName_(reader_factory_ ? reader_factory_.name() : writer_factory_.name()), remoteFile_(cmd.GetRemoteFile()), remotePath_(cmd.GetRemotePath())
+	, reader_factory_(cmd.GetReader())
+	, writer_factory_(cmd.GetWriter())
+	, localName_(reader_factory_ ? reader_factory_.name() : writer_factory_.name())
+	, remoteFile_(cmd.GetRemoteFile())
+	, remotePath_(cmd.GetRemotePath())
 {
 	localFileSize_ = download() ? writer_factory_.size() : reader_factory_.size();
 	localFileTime_ = download() ? writer_factory_.mtime() : reader_factory_.mtime();
@@ -665,7 +669,7 @@ void CControlSocket::InvalidateCurrentWorkingDir(CServerPath const& path)
 	if (path.empty() || currentPath_.empty()) {
 		return;
 	}
-	
+
 	if (path.IsParentOf(currentPath_, false, true)) {
 		if (!operations_.empty()) {
 			m_invalidateCurrentPath = true;
@@ -903,7 +907,7 @@ int CRealControlSocket::DoConnect(std::wstring const& host, unsigned int port)
 
 	if (res) {
 		log(logmsg::error, _("Could not connect to server: %s"), fz::socket_error_description(res));
-		return FZ_REPLY_DISCONNECTED | FZ_REPLY_ERROR; 
+		return FZ_REPLY_DISCONNECTED | FZ_REPLY_ERROR;
 	}
 
 	return FZ_REPLY_WOULDBLOCK;

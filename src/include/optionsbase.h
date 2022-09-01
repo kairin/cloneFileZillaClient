@@ -301,7 +301,7 @@ protected:
 		watched_options options_;
 		bool all_{};
 	};
-	std::vector<watcher> watchers_;	
+	std::vector<watcher> watchers_;
 };
 
 #endif

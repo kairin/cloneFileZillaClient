@@ -39,7 +39,7 @@ public:
 	typedef std::function<void(ChmodUICommand &, CState &)> ChmodHandler;
 
 	static std::map<ServerProtocol, CRemoteListView::ChmodHandler> chmodHandlers;
-	
+
 protected:
 	virtual wxString GetItemText(int item, unsigned int column);
 

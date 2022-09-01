@@ -98,7 +98,7 @@ class COptions final : public wxEvtHandler, public XmlOptions
 public:
 	COptions();
 	virtual ~COptions();
-	
+
 	COptions(COptions const&) = delete;
 	COptions& operator=(COptions const&) = delete;
 

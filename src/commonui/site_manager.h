@@ -17,7 +17,15 @@ public:
 	virtual bool LevelUp() { return true; } // *Ding*
 };
 
+class FZCUI_PUBLIC_SYMBOL CSiteManagerSaveXmlHandler
+{
+public:
+	virtual ~CSiteManagerSaveXmlHandler() = default;
+	virtual bool SaveTo(pugi::xml_node element) = 0;
+};
+
 class app_paths;
+class COptionsBase;
 
 // for now just read-only interface and rest still in interface CSiteManager waiting for refactoring
 class FZCUI_PUBLIC_SYMBOL site_manager
@@ -34,11 +42,16 @@ public:
 	static void UpdateGoogleDrivePath(CServerPath & bookmark);
 
 	static site_colour GetColourFromIndex(int i);
-protected:
-	static bool ReadBookmarkElement(Bookmark & bookmark, pugi::xml_node element);
 
 	static bool Load(std::wstring const& settings_file, CSiteManagerXmlHandler& pHandler, std::wstring& error);
+	static bool Save(std::wstring const& settings_file, CSiteManagerSaveXmlHandler& pHandler, std::wstring& error);
+	static void Save(pugi::xml_node element, Site const& site, login_manager& lim, COptionsBase& options);
+
+protected:
+	static bool ReadBookmarkElement(Bookmark& bookmark, pugi::xml_node element);
+
 	static bool Load(pugi::xml_node element, CSiteManagerXmlHandler& pHandler);
+
 	static std::unique_ptr<Site> ReadServerElement(pugi::xml_node element);
 
 	static pugi::xml_node GetElementByPath(pugi::xml_node node, std::vector<std::wstring> const& segments);

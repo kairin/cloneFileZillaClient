@@ -10,11 +10,12 @@ local_recursive_operation::local_recursive_operation(fz::thread_pool& pool)
 {
 }
 
-void local_recursion_root::add_dir_to_visit(CLocalPath const& localPath, CServerPath const& remotePath)
+void local_recursion_root::add_dir_to_visit(CLocalPath const& localPath, CServerPath const& remotePath, bool recurse)
 {
 	new_dir dirToVisit;
 	dirToVisit.localPath = localPath;
 	dirToVisit.remotePath = remotePath;
+	dirToVisit.recurse = recurse;
 	m_dirsToVisit.push_back(dirToVisit);
 }
 
@@ -95,7 +96,7 @@ void local_recursive_operation::StopRecursiveOperation()
 	m_listedDirectories.clear();
 }
 
-void local_recursive_operation::EnqueueEnumeratedListing(fz::scoped_lock& l, listing&& d)
+void local_recursive_operation::EnqueueEnumeratedListing(fz::scoped_lock& l, listing&& d, bool recurse)
 {
 	if (recursion_roots_.empty()) {
 		return;
@@ -103,20 +104,22 @@ void local_recursive_operation::EnqueueEnumeratedListing(fz::scoped_lock& l, lis
 
 	auto& root = recursion_roots_.front();
 
-	// Queue for recursion
-	for (auto const& entry : d.dirs) {
-		local_recursion_root::new_dir dir;
-		CLocalPath localSub = d.localPath;
-		localSub.AddSegment(entry.name);
+	if (recurse) {
+		// Queue for recursion
+		for (auto const& entry : d.dirs) {
+			local_recursion_root::new_dir dir;
+			CLocalPath localSub = d.localPath;
+			localSub.AddSegment(entry.name);
 
-		CServerPath remoteSub = d.remotePath;
-		if (!remoteSub.empty()) {
-			if (m_operationMode == recursive_transfer) {
-				// Non-flatten case
-				remoteSub.AddSegment(entry.name);
+			CServerPath remoteSub = d.remotePath;
+			if (!remoteSub.empty()) {
+				if (m_operationMode == recursive_transfer) {
+					// Non-flatten case
+					remoteSub.AddSegment(entry.name);
+				}
 			}
+			root.add_dir_to_visit(localSub, remoteSub);
 		}
-		root.add_dir_to_visit(localSub, remoteSub);
 	}
 
 	m_listedDirectories.emplace_back(std::move(d));
@@ -138,6 +141,7 @@ void local_recursive_operation::thread_entry()
 
 		while (!recursion_roots_.empty()) {
 			listing d;
+			bool recurse{true};
 
 			{
 				auto& root = recursion_roots_.front();
@@ -149,6 +153,7 @@ void local_recursive_operation::thread_entry()
 				auto const& dir = root.m_dirsToVisit.front();
 				d.localPath = dir.localPath;
 				d.remotePath = dir.remotePath;
+				recurse = dir.recurse;
 
 				root.m_dirsToVisit.pop_front();
 			}
@@ -193,7 +198,7 @@ void local_recursive_operation::thread_entry()
 								l.unlock();
 								break;
 							}
-							EnqueueEnumeratedListing(l, std::move(d));
+							EnqueueEnumeratedListing(l, std::move(d), recurse);
 							l.unlock();
 							d = next;
 						}
@@ -207,7 +212,7 @@ void local_recursive_operation::thread_entry()
 				break;
 			}
 			if (!sentPartial || !d.files.empty() || !d.dirs.empty()) {
-				EnqueueEnumeratedListing(l, std::move(d));
+				EnqueueEnumeratedListing(l, std::move(d), recurse);
 			}
 		}
 

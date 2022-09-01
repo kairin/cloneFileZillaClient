@@ -557,52 +557,7 @@ void CSiteManager::Rewrite(CLoginManager & loginManager, bool on_failure_set_to_
 
 void CSiteManager::Save(pugi::xml_node element, Site const& site)
 {
-	SetServer(element, site);
-
-	// Save comments
-	if (!site.comments_.empty()) {
-		AddTextElement(element, "Comments", site.comments_);
-	}
-
-	// Save colour
-	int col = CSiteManager::GetColourIndex(site_colour_to_wx(site.m_colour));
-	if (col) {
-		AddTextElement(element, "Colour", col);
-	}
-
-	// Save local dir
-	if (!site.m_default_bookmark.m_localDir.empty()) {
-		AddTextElement(element, "LocalDir", site.m_default_bookmark.m_localDir);
-	}
-
-	// Save remote dir
-	auto const sp = site.m_default_bookmark.m_remoteDir.GetSafePath();
-	if (!sp.empty()) {
-		AddTextElement(element, "RemoteDir", sp);
-	}
-
-	AddTextElementUtf8(element, "SyncBrowsing", site.m_default_bookmark.m_sync ? "1" : "0");
-	AddTextElementUtf8(element, "DirectoryComparison", site.m_default_bookmark.m_comparison ? "1" : "0");
-
-	for (auto const& bookmark : site.m_bookmarks) {
-		auto node = element.append_child("Bookmark");
-
-		AddTextElement(node, "Name", bookmark.m_name);
-
-		// Save local dir
-		if (!bookmark.m_localDir.empty()) {
-			AddTextElement(node, "LocalDir", bookmark.m_localDir);
-		}
-
-		// Save remote dir
-		auto const sp = bookmark.m_remoteDir.GetSafePath();
-		if (!sp.empty()) {
-			AddTextElement(node, "RemoteDir", sp);
-		}
-
-		AddTextElementUtf8(node, "SyncBrowsing", bookmark.m_sync ? "1" : "0");
-		AddTextElementUtf8(node, "DirectoryComparison", bookmark.m_comparison ? "1" : "0");
-	}
+	site_manager::Save(element, site, CLoginManager::Get(), *COptions::Get());
 }
 
 namespace {
