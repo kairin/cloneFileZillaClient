@@ -343,7 +343,10 @@ int CHttpRequestOpData::FinalizeResponseBody()
 		if (!(response.flags_ & (HttpResponse::flag_ignore_body | HttpResponse::flag_no_body))) {
 			response.flags_ |= HttpResponse::flag_got_body;
 			if (response.success() && response.writer_) {
-				auto r = response.writer_->finalize(*this);
+				auto r = response.writer_->add_buffer(std::move(read_state_.writer_buffer_), *this);
+				if (r == fz::aio_result::ok) {
+					r = response.writer_->finalize(*this);
+				}
 				switch (r) {
 				case fz::aio_result::ok:
 					return FZ_REPLY_OK;
@@ -845,11 +848,20 @@ int CHttpRequestOpData::ProcessData(unsigned char* data, size_t & remaining)
 		if (!(response.flags_ & HttpResponse::flag_ignore_body)) {
 			if (response.success()) {
 				if (response.writer_) {
-					while (remaining) {
+					while (remaining && res == FZ_REPLY_CONTINUE) {
 						if (read_state_.writer_buffer_->size() >= read_state_.writer_buffer_->capacity()) {
-							read_state_.writer_buffer_ = controlSocket_.buffer_pool_->get_buffer(*this);
-							if (!read_state_.writer_buffer_) {
+							auto r = response.writer_->add_buffer(std::move(read_state_.writer_buffer_), *this);
+							if (r == fz::aio_result::wait) {
 								res = FZ_REPLY_WOULDBLOCK;
+							}
+							else if (r == fz::aio_result::error) {
+								res = FZ_REPLY_ERROR;
+							}
+							else {
+								read_state_.writer_buffer_ = controlSocket_.buffer_pool_->get_buffer(*this);
+								if (!read_state_.writer_buffer_) {
+									res = FZ_REPLY_WOULDBLOCK;
+								}
 							}
 						}
 
