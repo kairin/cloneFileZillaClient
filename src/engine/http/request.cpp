@@ -470,8 +470,12 @@ int CHttpRequestOpData::OnReceive(bool repeatedProcessing)
 			if (res == FZ_REPLY_OK) {
 				log(logmsg::debug_info, L"Finished a response");
 				if (requests_.front()) {
-					requests_.front()->request().body_.reset();
-					requests_.front()->response().writer_.reset();
+					if (requests_.front()->request().body_) {
+						requests_.front()->request().body_->remove_waiter(*this);
+					}
+					if (requests_.front()->response().writer_) {
+						requests_.front()->response().writer_->remove_waiter(*this);
+					}
 				}
 
 				requests_.pop_front();
@@ -722,7 +726,9 @@ int CHttpRequestOpData::ProcessCompleteHeader()
 		if (res == FZ_REPLY_OK) {
 			if (send_pos_) {
 				// Clear the pointer, we no longer need the request to finish, all needed information is in read_state_
-				request.body_.reset();
+				if (request.body_) {
+					request.body_->remove_waiter(*this);
+				}
 				srr.reset();
 				res = FZ_REPLY_CONTINUE;
 			}
