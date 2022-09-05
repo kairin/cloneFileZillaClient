@@ -369,21 +369,18 @@ CRemoteListView::~CRemoteListView()
 int CRemoteListView::OnGetItemImage(long item) const
 {
 	CRemoteListView *pThis = const_cast<CRemoteListView *>(this);
+
 	int index = GetItemIndex(item);
-	if (index < 0) {
+	if (index < 0 || static_cast<size_t>(index) >= pThis->m_fileData.size()) {
 		return -1;
 	}
 
-	if (index >= pThis->m_fileData.size()) {
-		return -1;
-	}
 	int &icon = pThis->m_fileData[index].icon;
-
 	if (icon != -2) {
 		return icon;
 	}
 
-	if (!m_pDirectoryListing || index >= m_pDirectoryListing->size()) {
+	if (!m_pDirectoryListing || static_cast<size_t>(index) >= m_pDirectoryListing->size()) {
 		return -1;
 	}
 

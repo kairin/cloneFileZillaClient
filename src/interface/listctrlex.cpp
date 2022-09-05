@@ -876,7 +876,7 @@ int wxListCtrlEx::GetColumnActualIndex(int col) const
 	if (!m_pVisibleColumnMapping) {
 		return -1;
 	}
-	if (col < 0 || col >= m_columnInfo.size()) {
+	if (col < 0 || static_cast<size_t>(col) >= m_columnInfo.size()) {
 		return -1;
 	}
 	return m_pVisibleColumnMapping[col];
