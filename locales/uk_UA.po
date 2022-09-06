@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FileZilla\n"
 "Report-Msgid-Bugs-To: https://trac.filezilla-project.org/\n"
-"POT-Creation-Date: 2022-05-18 17:44+0200\n"
-"PO-Revision-Date: 2022-05-02 18:28+0300\n"
+"POT-Creation-Date: 2022-09-06 11:28+0200\n"
+"PO-Revision-Date: 2022-09-03 17:20+0300\n"
 "Last-Translator: Igor Chomko <igor.chomko@gmail.com>\n"
 "Language-Team: Igor Chomko <igorchomko@gmail.com>\n"
 "Language: uk_UA\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Bookmarks: 948,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
@@ -52,7 +52,7 @@ msgstr[0] "%d каталог"
 msgstr[1] "%d каталоги"
 msgstr[2] "%d каталогів"
 
-#: ../src/interface/RemoteListView.cpp:1424 ../src/interface/search.cpp:1289
+#: ../src/interface/RemoteListView.cpp:1421 ../src/interface/search.cpp:1289
 #: ../src/interface/search.cpp:1691
 #, c-format
 msgid "%d directory with its contents"
@@ -63,7 +63,7 @@ msgstr[2] "%d каталогів зі своїм вмістом"
 
 #: ../src/interface/filelist_statusbar.cpp:57
 #: ../src/interface/filelist_statusbar.cpp:82
-#: ../src/interface/RemoteListView.cpp:1423 ../src/interface/search.cpp:1288
+#: ../src/interface/RemoteListView.cpp:1420 ../src/interface/search.cpp:1288
 #: ../src/interface/search.cpp:1690
 #, c-format
 msgid "%d file"
@@ -88,7 +88,7 @@ msgstr[0] "%d файл. Загальний розмір: Принаймні %s"
 msgstr[1] "%d файли. Загальний розмір: Принаймні %s"
 msgstr[2] "%d файлів. Загальний розмір: Принаймні %s"
 
-#: ../src/engine/controlsocket.cpp:78
+#: ../src/engine/controlsocket.cpp:79
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -238,7 +238,7 @@ msgid "&Add directory..."
 msgstr "&Додати каталог..."
 
 #: ../src/interface/LocalListView.cpp:813
-#: ../src/interface/RemoteListView.cpp:1055
+#: ../src/interface/RemoteListView.cpp:1052
 msgid "&Add files to queue"
 msgstr "&Додати файли до черги"
 
@@ -293,7 +293,7 @@ msgstr "&Здійснювати запит в операційної систе�
 
 #: ../src/interface/menu_bar.cpp:100
 #: ../src/interface/settings/optionspage_filetype.cpp:48
-#: ../src/interface/statusbar.cpp:585
+#: ../src/interface/statusbar.cpp:586
 msgid "&Auto"
 msgstr "&Автоматичний"
 
@@ -307,7 +307,7 @@ msgstr "&Колір тла:"
 
 #: ../src/interface/menu_bar.cpp:102
 #: ../src/interface/settings/optionspage_filetype.cpp:52
-#: ../src/interface/statusbar.cpp:587
+#: ../src/interface/statusbar.cpp:588
 msgid "&Binary"
 msgstr "&Бінарний"
 
@@ -362,7 +362,7 @@ msgstr "&Закрити FileZilla"
 msgid "&Close FileZilla once"
 msgstr "&Закрити FileZilla один раз"
 
-#: ../src/interface/statusbar.cpp:576
+#: ../src/interface/statusbar.cpp:577
 msgid "&Configure speed limits..."
 msgstr "&Конфігурувати обмеження швидкості..."
 
@@ -384,7 +384,7 @@ msgstr "&Скопіювати до буферу обміну"
 
 #: ../src/interface/LocalListView.cpp:823
 #: ../src/interface/LocalTreeView.cpp:1116
-#: ../src/interface/RemoteListView.cpp:1062
+#: ../src/interface/RemoteListView.cpp:1059
 #: ../src/interface/RemoteTreeView.cpp:927
 msgid "&Create directory"
 msgstr "&Створити каталог"
@@ -488,7 +488,7 @@ msgstr "&Дія подвійного клацання на каталогах:"
 msgid "&Double-click action on files:"
 msgstr "&Подвійне клацання на файлах:"
 
-#: ../src/interface/RemoteListView.cpp:1052
+#: ../src/interface/RemoteListView.cpp:1049
 #: ../src/interface/RemoteTreeView.cpp:919
 msgid "&Download"
 msgstr "&Завантажити"
@@ -519,7 +519,7 @@ msgid "&Edit filter rules..."
 msgstr "&Редагувати правила фільтрування..."
 
 #: ../src/interface/Mainfrm.cpp:2440 ../src/interface/menu_bar.cpp:71
-#: ../src/interface/menu_bar.cpp:110 ../src/interface/statusbar.cpp:575
+#: ../src/interface/menu_bar.cpp:110 ../src/interface/statusbar.cpp:576
 msgid "&Enable"
 msgstr "&Розблокувати"
 
@@ -573,7 +573,7 @@ msgstr "&Файл"
 msgid "&File Attributes..."
 msgstr "&Атрибути файлу..."
 
-#: ../src/interface/RemoteListView.cpp:1072
+#: ../src/interface/RemoteListView.cpp:1069
 msgid "&File permissions..."
 msgstr "&Дозволи файла..."
 
@@ -810,8 +810,8 @@ msgstr "&Числове значення:"
 #: ../src/interface/chmoddialog.cpp:155
 #: ../src/interface/defaultfileexistsdlg.cpp:72
 #: ../src/interface/fileexistsdlg.cpp:99 ../src/interface/inputdialog.cpp:27
-#: ../src/interface/loginmanager.cpp:72 ../src/interface/loginmanager.cpp:238
-#: ../src/interface/loginmanager.cpp:349
+#: ../src/interface/loginmanager.cpp:71 ../src/interface/loginmanager.cpp:237
+#: ../src/interface/loginmanager.cpp:348
 #: ../src/interface/manual_transfer.cpp:179
 #: ../src/interface/osx_sandbox_userdirs.cpp:308
 #: ../src/interface/sitemanager_dialog.cpp:345
@@ -838,7 +838,7 @@ msgstr "&Переписати"
 msgid "&Passive"
 msgstr "&Пасивний"
 
-#: ../src/interface/loginmanager.cpp:204
+#: ../src/interface/loginmanager.cpp:203
 msgid "&Password:"
 msgstr "&Пароль:"
 
@@ -891,11 +891,11 @@ msgstr "&Інформація повторного з'єднання"
 msgid "&Refresh"
 msgstr "&Оновити"
 
-#: ../src/interface/loginmanager.cpp:66
+#: ../src/interface/loginmanager.cpp:65
 msgid "&Remember master password until FileZilla is closed"
 msgstr "&Пам'ятати головний пароль до завершення роботи FileZilla"
 
-#: ../src/interface/loginmanager.cpp:231
+#: ../src/interface/loginmanager.cpp:230
 msgid "&Remember password until FileZilla is closed"
 msgstr "&Пам'ятати пароль до завершення роботи FileZilla"
 
@@ -928,7 +928,7 @@ msgstr "&Забрати вибране"
 #: ../src/interface/bookmarks_dialog.cpp:275
 #: ../src/interface/filteredit.cpp:101 ../src/interface/LocalListView.cpp:829
 #: ../src/interface/LocalTreeView.cpp:1121
-#: ../src/interface/RemoteListView.cpp:1069
+#: ../src/interface/RemoteListView.cpp:1066
 #: ../src/interface/RemoteTreeView.cpp:932
 #: ../src/interface/sitemanager_dialog.cpp:332
 msgid "&Rename"
@@ -1087,7 +1087,7 @@ msgstr "&Тест"
 msgid "&Theme:"
 msgstr "&Тема:"
 
-#: ../src/interface/loginmanager.cpp:222
+#: ../src/interface/loginmanager.cpp:221
 msgid "&Token code:"
 msgstr "&Код токена:"
 
@@ -1166,7 +1166,7 @@ msgstr "&Використати натомість зовнішню ІР адр�
 msgid "&Use thousands separator"
 msgstr "&Використати розділювач тисячних"
 
-#: ../src/interface/loginmanager.cpp:194
+#: ../src/interface/loginmanager.cpp:193
 #: ../src/interface/sitemanager_controls.cpp:125
 #: ../src/interface/sitemanager_controls.cpp:360
 #: ../src/interface/sitemanager_controls.cpp:463
@@ -1190,7 +1190,7 @@ msgstr "&Версія 3"
 msgid "&View"
 msgstr "&Вигляд"
 
-#: ../src/interface/RemoteListView.cpp:1059 ../src/interface/search.cpp:1238
+#: ../src/interface/RemoteListView.cpp:1056 ../src/interface/search.cpp:1238
 msgid "&View/Edit"
 msgstr "&Перегляд/Редагування"
 
@@ -1212,13 +1212,13 @@ msgstr "&Писати"
 msgid "&Yes"
 msgstr "&Так"
 
-#: ../src/engine/local_path.cpp:459 ../src/engine/local_path.cpp:511
+#: ../src/engine/local_path.cpp:461 ../src/engine/local_path.cpp:513
 #, c-format
 msgid "'%s' does not exist or cannot be accessed."
 msgstr "'%s' не існує або нема доступу."
 
-#: ../src/engine/local_path.cpp:477 ../src/engine/local_path.cpp:498
-#: ../src/engine/local_path.cpp:505
+#: ../src/engine/local_path.cpp:479 ../src/engine/local_path.cpp:500
+#: ../src/engine/local_path.cpp:507
 #, c-format
 msgid "'%s' is not a directory."
 msgstr "'%s' не є каталогом."
@@ -1338,31 +1338,35 @@ msgstr "-s та -c не можуть співіснувати одночасно
 msgid "-s cannot be used together with an FTP URL."
 msgstr "-s не можна використовувати разом з адресою FTP."
 
-#: ../src/commonui/site_manager.cpp:65
+#: ../src/commonui/site_manager.cpp:146
 msgid "/Groups"
 msgstr "/Групи"
 
-#: ../src/commonui/site_manager.cpp:67
+#: ../src/commonui/site_manager.cpp:148
 msgid "/My Drives"
 msgstr "/Мої диски"
 
-#: ../src/commonui/site_manager.cpp:69
+#: ../src/commonui/site_manager.cpp:151
 msgid "/My Drives/OneDrive"
 msgstr "/Мої диски/OneDrive"
 
-#: ../src/commonui/site_manager.cpp:64
+#: ../src/commonui/site_manager.cpp:145
 msgid "/SharePoint"
 msgstr "/SharePoint"
 
-#: ../src/commonui/site_manager.cpp:79 ../src/commonui/site_manager.cpp:82
+#: ../src/commonui/site_manager.cpp:161 ../src/commonui/site_manager.cpp:164
 msgid "/Shared drives"
 msgstr "/Спільні диски"
 
-#: ../src/commonui/site_manager.cpp:66
+#: ../src/commonui/site_manager.cpp:149
+msgid "/Shared with me"
+msgstr "/Спільне зі мною"
+
+#: ../src/commonui/site_manager.cpp:147
 msgid "/Sites"
 msgstr "/Сайти"
 
-#: ../src/commonui/site_manager.cpp:78 ../src/commonui/site_manager.cpp:81
+#: ../src/commonui/site_manager.cpp:160 ../src/commonui/site_manager.cpp:163
 msgid "/Team drives"
 msgstr "/Командні диски"
 
@@ -1491,7 +1495,7 @@ msgstr ""
 
 #: ../src/interface/menu_bar.cpp:101
 #: ../src/interface/settings/optionspage_filetype.cpp:50
-#: ../src/interface/statusbar.cpp:586
+#: ../src/interface/statusbar.cpp:587
 msgid "A&SCII"
 msgstr "A&SCII"
 
@@ -1524,7 +1528,7 @@ msgstr "А&втоматично видалити успішну передачу
 msgid "API &Key:"
 msgstr "&Ключ API:"
 
-#: ../src/interface/loginmanager.cpp:44
+#: ../src/interface/loginmanager.cpp:43
 msgid "API Key:"
 msgstr "Ключ API:"
 
@@ -1557,7 +1561,7 @@ msgstr "Ключ &доступу:"
 msgid "Access to some local directories could not be restored:"
 msgstr "Неможливо відновити доступ до деяких локальних каталогів:"
 
-#: ../src/engine/server.cpp:745 ../src/engine/server.cpp:771
+#: ../src/engine/server.cpp:748 ../src/engine/server.cpp:774
 msgid "Account"
 msgstr "Обліковий запис"
 
@@ -1622,7 +1626,7 @@ msgid "Add selected directory to the transfer queue"
 msgstr "Додати вибрану директорію до черги передачі"
 
 #: ../src/interface/LocalListView.cpp:813
-#: ../src/interface/RemoteListView.cpp:1055
+#: ../src/interface/RemoteListView.cpp:1052
 msgid "Add selected files and folders to the transfer queue"
 msgstr "Додати вибрані файли і папки до черги передачі"
 
@@ -1752,7 +1756,7 @@ msgstr ""
 "Елемент, що перетягується, позначений схожим іменем з елементом, який вже "
 "існує на вказаній позиції."
 
-#: ../src/engine/server.cpp:775
+#: ../src/engine/server.cpp:778
 msgid "Anonymous"
 msgstr "Анонімний"
 
@@ -1809,7 +1813,7 @@ msgstr "Як вкладка в панелі черги передачі"
 msgid "Ask for action"
 msgstr "Запит на виконання"
 
-#: ../src/engine/server.cpp:736 ../src/engine/server.cpp:765
+#: ../src/engine/server.cpp:739 ../src/engine/server.cpp:768
 msgid "Ask for password"
 msgstr "Запит на пароль"
 
@@ -1949,12 +1953,12 @@ msgstr "О&чистити усе"
 msgid "C&omparative search"
 msgstr "По&рівняльний пошук"
 
-#: ../src/interface/RemoteListView.cpp:1070
+#: ../src/interface/RemoteListView.cpp:1067
 #: ../src/interface/RemoteTreeView.cpp:933 ../src/interface/search.cpp:1245
 msgid "C&opy URL(s) to clipboard"
 msgstr "К&опіювати адресу(-и) до буферу обміну"
 
-#: ../src/interface/RemoteListView.cpp:1071
+#: ../src/interface/RemoteListView.cpp:1068
 #: ../src/interface/RemoteTreeView.cpp:934 ../src/interface/search.cpp:1242
 msgid "C&opy URL(s) with password to clipboard"
 msgstr "К&опіювати адресу(-и) URL з паролем до буферу обміну"
@@ -1996,8 +2000,8 @@ msgstr "Обчислення зсуву часового поясу віднос
 #: ../src/interface/edithandler.cpp:1229 ../src/interface/edithandler.cpp:1815
 #: ../src/interface/fileexistsdlg.cpp:103 ../src/interface/filteredit.cpp:143
 #: ../src/interface/filter_manager.cpp:126 ../src/interface/inputdialog.cpp:31
-#: ../src/interface/listctrlex.cpp:739 ../src/interface/loginmanager.cpp:76
-#: ../src/interface/loginmanager.cpp:242 ../src/interface/loginmanager.cpp:354
+#: ../src/interface/listctrlex.cpp:739 ../src/interface/loginmanager.cpp:75
+#: ../src/interface/loginmanager.cpp:241 ../src/interface/loginmanager.cpp:353
 #: ../src/interface/manual_transfer.cpp:184
 #: ../src/interface/osx_sandbox_userdirs.cpp:312
 #: ../src/interface/settings/settingsdialog.cpp:76
@@ -2017,7 +2021,7 @@ msgstr "Скасувати поточну операцію"
 msgid "Cancels the current operation"
 msgstr "Скасовує поточну операцію"
 
-#: ../src/engine/local_path.cpp:471
+#: ../src/engine/local_path.cpp:473
 #, c-format
 msgid "Cannot access '%s', no media inserted or drive not ready."
 msgstr "Нема доступу '%s', не встановлені носії або диск не готовий."
@@ -2041,7 +2045,7 @@ msgstr ""
 "Неможливо закрити вкладку під час роботи.\n"
 "Скасувати поточну операцію і закрити вкладку?"
 
-#: ../src/interface/listingcomparison.cpp:77
+#: ../src/interface/listingcomparison.cpp:78
 msgid ""
 "Cannot compare directories, different filters for local and remote "
 "directories are enabled"
@@ -2083,7 +2087,7 @@ msgstr "Неможливо завантажити файл ключа"
 msgid "Cannot rename entry"
 msgstr "Неможливо перейменувати компонент"
 
-#: ../src/interface/RemoteListView.cpp:1663
+#: ../src/interface/RemoteListView.cpp:1660
 msgid "Cannot rename file"
 msgstr "Неможливо перейменувати файл"
 
@@ -2138,7 +2142,7 @@ msgstr "Категорії, щоб очистити"
 msgid "Certificate"
 msgstr "Сертифікат"
 
-#: ../src/interface/statusbar.cpp:548
+#: ../src/interface/statusbar.cpp:549
 msgid "Certificate and session data are not available yet."
 msgstr "Сертифікату і даних по з'єднанню ще немає."
 
@@ -2146,7 +2150,7 @@ msgstr "Сертифікату і даних по з'єднанню ще нем�
 msgid "Certificate details"
 msgstr "Інформація про сертифікат"
 
-#: ../src/interface/loginmanager.cpp:180
+#: ../src/interface/loginmanager.cpp:179
 msgid "Challenge:"
 msgstr "Виклик:"
 
@@ -2154,7 +2158,7 @@ msgstr "Виклик:"
 msgid "Change file attributes"
 msgstr "Змінити атрибути"
 
-#: ../src/interface/RemoteListView.cpp:1072
+#: ../src/interface/RemoteListView.cpp:1069
 #: ../src/interface/RemoteTreeView.cpp:940
 msgid "Change the file permissions."
 msgstr "Змінити дозволи для файлу."
@@ -2191,7 +2195,7 @@ msgstr "Перевірити наявність новішої версії File
 msgid "Check for updates failed"
 msgstr "Перевірити невдалі оновлення"
 
-#: ../src/engine/ftp/logon.cpp:344
+#: ../src/engine/ftp/logon.cpp:348
 msgid ""
 "Check your login credentials. The entered password starts or ends with a "
 "space character."
@@ -2199,7 +2203,7 @@ msgstr ""
 "Перевірте свій обліковий запис. Введений пароль починається або закінчується "
 "пробілом."
 
-#: ../src/engine/ftp/logon.cpp:340
+#: ../src/engine/ftp/logon.cpp:344
 msgid ""
 "Check your login credentials. The entered username starts or ends with a "
 "space character."
@@ -2215,12 +2219,12 @@ msgstr "Перевірка правильності зовнішньої ІР а
 msgid "Checking for updates..."
 msgstr "Перевірка оновлень..."
 
-#: ../src/commonui/updater.cpp:890
+#: ../src/commonui/updater.cpp:892
 #, c-format
 msgid "Checksum match on file %s\n"
 msgstr "Контрольна сума співпадає у файлі %s\n"
 
-#: ../src/commonui/updater.cpp:886
+#: ../src/commonui/updater.cpp:888
 #, c-format
 msgid "Checksum mismatch on file %s\n"
 msgstr "Контрольна сума не співпадає у файлі %s\n"
@@ -2235,11 +2239,11 @@ msgstr "Виберіть типовий локальний каталог"
 
 #: ../src/interface/bookmarks_dialog.cpp:139
 #: ../src/interface/bookmarks_dialog.cpp:430
-#: ../src/interface/sitemanager_dialog.cpp:1952
+#: ../src/interface/sitemanager_dialog.cpp:1957
 msgid "Choose the local directory"
 msgstr "Вибрати локальний каталог"
 
-#: ../src/engine/http/request.cpp:806
+#: ../src/engine/http/request.cpp:799
 msgid "Chunk data improperly terminated"
 msgstr "Частину даних завершено неправильно"
 
@@ -2445,7 +2449,7 @@ msgstr "Підтвердити видалення"
 
 #: ../src/interface/edithandler.cpp:1123 ../src/interface/file_utils.h:43
 #: ../src/interface/LocalListView.cpp:1903
-#: ../src/interface/RemoteListView.cpp:1428
+#: ../src/interface/RemoteListView.cpp:1425
 #: ../src/interface/RemoteTreeView.cpp:1114 ../src/interface/search.cpp:1646
 #: ../src/interface/search.cpp:2042
 msgid "Confirmation needed"
@@ -2486,12 +2490,12 @@ msgstr "Під'єднання"
 msgid "Connecting to %s"
 msgstr "Під'єднання до %s"
 
-#: ../src/engine/controlsocket.cpp:879 ../src/engine/ftp/logon.cpp:99
+#: ../src/engine/controlsocket.cpp:884 ../src/engine/ftp/logon.cpp:103
 #, c-format
 msgid "Connecting to %s through %s proxy"
 msgstr "Під'єднання до %s через проксі %s"
 
-#: ../src/engine/controlsocket.cpp:813 ../src/engine/sftp/connect.cpp:38
+#: ../src/engine/controlsocket.cpp:818 ../src/engine/sftp/connect.cpp:38
 #: ../src/engine/storj/connect.cpp:31
 #, c-format
 msgid "Connecting to %s..."
@@ -2505,18 +2509,18 @@ msgstr "Під'єднання"
 msgid "Connection attempt failed"
 msgstr "Невдала спроба під'єднання"
 
-#: ../src/engine/controlsocket.cpp:772
+#: ../src/engine/controlsocket.cpp:777
 #, c-format
 msgid "Connection attempt failed with \"%s\", trying next address."
 msgstr ""
 "Невдала спроба під'єднання з \"%s\", роблю спробу за наступною адресою."
 
-#: ../src/engine/controlsocket.cpp:778
+#: ../src/engine/controlsocket.cpp:783
 #, c-format
 msgid "Connection attempt failed with \"%s\"."
 msgstr "Невдала спроба під'єднання з \"%s\"."
 
-#: ../src/engine/controlsocket.cpp:176 ../src/engine/engineprivate.cpp:713
+#: ../src/engine/controlsocket.cpp:177 ../src/engine/engineprivate.cpp:713
 msgid "Connection attempt interrupted by user"
 msgstr "Спробу під'єднання перервано користувачем"
 
@@ -2531,11 +2535,11 @@ msgid "Connection closed by server"
 msgstr "З'єднання завершено сервером"
 
 #: ../src/engine/ftp/ftpcontrolsocket.cpp:187
-#: ../src/engine/http/httpcontrolsocket.cpp:222
+#: ../src/engine/http/httpcontrolsocket.cpp:226
 msgid "Connection established, initializing TLS..."
 msgstr "З'єднання встановлено, ініціюється TLS..."
 
-#: ../src/engine/http/httpcontrolsocket.cpp:239
+#: ../src/engine/http/httpcontrolsocket.cpp:243
 msgid "Connection established, sending HTTP request"
 msgstr "З'єднання встановлено, надсилається запит HTTP"
 
@@ -2559,7 +2563,7 @@ msgstr "З'єднання не дозволено встановленими п�
 msgid "Connection refused"
 msgstr "У з'єднанні відмовлено"
 
-#: ../src/engine/controlsocket.cpp:538
+#: ../src/engine/controlsocket.cpp:543
 #, c-format
 msgid "Connection timed out after %d second of inactivity"
 msgid_plural "Connection timed out after %d seconds of inactivity"
@@ -2587,7 +2591,7 @@ msgstr "З'єднання з сервером закрилось дочасно.
 msgid "Connection with the test server failed."
 msgstr "З'єднання з тестовим сервером невдале."
 
-#: ../src/engine/ftp/logon.cpp:326
+#: ../src/engine/ftp/logon.cpp:330
 msgid "Consider using the interactive login type."
 msgstr "Розгляньте можливість використання інтерактивного типу входу."
 
@@ -2605,18 +2609,18 @@ msgstr "Копія (%d) з %s"
 msgid "Copy of %s"
 msgstr "Копія з %s"
 
-#: ../src/interface/RemoteListView.cpp:1071
+#: ../src/interface/RemoteListView.cpp:1068
 #: ../src/interface/RemoteTreeView.cpp:934
 msgid "Copy the URLs of the selected items to clipboard, including password."
 msgstr ""
 "Копіювати адреси URL вибраних елементів до буферу обміну разом з паролем."
 
-#: ../src/interface/RemoteListView.cpp:1070
+#: ../src/interface/RemoteListView.cpp:1067
 #: ../src/interface/RemoteTreeView.cpp:933
 msgid "Copy the URLs of the selected items to clipboard."
 msgstr "Копіювати адреси вибраних елементів до буферу обміну."
 
-#: ../src/engine/ftp/transfersocket.cpp:361
+#: ../src/engine/ftp/transfersocket.cpp:182
 #, c-format
 msgid "Could not accept connection: %s"
 msgstr "Неможливо прийняти з'єднання: %s"
@@ -2631,28 +2635,15 @@ msgstr "Неможливо отримати доступ до шляху %s"
 msgid "Could not add connection to Site Manager"
 msgstr "Неможливо додати з'єднання до Диспетчера Сайтів"
 
-#: ../src/engine/reader.cpp:234 ../src/engine/reader.cpp:421
-#: ../src/engine/reader.cpp:431 ../src/engine/string_reader.cpp:27
-#: ../src/engine/string_reader.cpp:38 ../src/engine/string_reader.cpp:111
-#: ../src/engine/string_reader.cpp:122
-#, c-format
-msgid "Could not allocate memory to open '%s' for reading."
-msgstr "Не вдалося виділити пам’ять, щоб відкрити '%s' для читання."
-
-#: ../src/engine/writer.cpp:304 ../src/engine/writer.cpp:523
-#, c-format
-msgid "Could not allocate memory to open '%s' for writing."
-msgstr "Не вдалося виділити пам’ять, щоб відкрити '%s' для запису."
-
 #: ../src/interface/state.cpp:910
 msgid "Could not complete operation"
 msgstr "Неможливо завершити операцію"
 
-#: ../src/engine/controlsocket.cpp:179
+#: ../src/engine/controlsocket.cpp:180
 msgid "Could not connect to server"
 msgstr "Неможливо під'єднатися до серверу"
 
-#: ../src/engine/controlsocket.cpp:904
+#: ../src/engine/controlsocket.cpp:909
 #, c-format
 msgid "Could not connect to server: %s"
 msgstr "Неможливо під'єднатися до сервера: %s"
@@ -2669,7 +2660,7 @@ msgstr "Неможливо сконвертувати команду до сер
 msgid "Could not convert private key"
 msgstr "Неможливо сконвертувати приватний ключ"
 
-#: ../src/interface/RemoteListView.cpp:2685
+#: ../src/interface/RemoteListView.cpp:2682
 #: ../src/interface/RemoteTreeView.cpp:1479 ../src/interface/search.cpp:1934
 msgid "Could not copy URLs"
 msgstr "Неможливо скопіювати адреси"
@@ -2688,7 +2679,7 @@ msgstr "Неможливо створити CFURL із шляху %s"
 msgid "Could not create URI for this transfer."
 msgstr "Не вдалося створити ідентифікатор URI для цієї передачі."
 
-#: ../src/commonui/updater.cpp:547
+#: ../src/commonui/updater.cpp:546
 #, c-format
 msgid "Could not create local file %s\n"
 msgstr "Неможливо створити локальний файл %s\n"
@@ -2707,12 +2698,12 @@ msgstr "Неможливо створити безпечну закладку з
 msgid "Could not create temporary file name."
 msgstr "Не вдалося створити тимчасове ім'я файлу."
 
-#: ../src/interface/RemoteListView.cpp:2322
+#: ../src/interface/RemoteListView.cpp:2319
 #: ../src/interface/RemoteTreeView.cpp:901
 msgid "Could not determine the target of the Drag&Drop operation."
-msgstr ""
+msgstr "Не вдалося визначити ціль операції Перетягнути і Скинути."
 
-#: ../src/interface/RemoteListView.cpp:2320
+#: ../src/interface/RemoteListView.cpp:2317
 #: ../src/interface/RemoteTreeView.cpp:899
 msgid ""
 "Could not determine the target of the Drag&Drop operation.\n"
@@ -2737,7 +2728,7 @@ msgstr ""
 "Ви можете вказати каталог даних FileZilla, встановивши змінну середовища "
 "FZ_DATADIR."
 
-#: ../src/engine/ftp/logon.cpp:810
+#: ../src/engine/ftp/logon.cpp:814
 msgid "Could not generate custom login sequence."
 msgstr "Неможливо згенерувати настроювану послідовність входу."
 
@@ -2780,7 +2771,7 @@ msgstr "Неможливо отримати тимчасовий каталог 
 msgid "Could not list directory contents"
 msgstr "Не вдалося перелічити вміст каталогу"
 
-#: ../src/interface/sitemanager.cpp:649
+#: ../src/interface/sitemanager.cpp:604
 #, c-format
 msgid ""
 "Could not load \"%s\", please make sure the file is valid and can be "
@@ -2839,33 +2830,18 @@ msgstr ""
 "'%s'.\n"
 "Синхронізований перегляд вимкнуто."
 
-#: ../src/commonui/updater.cpp:856
+#: ../src/commonui/updater.cpp:858
 #, c-format
 msgid "Could not obtain size of '%s'"
 msgstr "Неможливо отримати розмір '%s'"
 
-#: ../src/engine/reader.cpp:302
-#, c-format
-msgid "Could not obtain size of '%s'."
-msgstr "Не вдалося отримати розмір '%s'."
-
-#: ../src/commonui/updater.cpp:869
+#: ../src/commonui/updater.cpp:871
 #, c-format
 msgid "Could not open '%s'"
 msgstr "Неможливо відкрити '%s'"
 
-#: ../src/engine/reader.cpp:239
-#, c-format
-msgid "Could not open '%s' for reading."
-msgstr "Не вдалося відкрити \"%s\" для читання."
-
-#: ../src/engine/writer.cpp:323
-#, c-format
-msgid "Could not open '%s' for writing."
-msgstr "Не вдалося відкрити \"%s\" для запису."
-
 #: ../src/interface/aboutdialog.cpp:220
-#: ../src/interface/RemoteListView.cpp:2685
+#: ../src/interface/RemoteListView.cpp:2682
 #: ../src/interface/RemoteTreeView.cpp:1479 ../src/interface/search.cpp:1934
 msgid "Could not open clipboard"
 msgstr "Неможливо відкрити буфер обміну"
@@ -2885,15 +2861,10 @@ msgstr "Аналіз віддаленого шляху неможливий."
 msgid "Could not parse server address:"
 msgstr "Неможливо визначити адресу сервера :"
 
-#: ../src/commonui/updater.cpp:878
+#: ../src/commonui/updater.cpp:880
 #, c-format
 msgid "Could not read from '%s'"
 msgstr "Неможливо читати з '%s'"
-
-#: ../src/engine/reader.cpp:361
-#, c-format
-msgid "Could not read from '%s'."
-msgstr "Не вдалося прочитати з \"%s\"."
 
 #: ../src/interface/netconfwizard.cpp:992
 msgid "Could not read from data socket."
@@ -2912,27 +2883,11 @@ msgstr "Неможливо отримати дані сервера."
 msgid "Could not restore directory access"
 msgstr "Неможливо відновити доступ до каталогу"
 
-#: ../src/engine/reader.cpp:307 ../src/engine/reader.cpp:463
-#: ../src/engine/string_reader.cpp:72 ../src/engine/string_reader.cpp:155
-#, c-format
-msgid "Could not seek to offset %d in '%s' of size %d."
-msgstr "Не вдалося компенсувати %d у \"%s\" розміром %d."
-
-#: ../src/engine/reader.cpp:295 ../src/engine/writer.cpp:330
-#, c-format
-msgid "Could not seek to offset %d in '%s'."
-msgstr "Не вдалося компенсувати %d у \"%s\" ."
-
-#: ../src/engine/writer.cpp:454
-#, c-format
-msgid "Could not seek to offset %d within '%s'."
-msgstr "Не вдалося компенсувати %d в межах '%s'."
-
 #: ../src/interface/fzputtygen_interface.cpp:218
 msgid "Could not send command to fzputtygen."
 msgstr "Неможливо надіслати команду до fzputtygen."
 
-#: ../src/engine/sftp/sftpcontrolsocket.cpp:659
+#: ../src/engine/sftp/sftpcontrolsocket.cpp:652
 msgid "Could not send command to fzsftp executable"
 msgstr "Не вдалося надіслати команду до виконуваного файлу fzsftp"
 
@@ -2940,29 +2895,9 @@ msgstr "Не вдалося надіслати команду до викону�
 msgid "Could not send command to fzstorj."
 msgstr "Неможливо надіслати команду до fzstorj."
 
-#: ../src/engine/reader.cpp:319
-#, c-format
-msgid "Could not spawn worker thread for reading '%s'."
-msgstr "Не вдалося створити робочий потік для читання \"%s\"."
-
-#: ../src/engine/writer.cpp:344
-#, c-format
-msgid "Could not spawn worker thread for writing '%s'."
-msgstr "Не вдалося створити робочий потік для запису \"%s\"."
-
 #: ../src/interface/queue.cpp:370
 msgid "Could not start transfer"
 msgstr "Неможливо розпочати передачу"
-
-#: ../src/engine/writer.cpp:423
-#, c-format
-msgid "Could not sync '%s' to disk."
-msgstr "Не вдалося синхронізувати '%s' на диску."
-
-#: ../src/engine/writer.cpp:334
-#, c-format
-msgid "Could not truncate '%s' to offset %d."
-msgstr "Не вдалося усікти '%s' для компенсації %d."
 
 #: ../src/interface/sitemanager.cpp:329
 #: ../src/interface/sitemanager_dialog.cpp:797
@@ -2985,13 +2920,13 @@ msgid "Could not write \"%s\", the global bookmarks could no be saved: %s"
 msgstr "Неможливо записати \"%s\"; глобальні закладки зберегти неможливо: %s"
 
 #: ../src/interface/sitemanager.cpp:422 ../src/interface/sitemanager.cpp:479
-#: ../src/interface/sitemanager_dialog.cpp:1935
+#: ../src/interface/sitemanager_dialog.cpp:1940
 #, c-format
 msgid "Could not write \"%s\", the selected sites could not be exported: %s"
 msgstr "Неможливо записати \"%s\"; обрані сайти експортувати неможливо : %s"
 
 #: ../src/interface/Options.cpp:182 ../src/interface/verifycertdialog.cpp:28
-#: ../src/interface/xmlfunctions.cpp:11
+#: ../src/interface/xmlfunctions.cpp:16
 #, c-format
 msgid "Could not write \"%s\":"
 msgstr "Неможливо писати \"%s\":"
@@ -3000,11 +2935,6 @@ msgstr "Неможливо писати \"%s\":"
 #, c-format
 msgid "Could not write key file: %s"
 msgstr "Неможливо записати файл ключа: %s"
-
-#: ../src/engine/writer.cpp:385
-#, c-format
-msgid "Could not write to '%s'."
-msgstr "Не вдалося записати в \"%s\"."
 
 #: ../src/interface/queue.cpp:369
 msgid "Could not write to local file"
@@ -3015,8 +2945,8 @@ msgstr "Неможливо записати в локальний файл"
 msgid "Could not write to log file: %s"
 msgstr "Неможливо записати у файл журналу: %s"
 
-#: ../src/engine/controlsocket.cpp:733 ../src/engine/controlsocket.cpp:831
-#: ../src/engine/http/request.cpp:279
+#: ../src/engine/controlsocket.cpp:738 ../src/engine/controlsocket.cpp:836
+#: ../src/engine/http/request.cpp:276
 #, c-format
 msgid "Could not write to socket: %s"
 msgstr "Неможливо записати в сокет: %s"
@@ -3025,7 +2955,7 @@ msgstr "Неможливо записати в сокет: %s"
 msgid "Country:"
 msgstr "Країна:"
 
-#: ../src/interface/RemoteListView.cpp:1064
+#: ../src/interface/RemoteListView.cpp:1061
 msgid "Crea&te new file"
 msgstr "Створи&ти новий файл"
 
@@ -3039,37 +2969,37 @@ msgstr "Створити &відсутній віддалений каталог
 
 #: ../src/interface/LocalListView.cpp:823
 #: ../src/interface/LocalTreeView.cpp:1116
-#: ../src/interface/RemoteListView.cpp:1062
+#: ../src/interface/RemoteListView.cpp:1059
 #: ../src/interface/RemoteTreeView.cpp:927
 msgid "Create a new subdirectory in the current directory"
 msgstr "Створити новий підкаталог в поточному каталозі"
 
 #: ../src/interface/LocalListView.cpp:824
 #: ../src/interface/LocalTreeView.cpp:1117
-#: ../src/interface/RemoteListView.cpp:1063
+#: ../src/interface/RemoteListView.cpp:1060
 #: ../src/interface/RemoteTreeView.cpp:928
 msgid "Create a new subdirectory in the current directory and change into it"
 msgstr "Створити новий підкаталог в поточному каталозі і змінити в ньому"
 
-#: ../src/interface/RemoteListView.cpp:1064
+#: ../src/interface/RemoteListView.cpp:1061
 msgid "Create a new, empty file in the current directory"
 msgstr "Створити новий, порожній файл в поточному каталозі"
 
 #: ../src/interface/LocalListView.cpp:824
 #: ../src/interface/LocalTreeView.cpp:1117
-#: ../src/interface/RemoteListView.cpp:1063
+#: ../src/interface/RemoteListView.cpp:1060
 #: ../src/interface/RemoteTreeView.cpp:928
 msgid "Create director&y and enter it"
 msgstr "Створити катало&г і увійти до нього"
 
 #: ../src/interface/LocalListView.cpp:994
 #: ../src/interface/LocalTreeView.cpp:1235
-#: ../src/interface/RemoteListView.cpp:1325
+#: ../src/interface/RemoteListView.cpp:1322
 #: ../src/interface/RemoteTreeView.cpp:1313
 msgid "Create directory"
 msgstr "Створити каталог"
 
-#: ../src/interface/RemoteListView.cpp:2774
+#: ../src/interface/RemoteListView.cpp:2771
 msgid "Create empty file"
 msgstr "Створити порожній файл"
 
@@ -3083,19 +3013,19 @@ msgstr "Створення каталогу"
 msgid "Creating directory '%s'..."
 msgstr "Створення каталогу '%s'..."
 
-#: ../src/engine/controlsocket.cpp:171
+#: ../src/engine/controlsocket.cpp:172
 msgid "Critical error"
 msgstr "Критична помилка"
 
-#: ../src/engine/controlsocket.cpp:162
+#: ../src/engine/controlsocket.cpp:163
 msgid "Critical error:"
 msgstr "Критична помилка:"
 
-#: ../src/engine/controlsocket.cpp:113
+#: ../src/engine/controlsocket.cpp:114
 msgid "Critical file transfer error"
 msgstr "Критична помилка передачі файлу"
 
-#: ../src/engine/controlsocket.cpp:93
+#: ../src/engine/controlsocket.cpp:94
 #, c-format
 msgid "Critical file transfer error after transferring %s in %s"
 msgstr "Критична помилка передачі файлу після передачі %s до %s"
@@ -3181,7 +3111,7 @@ msgstr ""
 msgid "D&efault"
 msgstr "Ти&повий"
 
-#: ../src/interface/RemoteListView.cpp:1068
+#: ../src/interface/RemoteListView.cpp:1065
 #: ../src/interface/RemoteTreeView.cpp:931 ../src/interface/search.cpp:1231
 #: ../src/interface/search.cpp:1239
 msgid "D&elete"
@@ -3327,7 +3257,7 @@ msgid "Delete selected directory"
 msgstr "Видалити обраний каталог"
 
 #: ../src/interface/LocalListView.cpp:828
-#: ../src/interface/RemoteListView.cpp:1068
+#: ../src/interface/RemoteListView.cpp:1065
 msgid "Delete selected files and directories"
 msgstr "Видалити обрані файли і каталоги"
 
@@ -3387,7 +3317,7 @@ msgstr "Дозволи доступу до каталогу"
 msgid "Directory comparison"
 msgstr "Порівняння каталогів"
 
-#: ../src/interface/listingcomparison.cpp:77
+#: ../src/interface/listingcomparison.cpp:78
 msgid "Directory comparison failed"
 msgstr "Невдале порівняння каталогів"
 
@@ -3399,11 +3329,11 @@ msgstr "Каталога, що містить файл журналу не іс�
 msgid "Directory listing &filters..."
 msgstr "&Фільтри списку каталога..."
 
-#: ../src/engine/controlsocket.cpp:184
+#: ../src/engine/controlsocket.cpp:185
 msgid "Directory listing aborted by user"
 msgstr "Список каталогів припинено користувачем"
 
-#: ../src/interface/RemoteListView.cpp:2138
+#: ../src/interface/RemoteListView.cpp:2135
 msgid "Directory listing failed"
 msgstr "Невдалий список каталогів"
 
@@ -3411,12 +3341,12 @@ msgstr "Невдалий список каталогів"
 msgid "Directory listing filters"
 msgstr "Фільтри списку каталогів"
 
-#: ../src/engine/controlsocket.cpp:194
+#: ../src/engine/controlsocket.cpp:195
 #, c-format
 msgid "Directory listing of \"%s\" successful"
 msgstr "Список каталогу \"%s\" вдалий"
 
-#: ../src/engine/controlsocket.cpp:191
+#: ../src/engine/controlsocket.cpp:192
 msgid "Directory listing successful"
 msgstr "Вдалий список каталогів"
 
@@ -3441,15 +3371,15 @@ msgstr ""
 msgid "Disconnect from server"
 msgstr "Від'єднати від сервера"
 
-#: ../src/engine/controlsocket.cpp:53 ../src/engine/controlsocket.cpp:734
-#: ../src/engine/controlsocket.cpp:833
-#: ../src/engine/ftp/ftpcontrolsocket.cpp:64 ../src/engine/http/request.cpp:280
+#: ../src/engine/controlsocket.cpp:54 ../src/engine/controlsocket.cpp:739
+#: ../src/engine/controlsocket.cpp:838
+#: ../src/engine/ftp/ftpcontrolsocket.cpp:64 ../src/engine/http/request.cpp:277
 #: ../src/interface/queue.cpp:363
 msgid "Disconnected from server"
 msgstr "Від'єднано від сервера"
 
-#: ../src/engine/controlsocket.cpp:858
-#: ../src/engine/http/httpcontrolsocket.cpp:325
+#: ../src/engine/controlsocket.cpp:863
+#: ../src/engine/http/httpcontrolsocket.cpp:329
 #, c-format
 msgid "Disconnected from server: %s"
 msgstr "Від'єднано від сервера: %s"
@@ -3536,12 +3466,12 @@ msgstr "Завантажити"
 msgid "Download &limit:"
 msgstr "Обмеження &завантаження:"
 
-#: ../src/interface/statusbar.cpp:632
+#: ../src/interface/statusbar.cpp:633
 #, c-format
 msgid "Download limit: %s/s"
 msgstr "Обмеження завантаження: %s/s"
 
-#: ../src/interface/statusbar.cpp:635
+#: ../src/interface/statusbar.cpp:636
 msgid "Download limit: none"
 msgstr "Обмеження завантаження: жодного"
 
@@ -3554,11 +3484,11 @@ msgstr "Завантажити результати пошуку"
 msgid "Download selected directory"
 msgstr "Завантажити обраний каталог"
 
-#: ../src/interface/RemoteListView.cpp:1052
+#: ../src/interface/RemoteListView.cpp:1049
 msgid "Download selected files and directories"
 msgstr "Завантажити обрані файли і каталоги"
 
-#: ../src/interface/statusbar.cpp:768
+#: ../src/interface/statusbar.cpp:769
 #, c-format
 msgid "Download: %s/s"
 msgstr "Швидкість завантаження: %s/с"
@@ -3567,7 +3497,7 @@ msgstr "Швидкість завантаження: %s/с"
 msgid "Downloading"
 msgstr "Завантаження"
 
-#: ../src/engine/http/httpcontrolsocket.cpp:249
+#: ../src/engine/http/httpcontrolsocket.cpp:253
 #, c-format
 msgid "Downloading %s"
 msgstr "Завантаження %s"
@@ -3609,7 +3539,7 @@ msgid "E&nable all"
 msgstr "Уві&мкнути все"
 
 #: ../src/interface/LocalListView.cpp:816
-#: ../src/interface/RemoteListView.cpp:1058
+#: ../src/interface/RemoteListView.cpp:1055
 msgid "E&nter directory"
 msgstr "В&вести каталог"
 
@@ -3675,7 +3605,7 @@ msgstr "Ел. пошта:"
 msgid "Empty command"
 msgstr "Порожня команда"
 
-#: ../src/interface/RemoteListView.cpp:2141
+#: ../src/interface/RemoteListView.cpp:2138
 msgid "Empty directory listing"
 msgstr "Порожній список каталогів"
 
@@ -3712,7 +3642,7 @@ msgstr "Кодовано"
 msgid "Encryption"
 msgstr "Кодування"
 
-#: ../src/interface/loginmanager.cpp:213
+#: ../src/interface/loginmanager.cpp:212
 msgid "Encryption &key:"
 msgstr "&Ключ шифрування:"
 
@@ -3720,7 +3650,7 @@ msgstr "&Ключ шифрування:"
 msgid "Encryption details"
 msgstr "Подробиці кодування"
 
-#: ../src/engine/storj/connect.cpp:103
+#: ../src/engine/storj/connect.cpp:91
 msgid "Encryption passphrase is not set"
 msgstr "Парольна фраза для шифрування не встановлена"
 
@@ -3757,7 +3687,7 @@ msgstr "Ввести каталог"
 msgid "Enter filter name"
 msgstr "Ввести ім'я файлу"
 
-#: ../src/interface/loginmanager.cpp:17 ../src/interface/loginmanager.cpp:319
+#: ../src/interface/loginmanager.cpp:16 ../src/interface/loginmanager.cpp:318
 msgid "Enter master password"
 msgstr "Введіть головний пароль"
 
@@ -3769,16 +3699,16 @@ msgstr "Ввести ім`я для набору фільтру"
 msgid "Enter new name for filterset"
 msgstr "Ввести нове ім'я для встановленого фільтру"
 
-#: ../src/interface/loginmanager.cpp:143
+#: ../src/interface/loginmanager.cpp:142
 msgid "Enter password"
 msgstr "Ввести пароль"
 
 #: ../src/interface/LocalListView.cpp:816
-#: ../src/interface/RemoteListView.cpp:1058
+#: ../src/interface/RemoteListView.cpp:1055
 msgid "Enter selected directory"
 msgstr "Ввести обраний каталог"
 
-#: ../src/interface/loginmanager.cpp:137
+#: ../src/interface/loginmanager.cpp:136
 msgid "Enter the 2FA code"
 msgstr "Введіть код 2FA"
 
@@ -3825,11 +3755,11 @@ msgstr ""
 "Введіть порт через який сервер слухає. Типовим для FTP є 21, типовим для "
 "SFTP є 22."
 
-#: ../src/interface/loginmanager.cpp:124
+#: ../src/interface/loginmanager.cpp:123
 msgid "Enter username"
 msgstr "Ввести ім'я користувача"
 
-#: ../src/interface/loginmanager.cpp:129
+#: ../src/interface/loginmanager.cpp:128
 msgid "Enter username and password"
 msgstr "Ввести ім'я користувача і пароль"
 
@@ -3876,7 +3806,7 @@ msgstr "Помилка завантаження черги"
 #: ../src/interface/search.cpp:1790 ../src/interface/search.cpp:1824
 #: ../src/interface/sitemanager.cpp:44 ../src/interface/sitemanager.cpp:281
 #: ../src/interface/sitemanager.cpp:358 ../src/interface/sitemanager.cpp:446
-#: ../src/interface/sitemanager.cpp:544 ../src/interface/sitemanager.cpp:650
+#: ../src/interface/sitemanager.cpp:544 ../src/interface/sitemanager.cpp:605
 #: ../src/interface/sitemanager_dialog.cpp:715
 #: ../src/interface/sitemanager_dialog.cpp:775
 #: ../src/interface/wrapengine.cpp:946
@@ -3899,9 +3829,9 @@ msgstr "Помилка запуску програми"
 #: ../src/interface/sitemanager.cpp:330 ../src/interface/sitemanager.cpp:423
 #: ../src/interface/sitemanager.cpp:480
 #: ../src/interface/sitemanager_dialog.cpp:798
-#: ../src/interface/sitemanager_dialog.cpp:1936
+#: ../src/interface/sitemanager_dialog.cpp:1941
 #: ../src/interface/verifycertdialog.cpp:29
-#: ../src/interface/xmlfunctions.cpp:15
+#: ../src/interface/xmlfunctions.cpp:20
 msgid "Error writing xml file"
 msgstr "Помилка запису файлу xml"
 
@@ -3918,7 +3848,7 @@ msgstr "Зразок: png \"c:\\program files\\viewer\\viewer.exe\" -open"
 msgid "Examples"
 msgstr "Приклади"
 
-#: ../src/engine/http/request.cpp:270
+#: ../src/engine/http/request.cpp:267
 #, c-format
 msgid "Excess data read from '%s'"
 msgstr "Перевищення даних, прочитані з \"%s\""
@@ -4028,8 +3958,8 @@ msgstr "Помилка зміни мови"
 msgid "Failed to convert command to 8 bit charset"
 msgstr "Помилка конвертації команди у 8-бітний набір символів"
 
-#: ../src/engine/sftp/input_parser.cpp:111
-#: ../src/engine/sftp/input_parser.cpp:124
+#: ../src/engine/sftp/input_parser.cpp:115
+#: ../src/engine/sftp/input_parser.cpp:128
 msgid "Failed to convert reply to local character set."
 msgstr "Не вдалося перетворити відповідь на локальний набір символів."
 
@@ -4050,7 +3980,7 @@ msgstr "Помилка створення сокету слухання в по�
 msgid "Failed to create listening socket for active mode transfer"
 msgstr "Помилка створення сокету слухання для передачі в активному режимі"
 
-#: ../src/interface/loginmanager.cpp:98
+#: ../src/interface/loginmanager.cpp:97
 msgid "Failed to decrypt server password."
 msgstr "Не вдалося розшифрувати пароль сервера."
 
@@ -4084,7 +4014,7 @@ msgstr "Помилка завантаження панелей, недійсні
 msgid "Failed to load private key: %s"
 msgstr "Помилка завантаження приватного ключа: %s"
 
-#: ../src/engine/controlsocket.cpp:350
+#: ../src/engine/controlsocket.cpp:351
 msgid "Failed to parse returned path."
 msgstr "Помилка аналізу зворотньої адреси."
 
@@ -4092,7 +4022,7 @@ msgstr "Помилка аналізу зворотньої адреси."
 msgid "Failed to receive data"
 msgstr "Помилка отримання даних"
 
-#: ../src/engine/controlsocket.cpp:187
+#: ../src/engine/controlsocket.cpp:188
 msgid "Failed to retrieve directory listing"
 msgstr "Помилка видобутку списку каталогу"
 
@@ -4197,7 +4127,7 @@ msgstr "У файлі відсутні будь-які дані для імпо�
 msgid "File editing"
 msgstr "Редагування файлу"
 
-#: ../src/interface/RemoteListView.cpp:1675
+#: ../src/interface/RemoteListView.cpp:1672
 msgid "File exists"
 msgstr "Файл існує"
 
@@ -4223,33 +4153,33 @@ msgstr "Файл не знайдено"
 msgid "File search"
 msgstr "Пошук файлу"
 
-#: ../src/engine/controlsocket.cpp:102
+#: ../src/engine/controlsocket.cpp:103
 msgid "File transfer aborted by user"
 msgstr "Передача файлу зупинена користувачем"
 
-#: ../src/engine/controlsocket.cpp:90
+#: ../src/engine/controlsocket.cpp:91
 #, c-format
 msgid "File transfer aborted by user after transferring %s in %s"
 msgstr "Передачу файлів зупинено користувачем після передачі %s в %s"
 
-#: ../src/engine/controlsocket.cpp:116
+#: ../src/engine/controlsocket.cpp:117
 msgid "File transfer failed"
 msgstr "Невдала передача файлу"
 
-#: ../src/engine/controlsocket.cpp:96
+#: ../src/engine/controlsocket.cpp:97
 #, c-format
 msgid "File transfer failed after transferring %s in %s"
 msgstr "Невдала передача файлу після передачі %s в %s"
 
-#: ../src/engine/controlsocket.cpp:109
+#: ../src/engine/controlsocket.cpp:110
 msgid "File transfer skipped"
 msgstr "Передачу пропущено"
 
-#: ../src/engine/controlsocket.cpp:106
+#: ../src/engine/controlsocket.cpp:107
 msgid "File transfer successful"
 msgstr "Файл передано успішно"
 
-#: ../src/engine/controlsocket.cpp:87
+#: ../src/engine/controlsocket.cpp:88
 #, c-format
 msgid "File transfer successful, transferred %s in %s"
 msgstr "Файл передано успішно, передано %s до %s"
@@ -4301,7 +4231,7 @@ msgstr "Ім'я файлу"
 msgid "Filename cannot be constructed for directory %s and filename %s"
 msgstr "Для каталогу %s та імені файлу %s неможливо створити ім'я файлу"
 
-#: ../src/interface/RemoteListView.cpp:1663
+#: ../src/interface/RemoteListView.cpp:1660
 msgid "Filename invalid"
 msgstr "Ім'я файлу не дійсне"
 
@@ -4470,7 +4400,7 @@ msgstr ""
 "аргументи."
 
 #. @translator: Two examples: Found new nightly 2014-04-03\n, Found new release 3.9.0.1\n
-#: ../src/commonui/updater.cpp:811
+#: ../src/commonui/updater.cpp:813
 #, c-format
 msgid "Found new %s %s\n"
 msgstr "Знайдено новий %s %s\n"
@@ -4524,7 +4454,7 @@ msgstr "Глобальні закладки"
 msgid "GnuTLS:"
 msgstr "GnuTLS:"
 
-#: ../src/engine/sftp/input_parser.cpp:95
+#: ../src/engine/sftp/input_parser.cpp:99
 msgid "Got overlong input line, aborting."
 msgstr "Отримав довгий вхідний рядок, перериваю."
 
@@ -4598,7 +4528,7 @@ msgstr "Хост недосяжний"
 
 #: ../src/interface/resources/xrc/dialogs.xrc:37
 #: ../src/interface/resources/xrc/dialogs.xrc:158
-#: ../src/interface/loginmanager.cpp:38 ../src/interface/loginmanager.cpp:166
+#: ../src/interface/loginmanager.cpp:37 ../src/interface/loginmanager.cpp:165
 #: ../src/interface/verifycertdialog.cpp:355
 #: ../src/interface/verifycertdialog.cpp:628
 #: ../src/interface/verifycertdialog.cpp:696
@@ -4614,7 +4544,7 @@ msgstr "Алгоритм ключа хоста:"
 msgid "Hours,"
 msgstr "Години,"
 
-#: ../src/interface/loginmanager.cpp:343
+#: ../src/interface/loginmanager.cpp:342
 msgid ""
 "I &forgot my master password. Delete all passwords stored with this key."
 msgstr ""
@@ -4915,7 +4845,7 @@ msgstr ""
 "Неможливо отримати інформацію про останню версію FileZilla. Спробуйте "
 "пізніше."
 
-#: ../src/engine/ftp/logon.cpp:292
+#: ../src/engine/ftp/logon.cpp:296
 msgid "Initializing TLS..."
 msgstr "Ініціалазація TLS..."
 
@@ -4932,11 +4862,11 @@ msgstr "Небезпечне з'єднання даних FTP"
 msgid "Insecure algorithm!"
 msgstr "Вразливий алгоритм!"
 
-#: ../src/engine/ftp/logon.cpp:278
+#: ../src/engine/ftp/logon.cpp:282
 msgid "Insecure server, it does not support FTP over TLS."
 msgstr "Незахищений сервер, він не підтримує FTP через TLS."
 
-#: ../src/engine/server.cpp:742 ../src/engine/server.cpp:769
+#: ../src/engine/server.cpp:745 ../src/engine/server.cpp:772
 msgid "Interactive"
 msgstr "Інтерактивний"
 
@@ -4948,11 +4878,11 @@ msgstr "Інтерфейс"
 msgid "Intermediate certificate"
 msgstr "Проміжний сертифікат"
 
-#: ../src/engine/controlsocket.cpp:214 ../src/interface/queue.cpp:366
+#: ../src/engine/controlsocket.cpp:215 ../src/interface/queue.cpp:366
 msgid "Interrupted by user"
 msgstr "Перервано користувачем"
 
-#: ../src/engine/http/request.cpp:183 ../src/engine/http/request.cpp:708
+#: ../src/engine/http/request.cpp:180 ../src/engine/http/request.cpp:708
 msgid "Invalid Content-Length"
 msgstr "Недійсна довжина вмісту"
 
@@ -4960,7 +4890,7 @@ msgstr "Недійсна довжина вмісту"
 msgid "Invalid HTTP Response"
 msgstr "Недійсний відгук HTTP"
 
-#: ../src/engine/controlsocket.cpp:481
+#: ../src/engine/controlsocket.cpp:486
 msgid ""
 "Invalid character sequence received, disabling UTF-8. Select UTF-8 option in "
 "site manager to force UTF-8."
@@ -4968,7 +4898,7 @@ msgstr ""
 "Отримано недійсну послідовність знаків, вимкнення UTF-8. В Диспетчера Сайтів "
 "оберіть опцію UTF-8 для примусового виконання UTF-8."
 
-#: ../src/engine/http/request.cpp:837
+#: ../src/engine/http/request.cpp:830
 msgid "Invalid chunk size"
 msgstr "Недійсний розмір чанку"
 
@@ -4987,7 +4917,7 @@ msgstr "Недійсні дані"
 msgid "Invalid filename"
 msgstr "Недійсне ім'я файлу"
 
-#: ../src/commonui/updater.cpp:806
+#: ../src/commonui/updater.cpp:808
 #, c-format
 msgid "Invalid hash: %s\n"
 msgstr "Неприпустимий геш: %s\n"
@@ -5004,9 +4934,9 @@ msgstr "Недійсне ім'я хосту: %s"
 
 #: ../src/interface/asksavepassworddialog.cpp:99
 #: ../src/interface/asksavepassworddialog.cpp:104
-#: ../src/interface/loginmanager.cpp:93 ../src/interface/loginmanager.cpp:98
-#: ../src/interface/loginmanager.cpp:258 ../src/interface/loginmanager.cpp:289
-#: ../src/interface/loginmanager.cpp:379
+#: ../src/interface/loginmanager.cpp:92 ../src/interface/loginmanager.cpp:97
+#: ../src/interface/loginmanager.cpp:257 ../src/interface/loginmanager.cpp:288
+#: ../src/interface/loginmanager.cpp:378
 msgid "Invalid input"
 msgstr "Недійсне введення"
 
@@ -5037,7 +4967,7 @@ msgstr ""
 "ftps:// для FTP через TLS (неявний) і\n"
 "ftpes://для FTP через TLS (явний)."
 
-#: ../src/engine/ftp/logon.cpp:73
+#: ../src/engine/ftp/logon.cpp:77
 msgid ""
 "Invalid proxy host, after closing bracket only colon and port may follow."
 msgstr ""
@@ -5112,11 +5042,11 @@ msgstr "Обмін ключами"
 msgid "Key exchange:"
 msgstr "Обмін ключами:"
 
-#: ../src/engine/server.cpp:739 ../src/engine/server.cpp:767
+#: ../src/engine/server.cpp:742 ../src/engine/server.cpp:770
 msgid "Key file"
 msgstr "Файл ключа"
 
-#: ../src/interface/loginmanager.cpp:55 ../src/interface/loginmanager.cpp:330
+#: ../src/interface/loginmanager.cpp:54 ../src/interface/loginmanager.cpp:329
 msgid "Key identifier:"
 msgstr "Ідентифікатор ключа:"
 
@@ -5171,7 +5101,7 @@ msgstr "Обмежити розмір файлу журналу"
 msgid "Limit:"
 msgstr "Обмежити:"
 
-#: ../src/engine/http/request.cpp:795
+#: ../src/engine/http/request.cpp:788
 msgid "Line length exceeded"
 msgstr "Перевищено довжину лінійки"
 
@@ -5208,7 +5138,7 @@ msgstr "Локальний файл"
 msgid "Local file does not exist."
 msgstr "Локальний файл не існує."
 
-#: ../src/commonui/updater.cpp:442 ../src/commonui/updater.cpp:552
+#: ../src/commonui/updater.cpp:441 ../src/commonui/updater.cpp:551
 #, c-format
 msgid "Local file is %s\n"
 msgstr "Локальним файлом є %s\n"
@@ -5241,7 +5171,7 @@ msgstr "Локальні результати:"
 msgid "Local site:"
 msgstr "Локальний сайт:"
 
-#: ../src/commonui/updater.cpp:860
+#: ../src/commonui/updater.cpp:862
 #, c-format
 msgid "Local size of '%s' does not match expected size: %d != %d"
 msgstr "Локальний розмір '%s' не співпадає з очікуваним розміром: %d != %d"
@@ -5254,7 +5184,7 @@ msgstr "Розташування:"
 msgid "Log file"
 msgstr "Файл журналу"
 
-#: ../src/engine/ftp/logon.cpp:477
+#: ../src/engine/ftp/logon.cpp:481
 msgid "Logged in"
 msgstr "Вхід виконано"
 
@@ -5267,7 +5197,7 @@ msgstr "Вхід"
 msgid "Login (optional):"
 msgstr "Логін (необов'язково):"
 
-#: ../src/engine/ftp/logon.cpp:363
+#: ../src/engine/ftp/logon.cpp:367
 msgid ""
 "Login data contains non-ASCII characters and server might not be UTF-8 "
 "aware. Cannot fall back to local charset since using proxy."
@@ -5276,7 +5206,7 @@ msgstr ""
 "UTF-8. Неможливо повернутись до локальних набору символів через використання "
 "проксі."
 
-#: ../src/engine/ftp/logon.cpp:370
+#: ../src/engine/ftp/logon.cpp:374
 msgid ""
 "Login data contains non-ASCII characters and server might not be UTF-8 "
 "aware. Trying local charset."
@@ -5284,7 +5214,7 @@ msgstr ""
 "Дані входу містять не - ASCII знаки і, можливо, сервер не сприймає кодування "
 "UTF-8. Спроба використати локальний набір символів."
 
-#: ../src/engine/ftp/logon.cpp:397
+#: ../src/engine/ftp/logon.cpp:401
 msgid "Login sequence fully executed yet not logged in, aborting."
 msgstr ""
 "Послідовність входу виконана повністю, проте входу не відбулось, аварійне "
@@ -5333,14 +5263,14 @@ msgid "Make sure the file can be accessed and is a well-formed XML document."
 msgstr ""
 "Переконайтесь, що цей файл є доступним і правильно оформленим документом XML."
 
-#: ../src/engine/http/request.cpp:782 ../src/engine/http/request.cpp:788
-#: ../src/engine/http/request.cpp:795 ../src/engine/http/request.cpp:806
-#: ../src/engine/http/request.cpp:837
+#: ../src/engine/http/request.cpp:775 ../src/engine/http/request.cpp:781
+#: ../src/engine/http/request.cpp:788 ../src/engine/http/request.cpp:799
+#: ../src/engine/http/request.cpp:830
 #, c-format
 msgid "Malformed chunk data: %s"
 msgstr "Погано сформовані дані чанку: %s"
 
-#: ../src/engine/http/request.cpp:183
+#: ../src/engine/http/request.cpp:180
 #, c-format
 msgid "Malformed request header: %s"
 msgstr "Неправильний формат запиту заголовків: %s"
@@ -5369,7 +5299,7 @@ msgstr "Неправильний формат відповіді: %s"
 msgid "Manual transfer"
 msgstr "Ручна передача"
 
-#: ../src/interface/loginmanager.cpp:58 ../src/interface/loginmanager.cpp:333
+#: ../src/interface/loginmanager.cpp:57 ../src/interface/loginmanager.cpp:332
 msgid "Master &Password:"
 msgstr "Головний &Пароль:"
 
@@ -5466,11 +5396,11 @@ msgstr "Ім'я вже існує"
 msgid "Name of bookmark already exists."
 msgstr "Ім'я закладки вже існує."
 
-#: ../src/engine/server.cpp:911 ../src/engine/server.cpp:959
+#: ../src/engine/server.cpp:925 ../src/engine/server.cpp:973
 msgid "Name or email address"
 msgstr "Ім'я або адреса електронної пошти"
 
-#: ../src/interface/loginmanager.cpp:30 ../src/interface/loginmanager.cpp:162
+#: ../src/interface/loginmanager.cpp:29 ../src/interface/loginmanager.cpp:161
 #: ../src/interface/verifycertdialog.cpp:520
 msgid "Name:"
 msgstr "Ім'я:"
@@ -5495,7 +5425,7 @@ msgstr "Потрібно ввести дійсний віддалений шля
 msgid "Need to specify a character encoding"
 msgstr "Потрібно вказати спосіб кодування знаків"
 
-#: ../src/interface/statusbar.cpp:768
+#: ../src/interface/statusbar.cpp:769
 msgid "Network activity:"
 msgstr "Активність у мережі:"
 
@@ -5540,7 +5470,7 @@ msgid "New bookmark"
 msgstr "Нова закладка"
 
 #: ../src/interface/LocalTreeView.cpp:1239
-#: ../src/interface/RemoteListView.cpp:1338
+#: ../src/interface/RemoteListView.cpp:1335
 #: ../src/interface/RemoteTreeView.cpp:1327
 msgid "New directory"
 msgstr "Нова директорія"
@@ -5575,7 +5505,7 @@ msgstr "Ні"
 msgid "No category to export selected"
 msgstr "Не обрано категорії для експортування"
 
-#: ../src/interface/loginmanager.cpp:289
+#: ../src/interface/loginmanager.cpp:288
 msgid "No code given."
 msgstr "Код не вказаний."
 
@@ -5619,6 +5549,10 @@ msgstr "Відсутні зображення"
 msgid "No name for the filterset given."
 msgstr "Не задано імені встановленого фільтру."
 
+#: ../src/engine/local_path.cpp:422
+msgid "No path given"
+msgstr "Шлях не задано"
+
 #: ../src/commonui/xml_file.cpp:221
 #, c-format
 msgid "No permission to open '%s'"
@@ -5658,7 +5592,7 @@ msgstr "Сайти відсутні"
 msgid "No supported SOCKS5 auth method"
 msgstr "Непідтримуваний метод автентифікації для SOCKS5"
 
-#: ../src/interface/loginmanager.cpp:258
+#: ../src/interface/loginmanager.cpp:257
 msgid "No username given."
 msgstr "Не задано імені користувача."
 
@@ -5673,7 +5607,7 @@ msgstr "Жодного"
 msgid "None selected yet"
 msgstr "Нічого не вибрано"
 
-#: ../src/engine/server.cpp:733 ../src/engine/server.cpp:763
+#: ../src/engine/server.cpp:736 ../src/engine/server.cpp:766
 #: ../src/interface/queue.cpp:1015 ../src/interface/queue.cpp:1077
 #: ../src/interface/settings/optionspage_transfer.cpp:96
 msgid "Normal"
@@ -5693,7 +5627,7 @@ msgstr "Не всі елементи можна повторно постави�
 msgid "Not connected"
 msgstr "Не з'єднано"
 
-#: ../src/interface/RemoteListView.cpp:2135
+#: ../src/interface/RemoteListView.cpp:2132
 msgid "Not connected to any server"
 msgstr "Нема під'єднання до жодного серверу"
 
@@ -5725,7 +5659,7 @@ msgstr ""
 "Примітка: Використання загального проксі форсує пасивний режим при "
 "з'єднаннях FTP."
 
-#: ../src/engine/http/request.cpp:554 ../src/engine/http/request.cpp:788
+#: ../src/engine/http/request.cpp:554 ../src/engine/http/request.cpp:781
 msgid "Null character in line"
 msgstr "Символ з Null-значенням у рядку"
 
@@ -5926,7 +5860,7 @@ msgstr "Переписати, якщо розмір &відрізняється"
 msgid "Overwrite if different si&ze or source newer"
 msgstr "Переписати, якщо роз&мір відрізняється або джерело новіше"
 
-#: ../src/commonui/updater.cpp:260
+#: ../src/commonui/updater.cpp:259
 #, c-format
 msgid "Own build type: %s\n"
 msgstr "Власний тип збірки: %s\n"
@@ -5972,7 +5906,7 @@ msgstr "Па&сивний (рекомендовано)"
 msgid "Parameter not a valid URL"
 msgstr "Значення параметру - це недійсна URL адреса"
 
-#: ../src/commonui/updater.cpp:620
+#: ../src/commonui/updater.cpp:622
 #, c-format
 msgid "Parsing %d bytes of version information.\n"
 msgstr "Аналіз %d байт інформації версії.\n"
@@ -6022,7 +5956,7 @@ msgstr "Для каталогу %s та підкаталогу %s шлях ст�
 msgid "Path not found:"
 msgstr "Шляху не знайдено:"
 
-#: ../src/engine/server.cpp:921 ../src/engine/server.cpp:933
+#: ../src/engine/server.cpp:935 ../src/engine/server.cpp:947
 msgid "Path of identity service"
 msgstr "Шлях ідентифікаційної служби"
 
@@ -6043,7 +5977,7 @@ msgstr "Дозвіл"
 msgid "Permissions"
 msgstr "Дозволи"
 
-#: ../src/engine/ftp/logon.cpp:130
+#: ../src/engine/ftp/logon.cpp:134
 msgid "Plain FTP is insecure. Please switch to FTP over TLS."
 msgstr "Звичайне FTP є незахищеним. Перемкніться на FTP через TLS."
 
@@ -6157,7 +6091,7 @@ msgid ""
 "transfers."
 msgstr "Введіть число між 0 і 10 для позначення кількості одночасних передач."
 
-#: ../src/interface/loginmanager.cpp:144
+#: ../src/interface/loginmanager.cpp:143
 msgid "Please enter a password for this server:"
 msgstr "Введіть пароль для даного серверу:"
 
@@ -6172,7 +6106,7 @@ msgstr ""
 msgid "Please enter a unique name for this filter set"
 msgstr "Введіть унікальне ім'я для цих установок фільтру"
 
-#: ../src/interface/loginmanager.cpp:125
+#: ../src/interface/loginmanager.cpp:124
 msgid "Please enter a username for this server:"
 msgstr "Введіть ім'я користувача для цього сервера:"
 
@@ -6200,7 +6134,7 @@ msgstr ""
 "Введіть пряму FTP команду.\n"
 "Використання прямих ftp команд очистить каше каталогу."
 
-#: ../src/interface/loginmanager.cpp:138
+#: ../src/interface/loginmanager.cpp:137
 msgid "Please enter the 2FA code for this server:"
 msgstr "Будь ласка, введіть код 2FA для цього сервера:"
 
@@ -6221,20 +6155,20 @@ msgstr ""
 
 #: ../src/interface/LocalListView.cpp:994
 #: ../src/interface/LocalTreeView.cpp:1235
-#: ../src/interface/RemoteListView.cpp:1325
+#: ../src/interface/RemoteListView.cpp:1322
 #: ../src/interface/RemoteTreeView.cpp:1313
 msgid "Please enter the name of the directory which should be created:"
 msgstr "Введіть ім'я каталогу, який необхідно створити:"
 
-#: ../src/interface/RemoteListView.cpp:2774
+#: ../src/interface/RemoteListView.cpp:2771
 msgid "Please enter the name of the file which should be created:"
 msgstr "Введіть ім'я файлу, який необхідно створити:"
 
-#: ../src/interface/loginmanager.cpp:130
+#: ../src/interface/loginmanager.cpp:129
 msgid "Please enter username and password for this server:"
 msgstr "Введіть ім'я користувача і пароль для даного серверу:"
 
-#: ../src/interface/loginmanager.cpp:325
+#: ../src/interface/loginmanager.cpp:324
 msgid ""
 "Please enter your current master password to change the password settings."
 msgstr ""
@@ -6256,7 +6190,7 @@ msgstr ""
 "У випадку, якщо ваша адреса динамічна або у вас немає зовнішньої адреси, "
 "скористайтеся опцією засобу зовнішнього вирішення."
 
-#: ../src/interface/loginmanager.cpp:23
+#: ../src/interface/loginmanager.cpp:22
 msgid ""
 "Please enter your master password to decrypt the password for this server:"
 msgstr ""
@@ -6473,7 +6407,7 @@ msgstr "Опрацювати &Чергу"
 msgid "Processed %s in %s."
 msgstr "Опрацьовано %s в %s."
 
-#: ../src/engine/server.cpp:748 ../src/engine/server.cpp:773
+#: ../src/engine/server.cpp:751 ../src/engine/server.cpp:776
 msgid "Profile"
 msgstr "Профіль"
 
@@ -6499,12 +6433,12 @@ msgstr "Користувач &проксі:"
 msgid "Proxy authentication failed"
 msgstr "Невдала автентифікація проксі"
 
-#: ../src/engine/ftp/transfersocket.cpp:312
+#: ../src/engine/ftp/transfersocket.cpp:133
 #, c-format
 msgid "Proxy handshake failed: %s"
 msgstr "Невдалий обмін вітаннями з проксі: %s"
 
-#: ../src/engine/ftp/logon.cpp:68
+#: ../src/engine/ftp/logon.cpp:72
 msgid "Proxy host starts with '[' but no closing bracket found."
 msgstr "Хост проксі стартує з дужки '[', однак закриваючої дужки не знайдено."
 
@@ -6531,7 +6465,7 @@ msgstr "Невдалий запит проксі: Невідомий тип ад
 msgid "Proxy sent data while we haven't sent out request yet"
 msgstr "Проксі-сервер надіслав дані, поки ми ще не надіслали запит"
 
-#: ../src/engine/ftp/logon.cpp:95
+#: ../src/engine/ftp/logon.cpp:99
 msgid "Proxy set but proxy host or port invalid"
 msgstr "Проксі встановлено, однак хост проксі або порт не дійсні"
 
@@ -6611,7 +6545,7 @@ msgid "Re&ad"
 msgstr "Чи&тати"
 
 #: ../src/interface/LocalListView.cpp:825
-#: ../src/interface/RemoteListView.cpp:1065
+#: ../src/interface/RemoteListView.cpp:1062
 msgid "Re&fresh"
 msgstr "Он&овити"
 
@@ -6648,7 +6582,7 @@ msgstr "Помилка читання з '%s' ."
 msgid "Really cancel current operation?"
 msgstr "Дійсно скасувати дану операцію?"
 
-#: ../src/interface/RemoteListView.cpp:1420 ../src/interface/search.cpp:1687
+#: ../src/interface/RemoteListView.cpp:1417 ../src/interface/search.cpp:1687
 #, c-format
 msgid "Really delete %d directory with its contents from the server?"
 msgid_plural ""
@@ -6657,7 +6591,7 @@ msgstr[0] "Дійсно видалити %d каталог з усім його 
 msgstr[1] "Дійсно видалити %d каталоги з усім їхнім вмістом з сервера?"
 msgstr[2] "Дійсно видалити %d каталогів з усім їхнім вмістом з сервера?"
 
-#: ../src/interface/RemoteListView.cpp:1417 ../src/interface/search.cpp:1684
+#: ../src/interface/RemoteListView.cpp:1414 ../src/interface/search.cpp:1684
 #, c-format
 msgid "Really delete %d file from the server?"
 msgid_plural "Really delete %d files from the server?"
@@ -6665,7 +6599,7 @@ msgstr[0] "Дійсно видалити %d файл з сервера?"
 msgstr[1] "Дійсно видалити %d файли з сервера?"
 msgstr[2] "Дійсно видалити %d файлів з сервера?"
 
-#: ../src/interface/RemoteListView.cpp:1425 ../src/interface/search.cpp:1692
+#: ../src/interface/RemoteListView.cpp:1422 ../src/interface/search.cpp:1692
 #, c-format
 msgid "Really delete %s and %s from the server?"
 msgstr "Дійсно видалити %s і %s з сервера?"
@@ -6705,7 +6639,7 @@ msgstr "Отримано рядок, що перевищує 10000 символ�
 msgid "Received data tainted"
 msgstr "Отримані дані заблоковано"
 
-#: ../src/commonui/updater.cpp:601
+#: ../src/commonui/updater.cpp:603
 msgid "Received invalid character in version information"
 msgstr "Отримано неприпустимий символ в інформації версії"
 
@@ -6857,7 +6791,7 @@ msgid "Rename selected directory"
 msgstr "Перейменувати обраний каталог"
 
 #: ../src/interface/LocalListView.cpp:829
-#: ../src/interface/RemoteListView.cpp:1069
+#: ../src/interface/RemoteListView.cpp:1066
 msgid "Rename selected files and directories"
 msgstr "Перейменувати обрані файли і каталоги"
 
@@ -6890,7 +6824,7 @@ msgstr ""
 msgid "Request rejected or failed"
 msgstr "Запит відхилено або невдалий"
 
-#: ../src/engine/http/httpcontrolsocket.cpp:259
+#: ../src/engine/http/httpcontrolsocket.cpp:263
 #, c-format
 msgid "Requesting %s"
 msgstr "Запит %s"
@@ -6907,7 +6841,7 @@ msgstr "Потрібне неявне FTP через TLS"
 msgid "Reset and requeue &all"
 msgstr "Скинути і поновити чергу &всіх"
 
-#: ../src/engine/controlsocket.cpp:890 ../src/engine/controlsocket.cpp:895
+#: ../src/engine/controlsocket.cpp:895 ../src/engine/controlsocket.cpp:900
 #, c-format
 msgid "Resolving address of %s"
 msgstr "Приймається рішення стосовно адреси для %s"
@@ -7028,7 +6962,7 @@ msgstr "Збе&регти паролі, захищені головним пар
 msgid "Same as subject, certificate is self-signed"
 msgstr "Так само, як і тема, сертифікат є самопідписаним"
 
-#: ../src/interface/loginmanager.cpp:35
+#: ../src/interface/loginmanager.cpp:34
 msgid "Satellite:"
 msgstr "Супутник:"
 
@@ -7095,7 +7029,7 @@ msgstr "Таємний &ключ доступу:"
 msgid "Security Token Service:"
 msgstr "Служба Маркерів Безпеки:"
 
-#: ../src/interface/statusbar.cpp:548
+#: ../src/interface/statusbar.cpp:549
 msgid "Security information"
 msgstr "Інформація безпеки"
 
@@ -7293,6 +7227,10 @@ msgstr ""
 msgid "Selected port usually in use by a different protocol."
 msgstr "Обраний порт зазвичай використовується іншим протоколом."
 
+#: ../src/commonui/site.cpp:341
+msgid "Selected protocol has no concept of usernames."
+msgstr "У вибраному протоколі відсутнє поняття імен користувачів."
+
 #: ../src/interface/verifycertdialog.cpp:254
 msgid "Self-signed server certificate"
 msgstr "Самопідписаний сертифікат сервера"
@@ -7330,7 +7268,7 @@ msgstr "Шифрування з боку сервера:"
 msgid "Server certificate"
 msgstr "Сертифікат сервера"
 
-#: ../src/engine/ftp/logon.cpp:457 ../src/engine/ftp/logon.cpp:517
+#: ../src/engine/ftp/logon.cpp:461 ../src/engine/ftp/logon.cpp:521
 msgid "Server does not support non-ASCII characters."
 msgstr "Сервер не підтримує символи, які не належать до набору ASCII."
 
@@ -7375,7 +7313,7 @@ msgstr ""
 "Сервер може не підтримувати відновлення файлів > %d Гб. Завершення передачі, "
 "оскільки розміри файлів співпадають."
 
-#: ../src/engine/ftp/logon.cpp:399
+#: ../src/engine/ftp/logon.cpp:403
 msgid ""
 "Server might require an account. Try specifying an account using the Site "
 "Manager"
@@ -7397,7 +7335,7 @@ msgstr "Сервер запитав непідтримуваний алгори�
 msgid "Server requested unsupported quality-of-protection: %s"
 msgstr "Сервер запитав непідтримувану якість захисту: %s"
 
-#: ../src/engine/controlsocket.cpp:347
+#: ../src/engine/controlsocket.cpp:348
 msgid "Server returned empty path."
 msgstr "Сервер повернув порожній шлях."
 
@@ -7607,19 +7545,19 @@ msgstr "Розмір невідомий"
 msgid "Skip file"
 msgstr "Пропустити файл"
 
-#: ../src/engine/controlsocket.cpp:963 ../src/engine/controlsocket.cpp:980
-#: ../src/engine/controlsocket.cpp:1006 ../src/engine/controlsocket.cpp:1069
+#: ../src/engine/controlsocket.cpp:968 ../src/engine/controlsocket.cpp:985
+#: ../src/engine/controlsocket.cpp:1011 ../src/engine/controlsocket.cpp:1074
 #, c-format
 msgid "Skipping download of %s"
 msgstr "Оминаємо завантаження %s"
 
-#: ../src/engine/sftp/connect.cpp:52
+#: ../src/engine/sftp/connect.cpp:56
 #, c-format
 msgid "Skipping non-existing key file \"%s\""
 msgstr "Пропуск неіснуючого файлу ключа \"%s\""
 
-#: ../src/engine/controlsocket.cpp:966 ../src/engine/controlsocket.cpp:983
-#: ../src/engine/controlsocket.cpp:1009 ../src/engine/controlsocket.cpp:1072
+#: ../src/engine/controlsocket.cpp:971 ../src/engine/controlsocket.cpp:988
+#: ../src/engine/controlsocket.cpp:1014 ../src/engine/controlsocket.cpp:1077
 #, c-format
 msgid "Skipping upload of %s"
 msgstr "Оминаємо відвантаження %s"
@@ -7679,11 +7617,11 @@ msgstr "Обмеження швидкості"
 msgid "Speed limits"
 msgstr "Обмеження швидкості"
 
-#: ../src/interface/statusbar.cpp:626
+#: ../src/interface/statusbar.cpp:627
 msgid "Speed limits are disabled, click to change."
 msgstr "Обмеження швидкості вимкнуто, клацніть, щоб змінити."
 
-#: ../src/interface/statusbar.cpp:629
+#: ../src/interface/statusbar.cpp:630
 msgid "Speed limits are enabled, click to change."
 msgstr "Обмеження швидкості увімкнуто, клацніть, щоб змінити."
 
@@ -7707,7 +7645,7 @@ msgstr "Розпочати передачу &негайно"
 msgid "Start with opened Site Manager"
 msgstr "Розпочати з відкритим Диспетчером Сайтів"
 
-#: ../src/commonui/updater.cpp:250
+#: ../src/commonui/updater.cpp:249
 #, c-format
 msgid "Started update check on %s\n"
 msgstr "Розпочато перевірку оновлення на %s\n"
@@ -7833,7 +7771,7 @@ msgstr "Подробиці системи"
 msgid "T&oolbar"
 msgstr "П&анель інструментів"
 
-#: ../src/engine/http/httpcontrolsocket.cpp:234
+#: ../src/engine/http/httpcontrolsocket.cpp:238
 msgid "TLS connection established, sending HTTP request"
 msgstr "З'єднання TLS встановлено, надсилається запит HTTP"
 
@@ -7877,11 +7815,11 @@ msgstr "Кінцевий файл уже існує"
 msgid "Target file:"
 msgstr "Кінцевий файл:"
 
-#: ../src/interface/RemoteListView.cpp:2792
+#: ../src/interface/RemoteListView.cpp:2789
 msgid "Target filename already exists!"
 msgstr "Ім'я кінцевого файлу вже існує!"
 
-#: ../src/interface/RemoteListView.cpp:1675
+#: ../src/interface/RemoteListView.cpp:1672
 msgid "Target filename already exists, really continue?"
 msgstr "Ім'я кінцевого файлу вже існує, продовжувати далі?"
 
@@ -7946,7 +7884,7 @@ msgstr "Додати закладку неможливо."
 msgid "The bookmarks could not be cleared."
 msgstr "Очистити закладки неможливо."
 
-#: ../src/interface/statusbar.cpp:509
+#: ../src/interface/statusbar.cpp:510
 msgid "The connection is encrypted. Click icon for details."
 msgstr "З'єднання шифроване. Натисніть на іконку задля отримання подробиць."
 
@@ -7968,7 +7906,7 @@ msgstr ""
 "Формат настроюваного часу недійсний, або містить непідтримувані визначники "
 "формату."
 
-#: ../src/engine/ftp/transfersocket.cpp:315
+#: ../src/engine/ftp/transfersocket.cpp:136
 #, c-format
 msgid "The data connection could not be established: %s"
 msgstr "Передачу даних не вдається установити: %s"
@@ -8449,7 +8387,7 @@ msgstr "Черга передачі"
 msgid "Transfer Settings"
 msgstr "Налаштування передачі"
 
-#: ../src/engine/ftp/transfersocket.cpp:661
+#: ../src/engine/ftp/transfersocket.cpp:482
 #, c-format
 msgid "Transfer connection interrupted: %s"
 msgstr "Під'єднання перервано: %s"
@@ -8537,7 +8475,7 @@ msgstr "КОРИСТУВАЧ@&ХОСТ"
 msgid "Unassigned error code %d"
 msgstr "Неініціалізоаний код помилки %d"
 
-#: ../src/engine/http/request.cpp:266
+#: ../src/engine/http/request.cpp:263
 #, c-format
 msgid "Unexpected end-of-file on '%s'"
 msgstr "Неочікуваний кінець файлу на \"%s\""
@@ -8561,7 +8499,7 @@ msgstr "Модуль:"
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: ../src/engine/ftp/logon.cpp:815
+#: ../src/engine/ftp/logon.cpp:819
 msgid "Unknown FTP proxy type, cannot generate login sequence."
 msgstr ""
 "Невідомий тип FTP проксі, неможливо згенерувати послідовність логінування."
@@ -8575,7 +8513,7 @@ msgstr "Невідома версія протоколу SOCKS: %d"
 msgid "Unknown certificate"
 msgstr "Невідомий сертифікат"
 
-#: ../src/interface/Options.cpp:185 ../src/interface/xmlfunctions.cpp:13
+#: ../src/interface/Options.cpp:185 ../src/interface/xmlfunctions.cpp:18
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
@@ -8589,7 +8527,7 @@ msgstr "Невідома помилка %d"
 msgid "Unknown error %u"
 msgstr "Невідома помилка %u"
 
-#: ../src/engine/sftp/input_parser.cpp:152
+#: ../src/engine/sftp/input_parser.cpp:156
 #, c-format
 msgid "Unknown eventType %d"
 msgstr "Невідомий тип події %d"
@@ -8662,12 +8600,12 @@ msgstr "&Обмеження відвантаження:"
 msgid "Upload failed"
 msgstr "Невдале відвантаження"
 
-#: ../src/interface/statusbar.cpp:639
+#: ../src/interface/statusbar.cpp:640
 #, c-format
 msgid "Upload limit: %s/s"
 msgstr "Обмеження відвантаження: %s/s"
 
-#: ../src/interface/statusbar.cpp:642
+#: ../src/interface/statusbar.cpp:643
 msgid "Upload limit: none"
 msgstr "Обмеження відвантаження: жодного"
 
@@ -8692,7 +8630,7 @@ msgstr "Відвантажити даний файл назад на серве�
 msgid "Upload this file to the server?"
 msgstr "Відвантажити даний файл на сервер?"
 
-#: ../src/interface/statusbar.cpp:768
+#: ../src/interface/statusbar.cpp:769
 #, c-format
 msgid "Upload: %s/s"
 msgstr "Швидкість відвантаження: %s/с"
@@ -8794,7 +8732,7 @@ msgstr ""
 "використовуєте активний режим вперше. На сервер передається лише версія "
 "FileZilla."
 
-#: ../src/interface/loginmanager.cpp:47 ../src/interface/loginmanager.cpp:170
+#: ../src/interface/loginmanager.cpp:46 ../src/interface/loginmanager.cpp:169
 msgid "User:"
 msgstr "Користувач:"
 
@@ -8972,7 +8910,7 @@ msgstr "Бажаєте, щоб FileZilla пам'ятала паролі?"
 msgid "Wr&ite"
 msgstr "Пи&сати"
 
-#: ../src/engine/ftp/transfersocket.cpp:397
+#: ../src/engine/ftp/transfersocket.cpp:218
 msgid "Wrong ALPN on data connection"
 msgstr "Неправильний ALPN на підключенні даних"
 
@@ -8981,11 +8919,11 @@ msgstr "Неправильний ALPN на підключенні даних"
 msgid "Wrong external IP address"
 msgstr "Неправильна зовнішня ІР адреса"
 
-#: ../src/engine/http/request.cpp:782
+#: ../src/engine/http/request.cpp:775
 msgid "Wrong line endings"
 msgstr "Неправильні закінчення рядка"
 
-#: ../src/interface/loginmanager.cpp:379
+#: ../src/interface/loginmanager.cpp:378
 msgid ""
 "Wrong master password entered, it cannot be used to decrypt the stored "
 "passwords."
@@ -8993,7 +8931,7 @@ msgstr ""
 "Введено неправильний головний пароль, який не можна використати для "
 "дешифрування збережених паролів."
 
-#: ../src/interface/loginmanager.cpp:93
+#: ../src/interface/loginmanager.cpp:92
 msgid "Wrong master password entered, it cannot be used to decrypt this item."
 msgstr ""
 "Введено неправильний головний пароль, який не можна використати для "
@@ -9252,7 +9190,7 @@ msgstr "байти"
 msgid "contains"
 msgstr "вміщує"
 
-#: ../src/commonui/updater.cpp:255
+#: ../src/commonui/updater.cpp:254
 msgid "custom"
 msgstr "додатково"
 
@@ -9289,15 +9227,15 @@ msgstr ""
 "Переконайтесь, що він знаходиться у тому ж каталозі, що і головний "
 "виконуючий файл FileZilla."
 
-#: ../src/engine/sftp/connect.cpp:164
+#: ../src/engine/sftp/connect.cpp:153
 msgid "fzsftp belongs to a different version of FileZilla"
 msgstr "fzsftp належить до іншої версії FileZilla"
 
-#: ../src/engine/sftp/connect.cpp:204
+#: ../src/engine/sftp/connect.cpp:193
 msgid "fzsftp could not be started"
 msgstr "функцію fzsftp неможливо запустити"
 
-#: ../src/engine/storj/connect.cpp:126
+#: ../src/engine/storj/connect.cpp:114
 msgid "fzstorj belongs to a different version of FileZilla"
 msgstr "fzstorj належить до іншої версії FileZilla"
 
@@ -9387,6 +9325,48 @@ msgstr "глобальний запис"
 #: ../src/interface/aboutdialog.cpp:79
 msgid "wxWidgets:"
 msgstr "wxВіджети:"
+
+#~ msgid "Could not allocate memory to open '%s' for reading."
+#~ msgstr "Не вдалося виділити пам’ять, щоб відкрити '%s' для читання."
+
+#~ msgid "Could not allocate memory to open '%s' for writing."
+#~ msgstr "Не вдалося виділити пам’ять, щоб відкрити '%s' для запису."
+
+#~ msgid "Could not obtain size of '%s'."
+#~ msgstr "Не вдалося отримати розмір '%s'."
+
+#~ msgid "Could not open '%s' for reading."
+#~ msgstr "Не вдалося відкрити \"%s\" для читання."
+
+#~ msgid "Could not open '%s' for writing."
+#~ msgstr "Не вдалося відкрити \"%s\" для запису."
+
+#~ msgid "Could not read from '%s'."
+#~ msgstr "Не вдалося прочитати з \"%s\"."
+
+#~ msgid "Could not seek to offset %d in '%s' of size %d."
+#~ msgstr "Не вдалося компенсувати %d у \"%s\" розміром %d."
+
+#~ msgid "Could not seek to offset %d in '%s'."
+#~ msgstr "Не вдалося компенсувати %d у \"%s\" ."
+
+#~ msgid "Could not seek to offset %d within '%s'."
+#~ msgstr "Не вдалося компенсувати %d в межах '%s'."
+
+#~ msgid "Could not spawn worker thread for reading '%s'."
+#~ msgstr "Не вдалося створити робочий потік для читання \"%s\"."
+
+#~ msgid "Could not spawn worker thread for writing '%s'."
+#~ msgstr "Не вдалося створити робочий потік для запису \"%s\"."
+
+#~ msgid "Could not sync '%s' to disk."
+#~ msgstr "Не вдалося синхронізувати '%s' на диску."
+
+#~ msgid "Could not truncate '%s' to offset %d."
+#~ msgstr "Не вдалося усікти '%s' для компенсації %d."
+
+#~ msgid "Could not write to '%s'."
+#~ msgstr "Не вдалося записати в \"%s\"."
 
 #~ msgid "Cannot load toolbar from resource file"
 #~ msgstr "Неможливо завантажити панель інструментів з вихідного файлу"
