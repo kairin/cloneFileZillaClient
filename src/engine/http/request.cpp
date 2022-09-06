@@ -114,12 +114,7 @@ int CHttpRequestOpData::Send()
 			log(logmsg::debug_warning, L"No request verb");
 			return FZ_REPLY_INTERNALERROR;
 		}
-		std::string host_header = req.uri_.host_;
-		if (req.uri_.port_ != 0) {
-			host_header += ':';
-			host_header += fz::to_string(req.uri_.port_);
-		}
-		req.headers_["Host"] = host_header;
+		req.headers_["Host"] = get_host_header(req.uri_);
 		auto pos = req.headers_.find("Connection");
 		if (pos == req.headers_.end()) {
 			// TODO: consider making keep-alive the default

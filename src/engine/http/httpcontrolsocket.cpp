@@ -379,3 +379,18 @@ void CHttpControlSocket::SetSocketBufferSizes()
 #endif
 	socket_->set_buffer_sizes(size_read, size_write);
 }
+
+std::string get_host_header(fz::uri const& uri)
+{
+	if (uri.port_ == 0) {
+		return uri.host_;
+	}
+	else if (uri.port_ == 443 && fz::equal_insensitive_ascii(uri.scheme_, "https")) {
+		return uri.host_;
+	}
+	else if (uri.port_ == 80 && fz::equal_insensitive_ascii(uri.scheme_, "http")) {
+		return uri.host_;
+	}
+
+	return uri.host_ + ":" + fz::to_string(uri.port_);
+}

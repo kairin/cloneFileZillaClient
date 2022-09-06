@@ -239,4 +239,6 @@ private:
 
 typedef CProtocolOpData<CHttpControlSocket> CHttpOpData;
 
+std::string get_host_header(fz::uri const& uri);
+
 #endif
