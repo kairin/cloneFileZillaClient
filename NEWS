@@ -10,6 +10,12 @@ Legend:
     *nix: Unix (e.g BSD) and Unix-like systems (e.g. Linux)
     macOS/OS X: Apple macOS
 
+3.61.0-beta1 (2022-09-07)
+
++ Use improved asynchronous file readers/writers from libfilezilla
+- Fix export of root items in the Site Manager
+- Handle rare cases of non-existing download directory in the update
+
 3.60.2 (2022-07-22)
 
 - Updated to libfilezilla 0.38.1 to address an issue with child process termination resulting in freezes
