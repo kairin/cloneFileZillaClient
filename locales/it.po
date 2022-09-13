@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Filezilla italian translation v. 31.08.2022\n"
+"Project-Id-Version: Filezilla italian translation v. 08.09.2022\n"
 "Report-Msgid-Bugs-To: https://trac.filezilla-project.org/\n"
 "POT-Creation-Date: 2022-09-06 11:28+0200\n"
-"PO-Revision-Date: 2022-08-31 10:56+0200\n"
+"PO-Revision-Date: 2022-09-08 11:00+0200\n"
 "Last-Translator: bovirus <bovirus@gmail.com>\n"
 "Language-Team: bovirus - Andrea Sanavia - Vincenzo Reale - Riccardo Vianello "
 "<bovirus@gmail.com>\n"
@@ -7229,7 +7229,7 @@ msgstr "La porta selezionata di solito viene usata da un protocollo diverso."
 
 #: ../src/commonui/site.cpp:341
 msgid "Selected protocol has no concept of usernames."
-msgstr ""
+msgstr "Il protocollo selezionato non ha il concetto di nomi utente."
 
 #: ../src/interface/verifycertdialog.cpp:254
 msgid "Self-signed server certificate"
