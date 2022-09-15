@@ -14,6 +14,8 @@
 
 #include <libfilezilla/file.hpp>
 
+#include <wx/statbox.h>
+
 BEGIN_EVENT_TABLE(CClearPrivateDataDialog, wxDialogEx)
 EVT_TIMER(wxID_ANY, CClearPrivateDataDialog::OnTimer)
 END_EVENT_TABLE()
@@ -25,45 +27,68 @@ CClearPrivateDataDialog::CClearPrivateDataDialog(CMainFrame* pMainFrame)
 
 void CClearPrivateDataDialog::Run()
 {
-	if (!Load(m_pMainFrame, _T("ID_CLEARPRIVATEDATA"))) {
+	if (!wxDialogEx::Create(nullptr, nullID, _("Clear private data"))) {
 		return;
 	}
+
+	auto & lay = layout();
+	auto main = lay.createMain(this, 1);
+
+	main->Add(new wxStaticText(this, nullID, _("Select the private data you would like to delete.")));
+
+	auto [box, inner] = lay.createStatBox(main, _("Categories to clear"), 1);
+
+	auto clearQuickconnect = new wxCheckBox(box, nullID, _("&Quickconnect history"));
+	inner->Add(clearQuickconnect);
+	auto clearReconnect = new wxCheckBox(box, nullID, _("&Reconnect information"));
+	inner->Add(clearReconnect);
+	auto clearSitemanager = new wxCheckBox(box, nullID, _("&Site Manager entries"));
+	inner->Add(clearSitemanager);
+	auto clearQueue = new wxCheckBox(box, nullID, _("&Transfer queue"));
+	inner->Add(clearQueue);
+
+	auto buttons = lay.createButtonSizer(this, main, false);
+
+	auto ok = new wxButton(this, wxID_OK, _("&OK"));
+	ok->SetDefault();
+	buttons->AddButton(ok);
+
+	auto cancel = new wxButton(this, wxID_CANCEL, _("Cancel"));
+	buttons->AddButton(cancel);
+
+	buttons->Realize();
 
 	if (ShowModal() != wxID_OK) {
 		return;
 	}
 
-	wxCheckBox *pSitemanagerCheck = XRCCTRL(*this, "ID_CLEARSITEMANAGER", wxCheckBox);
-	wxCheckBox *pQueueCheck = XRCCTRL(*this, "ID_CLEARQUEUE", wxCheckBox);
-	if (pSitemanagerCheck->GetValue() && pQueueCheck->GetValue()) {
+	if (clearSitemanager->GetValue() && clearQueue->GetValue()) {
 		int res = wxMessageBoxEx(_("Do you really want to delete all Site Manager entries and the transfer queue?"), _("Clear private data"), wxYES | wxNO | wxICON_QUESTION);
 		if (res != wxYES) {
 			return;
 		}
 	}
-	else if (pQueueCheck->GetValue()) {
+	else if (clearQueue->GetValue()) {
 		int res = wxMessageBoxEx(_("Do you really want to delete the transfer queue?"), _("Clear private data"), wxYES | wxNO | wxICON_QUESTION);
 		if (res != wxYES) {
 			return;
 		}
 	}
-	else if (pSitemanagerCheck->GetValue()) {
+	else if (clearSitemanager->GetValue()) {
 		int res = wxMessageBoxEx(_("Do you really want to delete all Site Manager entries?"), _("Clear private data"), wxYES | wxNO | wxICON_QUESTION);
 		if (res != wxYES) {
 			return;
 		}
 	}
 
-	wxCheckBox *pCheck = XRCCTRL(*this, "ID_CLEARQUICKCONNECT", wxCheckBox);
-	if (pCheck && pCheck->GetValue()) {
+	if (clearQuickconnect->GetValue()) {
 		CRecentServerList::Clear();
 		if (m_pMainFrame->GetQuickconnectBar()) {
 			m_pMainFrame->GetQuickconnectBar()->ClearFields();
 		}
 	}
 
-	pCheck = XRCCTRL(*this, "ID_CLEARRECONNECT", wxCheckBox);
-	if (pCheck && pCheck->GetValue()) {
+	if (clearReconnect->GetValue()) {
 		bool asked = false;
 
 		const std::vector<CState*> *states = CContextManager::Get()->GetAllStates();
@@ -95,7 +120,7 @@ void CClearPrivateDataDialog::Run()
 		ClearReconnect();
 	}
 
-	if (pSitemanagerCheck->GetValue()) {
+	if (clearSitemanager->GetValue()) {
 		CInterProcessMutex sitemanagerMutex(MUTEX_SITEMANAGERGLOBAL, false);
 		while (sitemanagerMutex.TryLock() == 0) {
 			int res = wxMessageBoxEx(_("The Site Manager is opened in another instance of FileZilla 3.\nPlease close it or the data cannot be deleted."), _("Clear private data"), wxOK | wxCANCEL);
@@ -107,7 +132,7 @@ void CClearPrivateDataDialog::Run()
 		RemoveXmlFile(L"sitemanager");
 	}
 
-	if (pQueueCheck->GetValue()) {
+	if (clearQueue->GetValue()) {
 		m_pMainFrame->GetQueue()->SetActive(false);
 		m_pMainFrame->GetQueue()->RemoveAll();
 	}
