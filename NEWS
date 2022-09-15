@@ -18,7 +18,7 @@ Legend:
 
 + Use improved asynchronous file readers/writers from libfilezilla
 - Fix export of root items in the Site Manager
-- Handle rare cases of non-existing download directory in the update
+- Handle rare cases of non-existing download directory in the updater
 
 3.60.2 (2022-07-22)
 
