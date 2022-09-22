@@ -98,10 +98,12 @@ public:
 	}
 	wxBitmap CreateBitmap(wxArtID const& id, wxArtClient const& client, wxSize const& size, bool allowDummy);
 
+	wxStaticBitmap* createStaticBitmap(wxWindow* parent, std::wstring const& name, iconSize s);
+
 private:
 	wxBitmap const& GetEmpty(wxSize const& size);
 
-	virtual void OnOptionsChanged(watched_options const& options);
+	virtual void OnOptionsChanged(watched_options const& options) override;
 
 	COptions& options_;
 	CLocalPath cacheDir_;

@@ -170,6 +170,7 @@ wxBitmap const& CTheme::LoadBitmapWithSpecificSizeAndScale(CLocalPath const& cac
 #ifdef __WXMAC__
 	double factor = static_cast<double>(image.GetSize().x) / scale.x;
 	auto inserted = cache.bitmaps_.insert(std::make_pair(scale, wxBitmap(image, -1, factor)));
+	(void)cacheDir;
 #else
 	if (image.GetSize() != scale) {
 		image.Rescale(scale.x, scale.y, wxIMAGE_QUALITY_HIGH);
@@ -573,3 +574,11 @@ double CThemeProvider::GetUIScaleFactor()
 		return x / 16.;
 	}
 }
+
+wxStaticBitmap* CThemeProvider::createStaticBitmap(wxWindow* parent, std::wstring const& name, iconSize s)
+{
+	auto const size = CThemeProvider::GetIconSize(s);
+	return new wxStaticBitmap(parent, -1, CreateBitmap(name, wxString(), size), wxDefaultPosition, size);
+}
+
+

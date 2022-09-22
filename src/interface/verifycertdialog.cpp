@@ -223,8 +223,7 @@ bool CVerifyCertDialog::CreateVerificationDialog(CCertificateNotification const&
 	outer->AddGrowableCol(1);
 	outer->AddGrowableRow(0);
 
-	wxBitmap bmp = CThemeProvider::Get()->CreateBitmap(L"ART_LOCK", wxART_OTHER, CThemeProvider::GetIconSize(iconSizeNormal));
-	auto icon = new wxStaticBitmap(this, nullID, bmp);
+	auto icon = CThemeProvider::Get()->createStaticBitmap(this, L"ART_LOCK", iconSizeNormal);
 	outer->Add(icon);
 
 	auto main = lay.createFlex(1);
