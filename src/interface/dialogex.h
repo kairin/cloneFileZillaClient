@@ -10,6 +10,7 @@ public:
 	int gap{};
 	int border{};
 	int indent{};
+	wxSize defTextCtrlSize;
 
 	int dlgUnits(int num) const;
 

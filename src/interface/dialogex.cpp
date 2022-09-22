@@ -249,6 +249,11 @@ DialogLayout::DialogLayout(wxTopLevelWindow * parent)
 	gap = dlgUnits(3);
 	border = dlgUnits(3);
 	indent = dlgUnits(10);
+#if defined(__WXMAC__) && wxCHECK_VERSION(3, 2, 1)
+	defTextCtrlSize = parent ? parent->ConvertDialogToPixels(wxSize(50, -1)) : wxDefaultSize;
+#else
+	defTextCtrlSize = wxDefaultSize;
+#endif
 }
 
 int DialogLayout::dlgUnits(int num) const

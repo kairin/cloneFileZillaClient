@@ -18,11 +18,20 @@
 
 #ifdef __WXMSW__
 const int border_offset = 0;
+#elif defined(__WXMAC__) && wxCHECK_VERSION(3, 2, 1)
+const int border_offset = 12;
 #elif defined(__WXMAC__)
 const int border_offset = 6;
 #else
 const int border_offset = 10;
 #endif
+
+#if defined(__WXMAC__) && wxCHECK_VERSION(3, 2, 1)
+const int combo_offset = -1;
+#else
+const int combo_offset = 0;
+#endif
+
 
 // wxComboBox derived class which captures WM_CANCELMODE under Windows
 class CComboBoxEx : public wxComboBox
@@ -101,6 +110,7 @@ void CViewHeader::OnSize(wxSizeEvent&)
 	rect.SetX(m_cbOffset);
 	rect.Deflate(0, border_offset / 2);
 	rect.SetWidth(std::max(0, rect.GetWidth() - border_offset / 2));
+	rect.y += combo_offset;
 	if (m_pComboBox) {
 		m_pComboBox->SetSize(rect);
 	}
