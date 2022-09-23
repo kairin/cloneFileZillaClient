@@ -1941,6 +1941,9 @@ static int psftp_connect(char *userhost, char *user, int portnumber)
     if (portnumber)
         conf_set_int(conf, CONF_port, portnumber);
 
+    /* fz: we always need a mainchan */
+    conf_set_bool(conf, CONF_ssh_no_shell, false);
+
     /*
      * Disable scary things which shouldn't be enabled for simple
      * things like SCP and SFTP: agent forwarding, port forwarding,
