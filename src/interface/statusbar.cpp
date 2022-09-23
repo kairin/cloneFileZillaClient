@@ -188,7 +188,6 @@ int wxStatusBarEx::GetGripperWidth()
 }
 
 
-
 BEGIN_EVENT_TABLE(CWidgetsStatusBar, wxStatusBarEx)
 EVT_SIZE(CWidgetsStatusBar::OnSize)
 END_EVENT_TABLE()
@@ -227,7 +226,6 @@ bool CWidgetsStatusBar::AddField(int field, int idx, wxWindow* pChild)
 	t_statbar_child data;
 	data.field = field;
 	data.pChild = pChild;
-
 	m_children[idx] = data;
 
 	if (statbarWidths[field] >= 0) {
@@ -270,7 +268,7 @@ void CWidgetsStatusBar::PositionChildren(int field)
 		const wxSize size = iter->second.pChild->GetSize();
 		int position = rect.GetRight() - size.x - offset;
 
-		iter->second.pChild->SetSize(position, rect.GetTop() + (rect.GetHeight() - size.y + 1) / 2, -1, -1);
+		iter->second.pChild->SetPosition(wxPoint(position, rect.GetTop() + (rect.GetHeight() - size.y + 1) / 2));
 
 		offset += size.x + 3;
 	}
@@ -284,11 +282,11 @@ void CWidgetsStatusBar::SetFieldWidth(int field, int width)
 	}
 }
 
-class CIndicator : public wxStaticBitmap
+class CIndicator final : public wxStaticBitmap
 {
 public:
-	CIndicator(CStatusBar* pStatusBar, const wxBitmap& bmp)
-		: wxStaticBitmap(pStatusBar, wxID_ANY, bmp)
+	CIndicator(CStatusBar* pStatusBar, const wxBitmap& bmp, wxSize const& size)
+		: wxStaticBitmap(pStatusBar, wxID_ANY, bmp, wxDefaultPosition, size)
 	{
 		m_pStatusBar = pStatusBar;
 	}
@@ -440,14 +438,9 @@ void CStatusBar::DisplayDataType()
 			desc = _("Current transfer type is set to automatic detection.");
 		}
 
-		wxBitmap bmp = CThemeProvider::Get()->CreateBitmap(name, wxART_OTHER, CThemeProvider::GetIconSize(iconSizeSmall));
-		if (!m_pDataTypeIndicator) {
-			m_pDataTypeIndicator = new CIndicator(this, bmp);
-			AddField(0, widget_datatype, m_pDataTypeIndicator);
-		}
-		else {
-			m_pDataTypeIndicator->SetBitmap(bmp);
-		}
+		wxSize const s = CThemeProvider::GetIconSize(iconSizeSmall);
+		wxBitmap bmp = CThemeProvider::Get()->CreateBitmap(name, wxART_OTHER, s);
+		SetFieldBitmap(widget_datatype, m_pDataTypeIndicator, bmp, s);
 		m_pDataTypeIndicator->SetToolTip(desc);
 	}
 }
@@ -503,15 +496,10 @@ void CStatusBar::DisplayEncrypted()
 		}
 	}
 	else {
-		wxBitmap bmp = CThemeProvider::Get()->CreateBitmap(_T("ART_LOCK"), wxART_OTHER,  CThemeProvider::GetIconSize(iconSizeSmall));
-		if (!m_pEncryptionIndicator) {
-			m_pEncryptionIndicator = new CIndicator(this, bmp);
-			AddField(0, widget_encryption, m_pEncryptionIndicator);
-			m_pEncryptionIndicator->SetToolTip(_("The connection is encrypted. Click icon for details."));
-		}
-		else {
-			m_pEncryptionIndicator->SetBitmap(bmp);
-		}
+		wxSize const s = CThemeProvider::GetIconSize(iconSizeSmall);
+		wxBitmap bmp = CThemeProvider::Get()->CreateBitmap(L"ART_LOCK", wxART_OTHER, s);
+		SetFieldBitmap(widget_encryption, m_pEncryptionIndicator, bmp, s);
+		m_pEncryptionIndicator->SetToolTip(_("The connection is encrypted. Click icon for details."));
 	}
 }
 
@@ -608,12 +596,12 @@ void CStatusBar::UpdateSpeedLimitsIcon()
 {
 	bool enable = options_.get_int(OPTION_SPEEDLIMIT_ENABLE) != 0;
 
-	wxBitmap bmp = CThemeProvider::Get()->CreateBitmap(_T("ART_SPEEDLIMITS"), wxART_OTHER, CThemeProvider::GetIconSize(iconSizeSmall));
+	auto const s = CThemeProvider::GetIconSize(iconSizeSmall);
+	wxBitmap bmp = CThemeProvider::Get()->CreateBitmap(L"ART_SPEEDLIMITS", wxART_OTHER, s);
 	if (!bmp.Ok()) {
 		return;
 	}
 	wxString tooltip;
-
 	int downloadLimit = options_.get_int(OPTION_SPEEDLIMIT_INBOUND);
 	int uploadLimit = options_.get_int(OPTION_SPEEDLIMIT_OUTBOUND);
 	if (!enable || (!downloadLimit && !uploadLimit)) {
@@ -644,13 +632,7 @@ void CStatusBar::UpdateSpeedLimitsIcon()
 		}
 	}
 
-	if (!m_pSpeedLimitsIndicator) {
-		m_pSpeedLimitsIndicator = new CIndicator(this, bmp);
-		AddField(0, widget_speedlimit, m_pSpeedLimitsIndicator);
-	}
-	else {
-		m_pSpeedLimitsIndicator->SetBitmap(bmp);
-	}
+	SetFieldBitmap(widget_speedlimit, m_pSpeedLimitsIndicator, bmp, s);
 	m_pSpeedLimitsIndicator->SetToolTip(tooltip);
 }
 
@@ -770,4 +752,21 @@ void CStatusBar::UpdateActivityTooltip()
 
 	activityLeds_[0]->SetToolTip(tooltipText);
 	activityLeds_[1]->SetToolTip(tooltipText);
+}
+
+void CStatusBar::SetFieldBitmap(int field, wxStaticBitmap*& indicator, wxBitmap const& bmp, wxSize const& s)
+{
+	if (indicator) {
+#if defined(__WXMAC__) && wxCHECK_VERSION(3, 2, 1)
+		RemoveField(field);
+		indicator->Destroy();
+		indicator = nullptr;
+#else
+		indicator->SetBitmap(bmp);
+#endif
+	}
+	if (!indicator) {
+		indicator = new CIndicator(this, bmp, s);
+		AddField(0, field, indicator);
+	}
 }

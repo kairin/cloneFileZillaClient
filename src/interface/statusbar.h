@@ -104,6 +104,8 @@ public:
 	void OnHandleRightClick(wxWindow* wnd);
 
 protected:
+	void SetFieldBitmap(int field, wxStaticBitmap*& indicator, wxBitmap const& bmp, wxSize const& s);
+
 	void OnActivity();
 	void UpdateActivityTooltip();
 	void UpdateSizeFormat();
