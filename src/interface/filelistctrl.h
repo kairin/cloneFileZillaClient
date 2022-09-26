@@ -613,6 +613,7 @@ private:
 	void OnProcessMouseEvent(wxCommandEvent& event);
 #endif
 	void OnKeyDown(wxKeyEvent& event);
+	void OnColorChange(wxSysColourChangedEvent & ev);
 
 	COptionsBase& options_;
 

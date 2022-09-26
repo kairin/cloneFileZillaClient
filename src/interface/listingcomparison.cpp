@@ -24,10 +24,10 @@ void CComparableListing::InitColors()
 		m_comparisonBackgrounds[2].SetBackgroundColour(wxColour(128, 255, 128));
 	}
 	else {
-		// Light background
-		m_comparisonBackgrounds[0].SetBackgroundColour(wxColour(192, 64, 64));
-		m_comparisonBackgrounds[1].SetBackgroundColour(wxColour(192, 192, 64));
-		m_comparisonBackgrounds[2].SetBackgroundColour(wxColour(64, 192, 64));
+		// Dark background
+		m_comparisonBackgrounds[0].SetBackgroundColour(wxColour(160, 32, 32));
+		m_comparisonBackgrounds[1].SetBackgroundColour(wxColour(160, 160, 32));
+		m_comparisonBackgrounds[2].SetBackgroundColour(wxColour(32, 160, 32));
 	}
 }
 

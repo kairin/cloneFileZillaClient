@@ -39,6 +39,7 @@ EVT_LEFT_DOWN(CFileListCtrl<CFileData>::OnLeftDown)
 EVT_COMMAND(wxID_ANY, fz_EVT_DEFERRED_MOUSEEVENT, CFileListCtrl<CFileData>::OnProcessMouseEvent)
 #endif
 EVT_KEY_DOWN(CFileListCtrl<CFileData>::OnKeyDown)
+EVT_SYS_COLOUR_CHANGED(CFileListCtrl<CFileData>::OnColorChange)
 END_EVENT_TABLE()
 
 #ifdef __WXMSW__
@@ -1176,3 +1177,10 @@ template<class CFileData> CFileListCtrlSortBase& CFileListCtrl<CFileData>::GetSo
 
 	return *sortComparisonObject_;
 }
+
+template<class CFileData> void CFileListCtrl<CFileData>::OnColorChange(wxSysColourChangedEvent &)
+{
+	InitColors();
+	Refresh();
+}
+
