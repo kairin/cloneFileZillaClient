@@ -2,6 +2,7 @@
 
 #include "graphics.h"
 
+#include <wx/combobox.h>
 #include <wx/listctrl.h>
 
 namespace {
@@ -52,15 +53,19 @@ wxColour CWindowTinter::GetOriginalColor()
 #ifdef __WXMAC__
 	auto listctrl = dynamic_cast<wxListCtrl*>(m_wnd.GetParent());
 	if (listctrl && reinterpret_cast<wxWindow*>(listctrl->m_mainWin) == &m_wnd) {
-		return listctrl->GetClassDefaultAttributes().colBg;
+		return listctrl->GetDefaultAttributes().colBg;
 	}
 #endif
-	return m_wnd.GetClassDefaultAttributes().colBg;
+	return m_wnd.GetDefaultAttributes().colBg;
 }
-
 
 void CWindowTinter::SetBackgroundTint(wxColour const& tint)
 {
+	if (!tint.IsOk() && dynamic_cast<wxComboBox*>(&m_wnd)) {
+		m_wnd.SetBackgroundColour(wxColour());
+		return;
+	}
+
 	wxColour originalColor = GetOriginalColor();
 
 	wxColour const newColour = tint.IsOk() ? AlphaComposite_Over(originalColor, tint) : originalColor;
