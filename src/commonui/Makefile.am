@@ -52,6 +52,7 @@ noinst_HEADERS = \
 	recursive_operation.h \
 	remote_recursive_operation.h \
 	site.h \
+	site_color.h \
 	site_manager.h \
 	updater.h \
 	updater_cert.h \

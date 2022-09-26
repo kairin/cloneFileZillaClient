@@ -2108,10 +2108,10 @@ void CRemoteListView::OnStateChange(t_statechange_notifications notification, st
 	}
 	else if (notification == STATECHANGE_SERVER) {
 		if (m_windowTinter) {
-			m_windowTinter->SetBackgroundTint(site_colour_to_wx(m_state.GetSite().m_colour));
+			m_windowTinter->SetBackgroundTint(m_state.GetSite().m_colour);
 		}
 		if (m_pInfoText) {
-			m_pInfoText->SetBackgroundTint(site_colour_to_wx(m_state.GetSite().m_colour));
+			m_pInfoText->SetBackgroundTint(m_state.GetSite().m_colour);
 		}
 	}
 	else {

@@ -6,6 +6,7 @@
 
 #include <libfilezilla/encryption.hpp>
 
+#include "site_color.h"
 #include "visibility.h"
 
 #include <optional>
@@ -57,18 +58,6 @@ public:
 };
 
 SiteHandleData FZCUI_PUBLIC_SYMBOL toSiteHandle(ServerHandle const& handle);
-
-enum class site_colour : unsigned {
-	none,
-	red,
-	green,
-	blue,
-	yellow,
-	cyan,
-	magenta,
-	orange,
-	end_of_list
-};
 
 class FZCUI_PUBLIC_SYMBOL Site final
 {

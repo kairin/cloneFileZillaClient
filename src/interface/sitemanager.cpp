@@ -16,21 +16,21 @@
 
 namespace {
 struct background_color {
-	wxColour const color;
+	site_colour const color;
 	char const*const name;
 };
 
 //note: the order needs to be the same as in site_colour (site.h) as that is used as index for this array
 background_color const background_colors[] = {
-	{ wxColour(), fztranslate_mark("None") },
-	{ wxColour(255, 0, 0, 32), fztranslate_mark("Red") },
-	{ wxColour(0, 255, 0, 32), fztranslate_mark("Green") },
-	{ wxColour(0, 0, 255, 32), fztranslate_mark("Blue") },
-	{ wxColour(255, 255, 0, 32), fztranslate_mark("Yellow") },
-	{ wxColour(0, 255, 255, 32), fztranslate_mark("Cyan") },
-	{ wxColour(255, 0, 255, 32), fztranslate_mark("Magenta") },
-	{ wxColour(255, 128, 0, 32), fztranslate_mark("Orange") },
-	{ wxColour(), 0 }
+	{ site_colour::none, fztranslate_mark("None") },
+	{ site_colour::red, fztranslate_mark("Red") },
+	{ site_colour::green, fztranslate_mark("Green") },
+	{ site_colour::blue, fztranslate_mark("Blue") },
+	{ site_colour::yellow, fztranslate_mark("Yellow") },
+	{ site_colour::cyan, fztranslate_mark("Cyan") },
+	{ site_colour::magenta, fztranslate_mark("Magenta") },
+	{ site_colour::orange, fztranslate_mark("Orange") },
+	{ site_colour::end_of_list, nullptr }
 };
 }
 
@@ -491,7 +491,7 @@ bool CSiteManager::HasSites()
 	return handler.sites_ > 0;
 }
 
-int CSiteManager::GetColourIndex(wxColour const& c)
+int CSiteManager::GetColourIndex(site_colour const& c)
 {
 	for (int i = 0; background_colors[i].name; ++i) {
 		if (c == background_colors[i].color) {

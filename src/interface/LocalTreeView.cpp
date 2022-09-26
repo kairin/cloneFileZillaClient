@@ -912,7 +912,7 @@ void CLocalTreeView::OnStateChange(t_statechange_notifications notification, std
 		SetDir(m_state.GetLocalDir().GetPath());
 	}
 	else if (notification == STATECHANGE_SERVER) {
-		m_windowTinter->SetBackgroundTint(site_colour_to_wx(m_state.GetSite().m_colour));
+		m_windowTinter->SetBackgroundTint(m_state.GetSite().m_colour);
 	}
 	else {
 		wxASSERT(notification == STATECHANGE_APPLYFILTER);

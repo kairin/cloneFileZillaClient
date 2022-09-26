@@ -275,7 +275,7 @@ void CRemoteTreeView::OnStateChange(t_statechange_notifications notification, st
 		ApplyFilters(false);
 	}
 	else if (notification == STATECHANGE_SERVER) {
-		m_windowTinter->SetBackgroundTint(site_colour_to_wx(m_state.GetSite().m_colour));
+		m_windowTinter->SetBackgroundTint(m_state.GetSite().m_colour);
 	}
 }
 

@@ -1,8 +1,10 @@
-#ifndef FILEZILLA_GRAPHICS_HEADER
-#define FILEZILLA_GRAPHICS_HEADER
+#ifndef FILEZILLA_INTERFACE_GRAPHICS_HEADER
+#define FILEZILLA_INTERFACE_GRAPHICS_HEADER
 
 #include <wx/rawbmp.h>
 #include <wx/window.h>
+
+#include "../commonui/site_color.h"
 
 static inline unsigned char AlphaComposite_Over_GetAlpha(unsigned char bg_alpha, unsigned char fg_alpha)
 {
@@ -58,15 +60,24 @@ static inline wxColour AlphaComposite_Over(wxColour const& bg, wxColour const& f
 
 void Overlay(wxBitmap& bg, wxBitmap const& fg);
 
+wxColour site_colour_to_wx(site_colour);
+
 class CWindowTinter final
 {
 public:
 	CWindowTinter(wxWindow& wnd);
+	~CWindowTinter();
 
-	void SetBackgroundTint(wxColour const& tint);
+	void SetBackgroundTint(site_colour tint);
 
 private:
-	wxColour m_originalColor;
+	void SetBackgroundTint(wxColour const& tint);
+	void OnColorChange(wxSysColourChangedEvent &);
+
+	site_colour tint_;
+#ifdef __WXGTK__
+	wxColour originalColor;
+#endif
 	wxWindow& m_wnd;
 };
 

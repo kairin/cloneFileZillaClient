@@ -524,7 +524,7 @@ void CLocalViewHeader::OnTextEnter(wxCommandEvent&)
 void CLocalViewHeader::OnStateChange(t_statechange_notifications notification, std::wstring const&, const void*)
 {
 	if (notification == STATECHANGE_SERVER) {
-		m_windowTinter->SetBackgroundTint(site_colour_to_wx(m_state.GetSite().m_colour));
+		m_windowTinter->SetBackgroundTint(m_state.GetSite().m_colour);
 	}
 	else if (notification == STATECHANGE_LOCAL_DIR) {
 #ifdef __WXGTK__
@@ -552,7 +552,7 @@ CRemoteViewHeader::CRemoteViewHeader(wxWindow* pParent, CState& state)
 void CRemoteViewHeader::OnStateChange(t_statechange_notifications notification, std::wstring const&, const void*)
 {
 	if (notification == STATECHANGE_SERVER) {
-		m_windowTinter->SetBackgroundTint(site_colour_to_wx(m_state.GetSite().m_colour));
+		m_windowTinter->SetBackgroundTint(m_state.GetSite().m_colour);
 	}
 	else if (notification == STATECHANGE_REMOTE_DIR) {
 		m_path = m_state.GetRemotePath();

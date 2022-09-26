@@ -4,6 +4,7 @@
 #include "context_control.h"
 #include "filelist_statusbar.h"
 #include "filezillaapp.h"
+#include "graphics.h"
 #include "list_search_panel.h"
 #include "local_recursive_operation.h"
 #include "LocalListView.h"

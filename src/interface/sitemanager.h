@@ -30,7 +30,7 @@ public:
 
 	static bool HasSites();
 
-	static int GetColourIndex(wxColour const& c);
+	static int GetColourIndex(site_colour const& c);
 	static wxString GetColourName(int i);
 
 	static bool ImportSites(pugi::xml_node sites);
