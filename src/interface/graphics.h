@@ -71,13 +71,11 @@ public:
 	void SetBackgroundTint(site_colour tint);
 
 private:
+	wxColour GetOriginalColor();
 	void SetBackgroundTint(wxColour const& tint);
 	void OnColorChange(wxSysColourChangedEvent &);
 
 	site_colour tint_;
-#ifdef __WXGTK__
-	wxColour originalColor;
-#endif
 	wxWindow& m_wnd;
 };
 

@@ -2,6 +2,8 @@
 
 #include "graphics.h"
 
+#include <wx/listctrl.h>
+
 namespace {
 wxColour const background_colors[] = {
 	wxColour(),
@@ -45,15 +47,21 @@ void CWindowTinter::SetBackgroundTint(site_colour tint)
 	SetBackgroundTint(site_colour_to_wx(tint));
 }
 
+wxColour CWindowTinter::GetOriginalColor()
+{
+#ifdef __WXMAC__
+	auto listctrl = dynamic_cast<wxListCtrl*>(m_wnd.GetParent());
+	if (listctrl && reinterpret_cast<wxWindow*>(listctrl->m_mainWin) == &m_wnd) {
+		return listctrl->GetClassDefaultAttributes().colBg;
+	}
+#endif
+	return m_wnd.GetClassDefaultAttributes().colBg;
+}
+
+
 void CWindowTinter::SetBackgroundTint(wxColour const& tint)
 {
-#if __WXGTK__
-	if (!originalColor.IsOk()) {
-		originalColor = m_wnd.GetBackgroundColour();
-	}
-#else
-	wxColour originalColor = m_wnd.GetDefaultAttributes().colBg;
-#endif
+	wxColour originalColor = GetOriginalColor();
 
 	wxColour const newColour = tint.IsOk() ? AlphaComposite_Over(originalColor, tint) : originalColor;
 	if (newColour != m_wnd.GetBackgroundColour()) {
