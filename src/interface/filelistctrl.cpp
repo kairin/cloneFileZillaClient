@@ -1178,9 +1178,10 @@ template<class CFileData> CFileListCtrlSortBase& CFileListCtrl<CFileData>::GetSo
 	return *sortComparisonObject_;
 }
 
-template<class CFileData> void CFileListCtrl<CFileData>::OnColorChange(wxSysColourChangedEvent &)
+template<class CFileData> void CFileListCtrl<CFileData>::OnColorChange(wxSysColourChangedEvent & ev)
 {
 	InitColors();
 	Refresh();
+	ev.Skip();
 }
 
