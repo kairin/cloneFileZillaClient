@@ -63,6 +63,7 @@ void CWindowTinter::SetBackgroundTint(wxColour const& tint)
 {
 	if (!tint.IsOk() && dynamic_cast<wxComboBox*>(&m_wnd)) {
 		m_wnd.SetBackgroundColour(wxColour());
+		m_wnd.Refresh();
 		return;
 	}
 
