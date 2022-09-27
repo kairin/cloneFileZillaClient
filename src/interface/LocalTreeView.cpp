@@ -60,7 +60,7 @@ public:
 
 	wxTreeItemId GetHit(const wxPoint& point)
 	{
-		int flags = 0;
+		int flags{};
 		wxTreeItemId hit = m_pLocalTreeView->HitTest(point, flags);
 
 		if (flags & (wxTREE_HITTEST_ABOVE | wxTREE_HITTEST_BELOW | wxTREE_HITTEST_NOWHERE | wxTREE_HITTEST_TOLEFT | wxTREE_HITTEST_TORIGHT)) {

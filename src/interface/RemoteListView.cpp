@@ -89,7 +89,7 @@ public:
 		auto const format = GetReceivedFormat();
 		if (format == m_pFileDataObject->GetFormat() || format == LocalDataObjectFormat()) {
 			std::wstring subdir;
-			int flags = 0;
+			int flags{};
 			int hit = m_pRemoteListView->HitTest(wxPoint(x, y), flags, 0);
 			if (hit != -1 && (flags & wxLIST_HITTEST_ONITEM)) {
 				int index = m_pRemoteListView->GetItemIndex(hit);
@@ -126,7 +126,7 @@ public:
 
 		// Find drop directory (if it exists)
 		std::wstring subdir;
-		int flags = 0;
+		int flags{};
 		int hit = m_pRemoteListView->HitTest(wxPoint(x, y), flags, 0);
 		if (hit != -1 && (flags & wxLIST_HITTEST_ONITEM)) {
 			int index = m_pRemoteListView->GetItemIndex(hit);
@@ -204,7 +204,7 @@ public:
 
 	int DoDisplayDropHighlight(wxPoint point)
 	{
-		int flags;
+		int flags{};
 		int hit = m_pRemoteListView->HitTest(point, flags, 0);
 		if (!(flags & wxLIST_HITTEST_ONITEM)) {
 			hit = -1;

@@ -80,7 +80,7 @@ public:
 		}
 
 		std::wstring subdir;
-		int flags;
+		int flags{};
 		int hit = m_pLocalListView->HitTest(wxPoint(x, y), flags, 0);
 		if (hit != -1 && (flags & wxLIST_HITTEST_ONITEM)) {
 			const CLocalFileData* const data = m_pLocalListView->GetData(hit);
@@ -153,7 +153,7 @@ public:
 	{
 		wxString subDir;
 
-		int flags;
+		int flags{};
 		int hit = m_pLocalListView->HitTest(point, flags, 0);
 		if (!(flags & wxLIST_HITTEST_ONITEM)) {
 			hit = -1;
