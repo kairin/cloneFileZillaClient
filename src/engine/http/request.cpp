@@ -277,6 +277,9 @@ int CHttpRequestOpData::Send()
 				else if (written) {
 					controlSocket_.SetAlive();
 					req.body_buffer_->consume(static_cast<size_t>(written));
+					if (req.body_buffer_->empty()) {
+						req.body_buffer_.release();
+					}
 					dataToSend_ -= written;
 					if (req.flags_ & HttpRequest::flag_update_transferstatus) {
 						engine_.transfer_status_.Update(written);
