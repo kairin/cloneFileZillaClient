@@ -82,7 +82,7 @@ bool CTheme::Load(std::wstring const& theme, std::vector<wxSize> sizes)
 	return !sizes_.empty();
 }
 
-wxBitmap const& CTheme::LoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size)
+wxBitmap const& CTheme::LoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, bool allowContentScale)
 {
 	// First, check for name in cache
 	auto it = cache_.find(name);
@@ -104,16 +104,16 @@ wxBitmap const& CTheme::LoadBitmap(CLocalPath const& cacheDir, std::wstring cons
 		return sit->second;
 	}
 
-	return DoLoadBitmap(cacheDir, name, size, it->second);
+	return DoLoadBitmap(cacheDir, name, size, it->second, allowContentScale);
 }
 
-wxBitmap const& CTheme::DoLoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, cacheEntry & cache)
+wxBitmap const& CTheme::DoLoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, cacheEntry & cache, bool allowContentScale)
 {
 	// Go through all the theme sizes and look for the file we need
 
 	wxSize pivotSize = size;
 #ifdef __WXMAC__
-	if (wxGetApp().GetTopWindow()) {
+	if (wxGetApp().GetTopWindow() && allowContentScale) {
 		double scale = wxGetApp().GetTopWindow()->GetContentScaleFactor();
 		pivotSize.Scale(scale, scale);
 	}
@@ -121,7 +121,7 @@ wxBitmap const& CTheme::DoLoadBitmap(CLocalPath const& cacheDir, std::wstring co
 	// First look equal or larger icon
 	auto const pivot = sizes_.lower_bound(pivotSize);
 	for (auto pit = pivot; pit != sizes_.end(); ++pit) {
-		wxBitmap const& bmp = LoadBitmapWithSpecificSizeAndScale(cacheDir, name, pit->first, size, cache);
+		wxBitmap const& bmp = LoadBitmapWithSpecificSizeAndScale(cacheDir, name, pit->first, size, cache, allowContentScale);
 		if (bmp.IsOk()) {
 			return bmp;
 		}
@@ -129,7 +129,7 @@ wxBitmap const& CTheme::DoLoadBitmap(CLocalPath const& cacheDir, std::wstring co
 
 	// Now look smaller icons
 	for (auto pit = decltype(sizes_)::reverse_iterator(pivot); pit != sizes_.rend(); ++pit) {
-		wxBitmap const& bmp = LoadBitmapWithSpecificSizeAndScale(cacheDir, name, pit->first, size, cache);
+		wxBitmap const& bmp = LoadBitmapWithSpecificSizeAndScale(cacheDir, name, pit->first, size, cache, allowContentScale);
 		if (bmp.IsOk()) {
 			return bmp;
 		}
@@ -140,7 +140,7 @@ wxBitmap const& CTheme::DoLoadBitmap(CLocalPath const& cacheDir, std::wstring co
 	return empty;
 }
 
-wxBitmap const& CTheme::LoadBitmapWithSpecificSizeAndScale(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, wxSize const& scale, cacheEntry & cache)
+wxBitmap const& CTheme::LoadBitmapWithSpecificSizeAndScale(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, wxSize const& scale, cacheEntry & cache, bool allowContentScale)
 {
 	std::wstring const file = path_ + fz::sprintf(L"%dx%d/%s.png", size.x, size.y, name);
 	std::wstring cacheFile;
@@ -167,25 +167,30 @@ wxBitmap const& CTheme::LoadBitmapWithSpecificSizeAndScale(CLocalPath const& cac
 	}
 
 	// need to scale
+	decltype(cache.bitmaps_)::iterator inserted;
 #ifdef __WXMAC__
-	double factor = static_cast<double>(image.GetSize().x) / scale.x;
-	auto inserted = cache.bitmaps_.insert(std::make_pair(scale, wxBitmap(image, -1, factor)));
-	(void)cacheDir;
-#else
-	if (image.GetSize() != scale) {
-		image.Rescale(scale.x, scale.y, wxIMAGE_QUALITY_HIGH);
-
-		// Save in cache
-		if (!cacheFile.empty()) {
-			if (fz::mkdir(fz::to_native(cacheDir.GetPath()), true, fz::mkdir_permissions::cur_user_and_admins)) {
-				image.SaveFile(cacheFile, wxBITMAP_TYPE_PNG);
+	if (allowContentScale) {
+		double factor = static_cast<double>(image.GetSize().x) / scale.x;
+		inserted = cache.bitmaps_.insert(std::make_pair(scale, wxBitmap(image, -1, factor))).first;
+		(void)cacheDir;
+	}
+	else
+#endif
+	{
+		if (image.GetSize() != scale) {
+			image.Rescale(scale.x, scale.y, wxIMAGE_QUALITY_HIGH);
+	
+			// Save in cache
+			if (!cacheFile.empty()) {
+				if (fz::mkdir(fz::to_native(cacheDir.GetPath()), true, fz::mkdir_permissions::cur_user_and_admins)) {
+					image.SaveFile(cacheFile, wxBITMAP_TYPE_PNG);
+				}
 			}
 		}
-	}
 
-	auto inserted = cache.bitmaps_.insert(std::make_pair(scale, wxBitmap(image)));
-#endif
-	return inserted.first->second;
+		inserted = cache.bitmaps_.insert(std::make_pair(scale, wxBitmap(image))).first;
+	}
+	return inserted->second;
 }
 
 wxImage const& CTheme::LoadImageWithSpecificSize(std::wstring const& file, wxSize const& size, cacheEntry & cache)
@@ -315,6 +320,13 @@ wxBitmap CThemeProvider::CreateBitmap(wxArtID const& id, wxArtClient const& clie
 		newSize = size;
 	}
 
+	bool allowContentScale{true};
+#if defined(__WXMAC__) && wxCHECK_VERSION(3, 2, 1)
+	if (client == wxART_TOOLBAR) {
+		allowContentScale = false;
+	}
+#endif
+
 	wxBitmap const* bmp{&wxNullBitmap};
 	if (id.Left(4) == _T("ART_")) {
 		// The ART_* IDs are always given in uppercase ASCII,
@@ -327,7 +339,7 @@ wxBitmap CThemeProvider::CreateBitmap(wxArtID const& id, wxArtClient const& clie
 			if (!bmp->IsOk()) {
 				auto it = themes_.find(theme);
 				if (it != themes_.end()) {
-					bmp = &it->second.LoadBitmap(cacheDir_, name, newSize);
+					bmp = &it->second.LoadBitmap(cacheDir_, name, newSize, allowContentScale);
 				}
 			}
 		};

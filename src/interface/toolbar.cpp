@@ -1,4 +1,5 @@
 #include "filezilla.h"
+#include "filezillaapp.h"
 #include "filter_manager.h"
 #include "listingcomparison.h"
 #include "Mainfrm.h"
@@ -26,6 +27,7 @@ CToolBar::CToolBar(CMainFrame& mainFrame, COptions& options)
 	, options_(options)
 {
 	iconSize_ = CThemeProvider::GetIconSize(iconSizeSmall, true);
+
 #ifdef __WXMAC__
 	fix_toolbar_style(mainFrame_);
 
@@ -36,9 +38,14 @@ CToolBar::CToolBar(CMainFrame& mainFrame, COptions& options)
 	else {
 		iconSize_ = wxSize(24, 24);
 	}
+	if (wxGetApp().GetTopWindow()) {
+                double scale = wxGetApp().GetTopWindow()->GetContentScaleFactor();
+                iconSize_.Scale(scale, scale);
+	}
+#else
+	SetToolBitmapSize(iconSize_);
 #endif
 
-	SetToolBitmapSize(iconSize_);
 	MakeTools();
 
 	CContextManager::Get()->RegisterHandler(this, STATECHANGE_REMOTE_IDLE, true);

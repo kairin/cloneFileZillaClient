@@ -33,7 +33,7 @@ public:
 	bool Load(std::wstring const& theme);
 	bool Load(std::wstring const& theme, std::vector<wxSize> sizes);
 
-	wxBitmap const& LoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size);
+	wxBitmap const& LoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, bool allowContentScale = true);
 	wxAnimation LoadAnimation(std::wstring const& name, wxSize const& size);
 
 	static wxSize StringToSize(std::wstring const&);
@@ -52,9 +52,9 @@ private:
 		std::map<wxSize, wxImage, wxSize_cmp> images_;
 	};
 
-	wxBitmap const& DoLoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, cacheEntry & cache);
+	wxBitmap const& DoLoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, cacheEntry & cache, bool allowContentScale);
 
-	wxBitmap const& LoadBitmapWithSpecificSizeAndScale(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, wxSize const& scale, cacheEntry & cache);
+	wxBitmap const& LoadBitmapWithSpecificSizeAndScale(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, wxSize const& scale, cacheEntry & cache, bool allowContentScale);
 
 	wxImage const& LoadImageWithSpecificSize(std::wstring const& file, wxSize const& size, cacheEntry & cache);
 
