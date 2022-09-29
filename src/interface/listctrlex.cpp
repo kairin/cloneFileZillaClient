@@ -976,6 +976,7 @@ void wxListCtrlEx::SetHeaderSortIconIndex(int col, int icon)
 
 	item.SetImage(icon);
 	SetColumn(col, item);
+	reinterpret_cast<wxWindow*>(m_headerWin)->Refresh();
 #endif
 }
 
