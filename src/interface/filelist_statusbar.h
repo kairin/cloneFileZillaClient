@@ -6,7 +6,13 @@
 #include <wx/statusbr.h>
 #include <wx/timer.h>
 
-class CFilelistStatusBar final : public wxStatusBar, public COptionChangeEventHandler
+#ifdef __WXMAC__
+typedef wxStatusBarGeneric CFilelistStatusBarBase;
+#else
+typedef wxStatusBar CFilelistStatusBarBase;
+#endif
+
+class CFilelistStatusBar final : public CFilelistStatusBarBase, public COptionChangeEventHandler
 {
 public:
 	CFilelistStatusBar(wxWindow* pParent);

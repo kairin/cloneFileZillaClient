@@ -3,12 +3,12 @@
 #include "sizeformatting.h"
 #include "Options.h"
 
-BEGIN_EVENT_TABLE(CFilelistStatusBar, wxStatusBar)
+BEGIN_EVENT_TABLE(CFilelistStatusBar, CFilelistStatusBarBase)
 EVT_TIMER(wxID_ANY, CFilelistStatusBar::OnTimer)
 END_EVENT_TABLE()
 
 CFilelistStatusBar::CFilelistStatusBar(wxWindow* pParent)
-	: wxStatusBar(pParent, wxID_ANY, 0)
+	: CFilelistStatusBarBase(pParent, wxID_ANY, 0)
 	, COptionChangeEventHandler(this)
 {
 	m_updateTimer.SetOwner(this);
