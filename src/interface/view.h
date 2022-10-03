@@ -11,8 +11,8 @@ public:
 	void SetHeader(CViewHeader* pWnd);
 	CViewHeader* GetHeader() { return m_pHeader; }
 	CViewHeader* DetachHeader();
-	void SetStatusBar(wxStatusBar* pStatusBar);
-	wxStatusBar* GetStatusBar() { return m_pStatusBar; }
+	void SetStatusBar(wxWindow* pStatusBar);
+	wxWindow* GetStatusBar() { return m_pStatusBar; }
 
 	void SetFooter(wxWindow* footer);
 	void SetSearchPanel(wxWindow* panel);
@@ -26,7 +26,7 @@ protected:
 
 	wxWindow* m_pWnd{};
 	CViewHeader* m_pHeader{};
-	wxStatusBar* m_pStatusBar{};
+	wxWindow* m_pStatusBar{};
 
 	wxWindow* m_pFooter{};
 	wxWindow* m_pSearchPanel{};

@@ -22,7 +22,7 @@ CView::CView(wxWindow* pParent)
 	Create(pParent, wxID_ANY, wxDefaultPosition, wxDefaultSize, border);
 }
 
-void CView::SetStatusBar(wxStatusBar* pStatusBar)
+void CView::SetStatusBar(wxWindow* pStatusBar)
 {
 	m_pStatusBar = pStatusBar;
 }

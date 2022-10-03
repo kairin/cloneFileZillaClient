@@ -845,7 +845,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 		options_.set(OPTION_FILELIST_STATUSBAR, show ? 1 : 0);
 		CContextControl::_context_controls* controls = m_pContextControl ? m_pContextControl->GetCurrentControls() : 0;
 		if (controls && controls->pLocalListViewPanel) {
-			wxStatusBar* pStatusBar = controls->pLocalListViewPanel->GetStatusBar();
+			auto* pStatusBar = controls->pLocalListViewPanel->GetStatusBar();
 			if (pStatusBar) {
 				pStatusBar->Show(show);
 				wxSizeEvent evt;
@@ -853,7 +853,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 			}
 		}
 		if (controls && controls->pRemoteListViewPanel) {
-			wxStatusBar* pStatusBar = controls->pRemoteListViewPanel->GetStatusBar();
+			auto* pStatusBar = controls->pRemoteListViewPanel->GetStatusBar();
 			if (pStatusBar) {
 				pStatusBar->Show(show);
 				wxSizeEvent evt;
