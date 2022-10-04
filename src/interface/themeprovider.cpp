@@ -17,6 +17,16 @@
 
 static CThemeProvider* instance = 0;
 
+CTheme::BmpCache & CTheme::cacheEntry::getBmpCache(bool allowContentScale)
+{
+#ifdef __WXMAC__
+	if (allowContentScale) {
+		return contentScaledBitmaps_;
+	}
+#endif
+	return bitmaps_;
+}
+
 wxSize CTheme::StringToSize(std::wstring const& str)
 {
 	wxSize ret;
@@ -90,7 +100,7 @@ wxBitmap const& CTheme::LoadBitmap(CLocalPath const& cacheDir, std::wstring cons
 		it = cache_.insert(std::make_pair(name, cacheEntry())).first;
 	}
 	else {
-		if (it->second.bitmaps_.empty()) {
+		if (it->second.images_.empty()) {
 			// The name is known but the icon does not exist
 			static wxBitmap empty;
 			return empty;
@@ -98,7 +108,7 @@ wxBitmap const& CTheme::LoadBitmap(CLocalPath const& cacheDir, std::wstring cons
 	}
 
 	// Look for correct size
-	auto & sizeCache = it->second.bitmaps_;
+	auto & sizeCache = it->second.getBmpCache(allowContentScale);
 	auto sit = sizeCache.find(size);
 	if (sit != sizeCache.end()) {
 		return sit->second;
@@ -153,7 +163,7 @@ wxBitmap const& CTheme::LoadBitmapWithSpecificSizeAndScale(CLocalPath const& cac
 			if (!cacheTime.empty() && timestamp_ <= cacheTime) {
 				wxBitmap bmp(cacheFile, wxBITMAP_TYPE_PNG);
 				if (bmp.IsOk() && bmp.GetScaledSize() == scale) {
-					auto inserted = cache.bitmaps_.insert(std::make_pair(scale, bmp));
+					auto inserted = cache.getBmpCache(allowContentScale).insert(std::make_pair(scale, bmp));
 					return inserted.first->second;
 				}
 			}
@@ -167,11 +177,11 @@ wxBitmap const& CTheme::LoadBitmapWithSpecificSizeAndScale(CLocalPath const& cac
 	}
 
 	// need to scale
-	decltype(cache.bitmaps_)::iterator inserted;
+	BmpCache::iterator inserted;
 #ifdef __WXMAC__
 	if (allowContentScale) {
 		double factor = static_cast<double>(image.GetSize().x) / scale.x;
-		inserted = cache.bitmaps_.insert(std::make_pair(scale, wxBitmap(image, -1, factor))).first;
+		inserted = cache.contentScaledBitmaps_.insert(std::make_pair(scale, wxBitmap(image, -1, factor))).first;
 		(void)cacheDir;
 	}
 	else

@@ -45,11 +45,16 @@ public:
 
 	std::vector<wxBitmap> GetAllImages(CLocalPath const& cacheDir, wxSize const& size);
 private:
+	typedef std::map<wxSize, wxBitmap, wxSize_cmp> BmpCache;
 	struct cacheEntry
 	{
 		// Converting from wxImage to wxBitmap to wxImage is quite slow, so cache the images as well.
-		std::map<wxSize, wxBitmap, wxSize_cmp> bitmaps_;
+		BmpCache bitmaps_;
 		std::map<wxSize, wxImage, wxSize_cmp> images_;
+#ifdef __WXMAC__
+		BmpCache contentScaledBitmaps_;
+#endif
+		BmpCache& getBmpCache(bool allowContentScale);
 	};
 
 	wxBitmap const& DoLoadBitmap(CLocalPath const& cacheDir, std::wstring const& name, wxSize const& size, cacheEntry & cache, bool allowContentScale);

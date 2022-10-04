@@ -28,8 +28,17 @@ struct wxAuiTabArtExData
 
 #if USE_PREPARED_ICONS
 namespace {
-void PrepareTabIcon(wxBitmap & active, wxBitmap & disabled, wxString const& art, wxSize const& size, wxSize const& canvasSize, wxSize const& offset = wxSize(), std::function<void(wxImage&)> const& f = nullptr, unsigned char brightness = 128)
+void PrepareTabIcon(wxBitmap & active, wxBitmap & disabled, wxString const& art, wxSize size, wxSize canvasSize, wxSize offset = wxSize(), std::function<void(wxImage&)> const& f = nullptr, unsigned char brightness = 128)
 {
+#ifdef __WXMAC__
+	double const scale = wxGetApp().GetTopWindow()->GetContentScaleFactor();
+#else
+	double const scale = 1.0;
+#endif
+	size *= scale;
+	canvasSize *= scale;
+	offset *= scale;
+
 	wxBitmap loaded = CThemeProvider::Get()->CreateBitmap(art, wxART_TOOLBAR, size);
 	if (!loaded.IsOk()) {
 		return;
@@ -39,13 +48,17 @@ void PrepareTabIcon(wxBitmap & active, wxBitmap & disabled, wxString const& art,
 	img.SetMaskColour(0, 0, 0);
 	img.InitAlpha();
 
-	int x = (canvasSize.x - loaded.GetSize().x) / 2 + offset.x ;
+	int x = (canvasSize.x - loaded.GetSize().x) / 2 + offset.x;
 	int y = (canvasSize.x - loaded.GetSize().y) / 2 + offset.y;
 	img.Paste(loaded.ConvertToImage(), x, y);
 	if (f) {
 		f(img);
 	}
+#ifdef __WXMAC__
+	active = wxBitmap(img, -1, scale);
+#else
 	active = wxBitmap(img);
+#endif
 	disabled = active.ConvertToDisabled(brightness);
 }
 
