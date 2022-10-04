@@ -55,6 +55,11 @@ wxColour CWindowTinter::GetOriginalColor()
 	if (listctrl && reinterpret_cast<wxWindow*>(listctrl->m_mainWin) == &m_wnd) {
 		return listctrl->GetDefaultAttributes().colBg;
 	}
+
+	auto combo = dynamic_cast<wxComboBox*>(&m_wnd);
+	if (combo) {
+		return wxTextCtrl::GetClassDefaultAttributes().colBg;
+	}
 #endif
 	return m_wnd.GetDefaultAttributes().colBg;
 }
