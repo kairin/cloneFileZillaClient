@@ -114,6 +114,7 @@ CStatusView::CStatusView(wxWindow* parent, wxWindowID id)
 #endif
 
 	InitDefAttr();
+	Bind(wxEVT_SYS_COLOUR_CHANGED, [this](wxSysColourChangedEvent&) { InitDefAttr(); });
 
 	m_shown = IsShown();
 
@@ -300,20 +301,25 @@ void CStatusView::InitDefAttr()
 	dc.GetTextExtent(_("Error:") + _T(" "), &width, &height);
 	int maxPrefixWidth = width;
 	dc.GetTextExtent(_("Command:") + _T(" "), &width, &height);
-	if (width > maxPrefixWidth)
+	if (width > maxPrefixWidth) {
 		maxPrefixWidth = width;
+	}
 	dc.GetTextExtent(_("Response:") + _T(" "), &width, &height);
-	if (width > maxPrefixWidth)
+	if (width > maxPrefixWidth) {
 		maxPrefixWidth = width;
+	}
 	dc.GetTextExtent(_("Trace:") + _T(" "), &width, &height);
-	if (width > maxPrefixWidth)
+	if (width > maxPrefixWidth) {
 		maxPrefixWidth = width;
+	}
 	dc.GetTextExtent(_("Listing:") + _T(" "), &width, &height);
-	if (width > maxPrefixWidth)
+	if (width > maxPrefixWidth) {
 		maxPrefixWidth = width;
+	}
 	dc.GetTextExtent(_("Status:") + _T(" "), &width, &height);
-	if (width > maxPrefixWidth)
+	if (width > maxPrefixWidth) {
 		maxPrefixWidth = width;
+	}
 
 #ifdef __WXMAC__
 	wxCoord spaceWidth;
