@@ -515,6 +515,10 @@ CMainFrame::CMainFrame(COptions& options)
 		m_pBottomSplitter->Initialize(m_pContextControl);
 	}
 
+#ifdef __WXMAC__
+	EnableFullScreenView(true, wxFULLSCREEN_NOMENUBAR);
+#endif
+
 	wxGetApp().AddStartupProfileRecord("CMainFrame::CMainFrame pre layout");
 	m_pWindowStateManager = new CWindowStateManager(this);
 	m_pWindowStateManager->Restore(OPTION_MAINWINDOW_POSITION);

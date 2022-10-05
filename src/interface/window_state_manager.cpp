@@ -146,7 +146,11 @@ bool CWindowStateManager::Restore(interfaceOptions const optionId, wxSize const&
 #ifdef __WXMSW__
 		m_pWindow->Show();
 #endif
+#ifdef __WXMAC__
+		m_pWindow->ShowFullScreen(true, wxFULLSCREEN_NOMENUBAR);
+#else
 		m_pWindow->Maximize();
+#endif
 #ifdef __WXGTK__
 		if (!m_pWindow->IsMaximized())
 			m_maximize_requested = 4;
@@ -190,7 +194,11 @@ void CWindowStateManager::OnSize(wxSizeEvent& event)
 	}
 #endif
 	if (!m_pWindow->IsIconized()) {
+#ifdef __WXMAC__
+		m_lastMaximized = m_pWindow->IsFullScreen();
+#else
 		m_lastMaximized = m_pWindow->IsMaximized();
+#endif
 		if (!m_lastMaximized) {
 			m_lastWindowPosition = m_pWindow->GetPosition();
 			m_lastWindowSize = m_pWindow->GetClientSize();
@@ -201,7 +209,7 @@ void CWindowStateManager::OnSize(wxSizeEvent& event)
 
 void CWindowStateManager::OnMove(wxMoveEvent& event)
 {
-	if (!m_pWindow->IsIconized() && !m_pWindow->IsMaximized()) {
+	if (!m_pWindow->IsIconized() && !m_pWindow->IsMaximized() && !m_pWindow->IsFullScreen()) {
 		m_lastWindowPosition = m_pWindow->GetPosition();
 		m_lastWindowSize = m_pWindow->GetClientSize();
 	}
