@@ -48,6 +48,8 @@ private:
 	typedef std::map<wxSize, wxBitmap, wxSize_cmp> BmpCache;
 	struct cacheEntry
 	{
+		bool empty() const;
+
 		// Converting from wxImage to wxBitmap to wxImage is quite slow, so cache the images as well.
 		BmpCache bitmaps_;
 		std::map<wxSize, wxImage, wxSize_cmp> images_;

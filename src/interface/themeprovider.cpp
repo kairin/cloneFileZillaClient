@@ -17,6 +17,19 @@
 
 static CThemeProvider* instance = 0;
 
+bool CTheme::cacheEntry::empty() const
+{
+	if (!images_.empty() || !bitmaps_.empty()) {
+		return false;
+	}
+
+#ifdef __WXMAC__
+	return contentScalesBitmaps_.empty();
+#else
+	return true;
+#endif
+}
+
 CTheme::BmpCache & CTheme::cacheEntry::getBmpCache(bool allowContentScale)
 {
 #ifdef __WXMAC__
@@ -100,7 +113,7 @@ wxBitmap const& CTheme::LoadBitmap(CLocalPath const& cacheDir, std::wstring cons
 		it = cache_.insert(std::make_pair(name, cacheEntry())).first;
 	}
 	else {
-		if (it->second.images_.empty()) {
+		if (it->second.empty()) {
 			// The name is known but the icon does not exist
 			static wxBitmap empty;
 			return empty;
