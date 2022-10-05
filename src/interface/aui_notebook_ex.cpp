@@ -177,11 +177,13 @@ public:
 protected:
 
 #if USE_PREPARED_ICONS
+#if wxCHECK_VERSION(3, 2, 1)
 	virtual void UpdateColoursFromSystem() override
 	{
 		wxAuiDefaultTabArt::UpdateColoursFromSystem();
 		PrepareIcons();
 	}
+#endif
 
 	void PrepareIcons()
 	{
