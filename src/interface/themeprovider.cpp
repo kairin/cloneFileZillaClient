@@ -24,7 +24,7 @@ bool CTheme::cacheEntry::empty() const
 	}
 
 #ifdef __WXMAC__
-	return contentScalesBitmaps_.empty();
+	return contentScaledBitmaps_.empty();
 #else
 	return true;
 #endif
