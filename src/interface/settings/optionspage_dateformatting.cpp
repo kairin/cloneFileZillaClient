@@ -53,7 +53,7 @@ bool COptionsPageDateFormatting::CreateControls(wxWindow* parent)
 
 		auto row = lay.createFlex(2);
 		inner->Add(row, 0, wxLEFT, lay.indent);
-		impl_->date_format_ = new wxTextCtrlEx(box, nullID);
+		impl_->date_format_ = new wxTextCtrlEx(box, nullID, wxString(), wxDefaultPosition, lay.defTextCtrlSize);
 		row->Add(impl_->date_format_, lay.valign);
 		row->Add(new wxStaticText(box, nullID, _("(example: %Y-%m-%d)")), lay.valign);
 	}
@@ -68,7 +68,7 @@ bool COptionsPageDateFormatting::CreateControls(wxWindow* parent)
 
 		auto row = lay.createFlex(2);
 		inner->Add(row, 0, wxLEFT, lay.indent);
-		impl_->time_format_ = new wxTextCtrlEx(box, nullID);
+		impl_->time_format_ = new wxTextCtrlEx(box, nullID, wxString(), wxDefaultPosition, lay.defTextCtrlSize);
 		row->Add(impl_->time_format_, lay.valign);
 		row->Add(new wxStaticText(box, nullID, _("(example: %H-%M-%S)")), lay.valign);
 	}

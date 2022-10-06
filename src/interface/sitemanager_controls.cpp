@@ -417,7 +417,7 @@ void GeneralSiteControls::SetControlVisibility(ServerProtocol protocol, LogonTyp
 	xrc_call(parent_, "ID_PASS_DESC", &wxStaticText::SetLabel, passLabel);
 	xrc_call(parent_, "ID_USER", &wxTextCtrl::SetHint, userHint);
 
-	auto InsertRow = [this](std::vector<GeneralSiteControls::Parameter> & rows, std::string const &name, bool password) {
+	auto InsertRow = [](std::vector<GeneralSiteControls::Parameter> & rows, std::string const &name, bool password) {
 
 		if (rows.empty()) {
 			return rows.end();
@@ -1078,7 +1078,7 @@ CharsetSiteControls::CharsetSiteControls(wxWindow & parent, DialogLayout const& 
 
 	auto * row = lay.createFlex(0, 1);
 	row->Add(new wxStaticText(&parent, nullID, _("&Encoding:")), lay.valign);
-	auto * encoding = new wxTextCtrlEx(&parent, XRCID("ID_ENCODING"));
+	auto * encoding = new wxTextCtrlEx(&parent, XRCID("ID_ENCODING"), wxString(), wxDefaultPosition, lay.defTextCtrlSize);
 	row->Add(encoding, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, 18);
 	sizer.Add(row);
 	sizer.AddSpacer(lay.dlgUnits(6));

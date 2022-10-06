@@ -62,7 +62,7 @@ bool COptionsPageProxy::CreateControls(wxWindow* parent)
 		impl_->host_ = new wxTextCtrlEx(box, nullID);
 		rows->Add(impl_->host_, lay.grow);
 		rows->Add(new wxStaticText(box, nullID, _("Proxy &port:")));
-		impl_->port_ = new wxTextCtrlEx(box, nullID);
+		impl_->port_ = new wxTextCtrlEx(box, nullID, wxString(), wxDefaultPosition, lay.defTextCtrlSize);
 		impl_->port_->SetMaxLength(5);
 		rows->Add(impl_->port_);
 		rows->Add(new wxStaticText(box, nullID, _("Proxy &user:")));

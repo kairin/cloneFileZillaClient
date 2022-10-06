@@ -5,7 +5,6 @@
 
 struct DialogLayout;
 class Site;
-enum ServerProtocol;
 enum class LogonType;
 
 class SiteControls

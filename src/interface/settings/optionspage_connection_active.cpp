@@ -77,12 +77,12 @@ bool COptionsPageConnectionActive::CreateControls(wxWindow* parent)
 		inner->Add(impl_->rb_system_);
 		impl_->rb_fixed_ = new wxRadioButton(box, nullID, _("&Use the following IP address:"));
 		inner->Add(impl_->rb_fixed_);
-		impl_->ip_ = new wxTextCtrlEx(box, nullID);
+		impl_->ip_ = new wxTextCtrlEx(box, nullID, wxString(), wxDefaultPosition, lay.defTextCtrlSize);
 		inner->Add(impl_->ip_, 0, wxLEFT, lay.indent);
 		inner->Add(new wxStaticText(box, nullID, _("Use this if you're behind a router and have a static external IP address.")), 0, wxLEFT, lay.indent);
 		impl_->rb_resolver_ = new wxRadioButton(box, nullID, _("&Get external IP address from the following URL:"));
 		inner->Add(impl_->rb_resolver_);
-		impl_->resolver_ = new wxTextCtrlEx(box, nullID);
+		impl_->resolver_ = new wxTextCtrlEx(box, nullID, wxString(), wxDefaultPosition, lay.defTextCtrlSize);
 		inner->Add(impl_->resolver_, 0, wxLEFT, lay.indent);
 		inner->Add(new wxStaticText(box, nullID, _("Default: http://ip.filezilla-project.org/ip.php")), 0, wxLEFT, lay.indent);
 		impl_->no_external_on_local_ = new wxCheckBox(box, nullID, _("&Don't use external IP address on local connections."));

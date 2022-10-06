@@ -100,7 +100,7 @@ bool CChmodDialog::Create(wxWindow* parent, int fileCount, int dirCount,
 	main->Add(row);
 
 	row->Add(new wxStaticText(this, nullID, _("&Numeric value:")), lay.valign);
-	impl_->numeric_ = new wxTextCtrlEx(this, nullID);
+	impl_->numeric_ = new wxTextCtrlEx(this, nullID, wxString(), wxDefaultPosition, lay.defTextCtrlSize);
 	row->Add(impl_->numeric_, lay.valign);
 	impl_->numeric_->SetFocus();
 	impl_->numeric_->Bind(wxEVT_TEXT, &CChmodDialog::OnNumericChanged, this);
