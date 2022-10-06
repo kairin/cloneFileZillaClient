@@ -26,6 +26,8 @@ public:
 
 protected:
 
+	bool CreatePages();
+
 	void PrintMessage(std::wstring const& msg, int type);
 
 	void ResetTest();

@@ -13,6 +13,7 @@
 #include "filezillaapp.h"
 #include "netconfwizard.h"
 #include "Options.h"
+#include "textctrlex.h"
 #include "xrc_helper.h"
 
 wxDECLARE_EVENT(fzEVT_ON_EXTERNAL_IP_ADDRESS, wxCommandEvent);
@@ -53,6 +54,48 @@ CNetConfWizard::~CNetConfWizard()
 	data_socket_.reset();
 }
 
+bool CNetConfWizard::CreatePages()
+{
+	DialogLayout lay(this);
+
+	InitXrc(L"netconfwizard.xrc");
+	for (int i = 1; i <= 7; ++i) {
+		wxWizardPageSimple* page = new wxWizardPageSimple();
+		if (i == 4) {
+			page->Create(this);
+			auto main = lay.createMain(page, 1);
+			main->Add(new wxStaticText(page, nullID, _("In order to use active mode, FileZilla needs to know your external IP address.")));
+
+			main->Add(new wxRadioButton(page, XRCID("ID_ACTIVEMODE1"), _("Ask your operating system for the external IP address"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP));
+			main->Add(new wxStaticText(page, nullID, _("This only works if you are not behind a router, else your system would just return your internal address.")), 0, wxLEFT, lay.indent);
+
+			main->Add(new wxRadioButton(page, XRCID("ID_ACTIVEMODE2"), _("Use the following IP address:")));
+			main->Add(new wxTextCtrl(page, XRCID("ID_ACTIVEIP"), wxString(), wxDefaultPosition, wxSize(lay.dlgUnits(60), -1)), 0, wxLEFT, lay.indent);
+			main->Add(new wxStaticText(page, nullID, _("Use this if you're behind a router and have a static external IP address.")), 0, wxLEFT, lay.indent);
+
+			main->Add(new wxRadioButton(page, XRCID("ID_ACTIVEMODE3"), _("Get external IP address from the following URL:")));
+			main->Add(new wxTextCtrl(page, XRCID("ID_ACTIVERESOLVER")), 0, wxLEFT|wxGROW, lay.indent);
+			main->Add(new wxStaticText(page, nullID, _("Default: http://ip.filezilla-project.org/ip.php")), 0, wxLEFT, lay.indent);
+			main->Add(new wxStaticText(page, nullID, _("Use this option if you have a dynamic IP address. FileZilla will contact the above server once each session as soon as you use active mode for the first time. Only the version of FileZilla you're using is submitted to the server.")), 0, wxLEFT, lay.indent);
+
+			main->Add(new wxCheckBox(page, XRCID("ID_NOEXTERNALONLOCAL"), _("Don't use external IP address on &local connections.")));
+		}
+		else {
+			bool res = wxXmlResource::Get()->LoadPanel(page, this, wxString::Format(_T("NETCONF_PANEL%d"), i));
+			if (!res) {
+				return false;
+			}
+		}
+		page->Show(false);
+
+		m_pages.push_back(page);
+	}
+	for (unsigned int i = 0; i < (m_pages.size() - 1); ++i) {
+		m_pages[i]->Chain(m_pages[i], m_pages[i + 1]);
+	}
+	return true;
+}
+
 bool CNetConfWizard::Load()
 {
 	if (!Create(m_parent, wxID_ANY, _("Firewall and router configuration wizard"), wxNullBitmap, wxPoint(0, 0))) {
@@ -61,19 +104,8 @@ bool CNetConfWizard::Load()
 
 	wxSize minPageSize = GetPageAreaSizer()->GetMinSize();
 
-	InitXrc(L"netconfwizard.xrc");
-	for (int i = 1; i <= 7; ++i) {
-		wxWizardPageSimple* page = new wxWizardPageSimple();
-		bool res = wxXmlResource::Get()->LoadPanel(page, this, wxString::Format(_T("NETCONF_PANEL%d"), i));
-		if (!res) {
-			return false;
-		}
-		page->Show(false);
-
-		m_pages.push_back(page);
-	}
-	for (unsigned int i = 0; i < (m_pages.size() - 1); ++i) {
-		m_pages[i]->Chain(m_pages[i], m_pages[i + 1]);
+	if (!CreatePages()) {
+		return false;
 	}
 
 	GetPageAreaSizer()->Add(m_pages[0]);
