@@ -80,6 +80,26 @@ bool CNetConfWizard::CreatePages()
 
 			main->Add(new wxCheckBox(page, XRCID("ID_NOEXTERNALONLOCAL"), _("Don't use external IP address on &local connections.")));
 		}
+		else if (i == 5) {
+			page->Create(this);
+			auto main = lay.createMain(page, 1);
+			main->Add(new wxStaticText(page, nullID, _("Configure port range")));
+			main->Add(new wxStaticText(page, nullID, _("In active mode, FileZilla has to listen on a port for data transfers. You have to specify which ports FileZilla will use.")));
+
+			main->Add(new wxRadioButton(page, XRCID("ID_ACTIVE_PORTMODE1"), _("Ask operating system for a port."), wxDefaultPosition, wxDefaultSize, wxRB_GROUP));
+			main->Add(new wxStaticText(page, nullID, _("In case you have a router, you will have to forward all available ports, as FileZilla has no influence on the ports your system chooses.")), 0, wxLEFT, lay.indent);
+
+			main->Add(new wxRadioButton(page, XRCID("ID_ACTIVE_PORTMODE2"), _("Use the following port range:")));
+			auto inner = lay.createFlex(3);
+			main->Add(inner, 0, wxLEFT, lay.indent);
+			inner->Add(new wxTextCtrl(page, XRCID("ID_ACTIVE_PORTMIN"), wxString(), wxDefaultPosition, lay.defTextCtrlSize), lay.valign);
+			inner->Add(new wxStaticText(page, nullID, L"-"), lay.valign);
+			inner->Add(new wxTextCtrl(page, XRCID("ID_ACTIVE_PORTMAX"), wxString(), wxDefaultPosition, lay.defTextCtrlSize), lay.valign);
+			main->Add(new wxStaticText(page, nullID, _("All ports in the given range have to be between 1024 and 65535.")), 0, wxLEFT, lay.indent);
+			main->Add(new wxStaticText(page, nullID, _("For reliability you should specify a range of at least 10 ports.")), 0, wxLEFT, lay.indent);
+			main->Add(new wxStaticText(page, nullID, _("If you use a router, make sure all these ports are forwarded to the machine you're running FileZilla on.")), 0, wxLEFT, lay.indent);
+			main->Add(new wxStaticText(page, nullID, _("If you use a firewall, make sure FileZilla is allowed to accept connection on all given ports.")), 0, wxLEFT, lay.indent);
+		}
 		else {
 			bool res = wxXmlResource::Get()->LoadPanel(page, this, wxString::Format(_T("NETCONF_PANEL%d"), i));
 			if (!res) {
