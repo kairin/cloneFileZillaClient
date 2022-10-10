@@ -126,6 +126,7 @@ public:
 
 	// Holds error body and success body if there is no writer.
 	fz::buffer body_;
+	size_t max_body_size_{16 * 1024 * 1024};
 
 	bool success() const {
 		return code_ >= 200 && code_ < 300;

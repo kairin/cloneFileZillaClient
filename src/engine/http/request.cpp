@@ -876,14 +876,14 @@ int CHttpRequestOpData::ProcessData(unsigned char* data, size_t & remaining)
 					}
 				}
 				else {
-					if (response.body_.size() < 1024*1024*16) {
+					if (response.body_.size() < response.max_body_size_) {
 						response.body_.append(data, remaining);
 					}
 					remaining = 0;
 				}
 			}
 			else {
-				if (response.body_.size() < 1024*1024*16) {
+				if (response.body_.size() < response.max_body_size_) {
 					response.body_.append(data, remaining);
 				}
 				remaining = 0;
