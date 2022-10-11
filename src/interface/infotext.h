@@ -25,6 +25,11 @@ public:
 #endif
 	}
 
+	virtual wxVisualAttributes GetDefaultAttributes() const override
+	{
+		return GetParent()->GetDefaultAttributes();
+	}
+
 	void SetText(wxString const& text)
 	{
 		if (text == m_text) {
