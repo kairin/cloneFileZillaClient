@@ -22,7 +22,7 @@ public:
 	virtual void FileTransfer(CFileTransferCommand const& cmd) override;
 	virtual void Delete(CServerPath const& path, std::vector<std::wstring>&& files) override;
 	virtual void RemoveDir(CServerPath const& path = CServerPath(), std::wstring const& subDir = std::wstring()) override;
-	virtual void Mkdir(CServerPath const& path) override;
+	virtual void Mkdir(CServerPath const& path, transfer_flags const& flags = {}) override;
 	virtual void Rename(CRenameCommand const& command) override;
 	virtual void Chmod(CChmodCommand const& command) override;
 	virtual void Cancel() override;

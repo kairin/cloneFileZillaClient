@@ -124,7 +124,7 @@ int CFtpFileTransferOpData::Send()
 				controlSocket_.m_pTransferSocket->set_writer(std::move(writer), flags_ & ftp_transfer_flags::ascii);
 			}
 			else {
-				auto reader = reader_factory_->open(*controlSocket_.buffer_pool_, resumeOffset, fz::aio_base::nosize, controlSocket_.buffer_pool_->buffer_count());
+				auto reader = reader_factory_->open(*controlSocket_.buffer_pool_, resumeOffset, fz::aio_base::nosize, controlSocket_.max_buffer_count());
 				if (!reader) {
 					return FZ_REPLY_CRITICALERROR;
 				}

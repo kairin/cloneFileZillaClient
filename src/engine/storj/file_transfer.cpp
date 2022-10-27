@@ -110,7 +110,7 @@ int CStorjFileTransferOpData::Send()
 				}
 			}
 			else {
-				reader_ = reader_factory_->open(*controlSocket_.buffer_pool_, offset, fz::aio_base::nosize, controlSocket_.buffer_pool_->buffer_count());
+				reader_ = reader_factory_->open(*controlSocket_.buffer_pool_, offset, fz::aio_base::nosize, controlSocket_.max_buffer_count());
 				if (!reader_) {
 					return FZ_REPLY_CRITICALERROR;
 				}

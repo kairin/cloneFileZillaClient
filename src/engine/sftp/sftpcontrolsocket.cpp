@@ -537,7 +537,7 @@ void CSftpControlSocket::Cancel()
 	}
 }
 
-void CSftpControlSocket::Mkdir(CServerPath const& path)
+void CSftpControlSocket::Mkdir(CServerPath const& path, transfer_flags const&)
 {
 	auto pData = std::make_unique<CSftpMkdirOpData>(*this);
 	pData->path_ = path;

@@ -40,7 +40,7 @@ CStorjControlSocket::~CStorjControlSocket()
 	DoClose();
 }
 
-void CStorjControlSocket::Connect(CServer const &server, Credentials const& credentials)
+void CStorjControlSocket::Connect(CServer const& server, Credentials const& credentials)
 {
 	currentServer_ = server;
 	credentials_ = credentials;
@@ -70,7 +70,7 @@ void CStorjControlSocket::Delete(CServerPath const& path, std::vector<std::wstri
 	Push(std::make_unique<CStorjDeleteOpData>(*this, path, std::move(files)));
 }
 
-void CStorjControlSocket::Mkdir(CServerPath const& path)
+void CStorjControlSocket::Mkdir(CServerPath const& path, transfer_flags const&)
 {
 	auto pData = std::make_unique<CStorjMkdirOpData>(*this);
 	pData->path_ = path;

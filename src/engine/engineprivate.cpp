@@ -416,7 +416,7 @@ int CFileZillaEnginePrivate::RemoveDir(CRemoveDirCommand const& command)
 
 int CFileZillaEnginePrivate::Mkdir(CMkdirCommand const& command)
 {
-	controlSocket_->Mkdir(command.GetPath());
+	controlSocket_->Mkdir(command.GetPath(), {});
 	return FZ_REPLY_CONTINUE;
 }
 

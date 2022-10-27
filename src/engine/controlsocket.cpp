@@ -1107,7 +1107,7 @@ void CControlSocket::RemoveDir(CServerPath const&, std::wstring const&)
 	Push(std::make_unique<CNotSupportedOpData>());
 }
 
-void CControlSocket::Mkdir(CServerPath const&)
+void CControlSocket::Mkdir(CServerPath const&, transfer_flags const&)
 {
 	Push(std::make_unique<CNotSupportedOpData>());
 }
@@ -1210,7 +1210,7 @@ std::unique_ptr<fz::writer_base> CControlSocket::OpenWriter(fz::writer_factory_h
 			s.Update(written);
 		};
 	}
-	return factory->open(*buffer_pool_, resumeOffset, status_update, buffer_pool_->buffer_count());
+	return factory->open(*buffer_pool_, resumeOffset, status_update, max_buffer_count());
 }
 
 int64_t CalculateNextChunkSize(int64_t remaining, int64_t lastChunkSize, fz::duration const& lastChunkDuration, int64_t minChunkSize, int64_t multiple, int64_t partCount, int64_t maxPartCount, int64_t maxChunkSize)
@@ -1261,4 +1261,9 @@ int64_t CalculateNextChunkSize(int64_t remaining, int64_t lastChunkSize, fz::dur
 int64_t CalculateNextChunkSize(int64_t remaining, int64_t lastChunkSize, fz::monotonic_clock const& lastChunkStart, int64_t minChunkSize, int64_t multiple, int64_t partCount, int64_t maxPartCount, int64_t maxChunkSize)
 {
 	return CalculateNextChunkSize(remaining, lastChunkSize, fz::monotonic_clock::now() - lastChunkStart, minChunkSize, multiple, partCount, maxPartCount, maxChunkSize);
+}
+
+size_t CControlSocket::max_buffer_count() const
+{
+	return buffer_pool_->buffer_count();
 }

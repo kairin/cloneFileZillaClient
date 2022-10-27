@@ -51,7 +51,7 @@ int CHttpFileTransferOpData::Send()
 		}
 
 		if (reader_factory_) {
-			rr_.request_.body_ = reader_factory_->open(*controlSocket_.buffer_pool_, 0, fz::aio_base::nosize, controlSocket_.buffer_pool_->buffer_count());
+			rr_.request_.body_ = reader_factory_->open(*controlSocket_.buffer_pool_, 0, fz::aio_base::nosize, controlSocket_.max_buffer_count());
 			if (!rr_.request_.body_) {
 				return FZ_REPLY_CRITICALERROR;
 			}

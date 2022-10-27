@@ -209,7 +209,7 @@ public:
 	virtual void RawCommand(std::wstring const& command = std::wstring());
 	virtual void Delete(CServerPath const& path, std::vector<std::wstring>&& files);
 	virtual void RemoveDir(CServerPath const& path = CServerPath(), std::wstring const& subDir = std::wstring());
-	virtual void Mkdir(CServerPath const& path);
+	virtual void Mkdir(CServerPath const& path, transfer_flags const& flags);
 	virtual void Rename(CRenameCommand const& command);
 	virtual void Chmod(CChmodCommand const& command);
 	void Sleep(fz::duration const& delay);
@@ -265,6 +265,8 @@ public:
 	}
 
 	fz::logger_interface& logger() const { return logger_; }
+
+	virtual size_t max_buffer_count() const;
 
 protected:
 	virtual void Lookup(CServerPath const& path, std::wstring const& file, CDirentry * entry = nullptr);

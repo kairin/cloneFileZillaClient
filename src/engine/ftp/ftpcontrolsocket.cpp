@@ -581,7 +581,7 @@ void CFtpControlSocket::RemoveDir(CServerPath const& path, std::wstring const& s
 	Push(std::move(pData));
 }
 
-void CFtpControlSocket::Mkdir(CServerPath const& path)
+void CFtpControlSocket::Mkdir(CServerPath const& path, transfer_flags const&)
 {
 	auto pData = std::make_unique<CFtpMkdirOpData>(*this);
 	pData->path_ = path;

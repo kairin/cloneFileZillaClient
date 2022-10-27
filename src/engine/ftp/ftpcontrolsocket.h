@@ -63,7 +63,7 @@ protected:
 	virtual void RawCommand(std::wstring const& command) override;
 	virtual void Delete(CServerPath const& path, std::vector<std::wstring>&& files) override;
 	virtual void RemoveDir(CServerPath const& path, std::wstring const& subDir) override;
-	virtual void Mkdir(CServerPath const& path) override;
+	virtual void Mkdir(CServerPath const& path, transfer_flags const& flags = {}) override;
 	virtual void Rename(CRenameCommand const& command) override;
 	virtual void Chmod(CChmodCommand const& command) override;
 	void Transfer(std::wstring const& cmd, CFtpTransferOpData* oldData);
