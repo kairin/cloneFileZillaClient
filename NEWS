@@ -10,10 +10,14 @@ Legend:
     *nix: Unix (e.g BSD) and Unix-like systems (e.g. Linux)
     macOS/OS X: Apple macOS
 
+3.62.0 (2022-10-27)
+
+- Fixed sizing issues in about and welcome dialogs
+
 3.62.0-beta1 (2022-10-11)
 
 - macOS binaries are now built against wxWidgets 3.2.1
-- updated ot libfilezilla 0.39.2
+- Updated to libfilezilla 0.39.2
 
 3.61.0 (2022-09-19)
 
