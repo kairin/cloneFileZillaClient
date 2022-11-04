@@ -54,7 +54,10 @@ public:
 
 	bool ReplaceControl(wxWindow* old, wxWindow* wnd);
 
+	// Spontaneously generated dialogs
 	static bool CanShowPopupDialog(wxTopLevelWindow * parent = 0);
+
+	static bool IsActiveTLW(wxTopLevelWindow * parent = 0);
 
 	DialogLayout const& layout();
 

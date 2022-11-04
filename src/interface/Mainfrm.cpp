@@ -127,13 +127,10 @@ BEGIN_EVENT_TABLE(CMainFrame, wxNavigationEnabled<wxFrame>)
 	EVT_SIZE(CMainFrame::OnSize)
 	EVT_MENU(wxID_ANY, CMainFrame::OnMenuHandler)
 	EVT_TOOL(XRCID("ID_TOOLBAR_DISCONNECT"), CMainFrame::OnDisconnect)
-	EVT_MENU(XRCID("ID_MENU_SERVER_DISCONNECT"), CMainFrame::OnDisconnect)
 	EVT_TOOL(XRCID("ID_TOOLBAR_CANCEL"), CMainFrame::OnCancel)
-	EVT_MENU(XRCID("ID_CANCEL"), CMainFrame::OnCancel)
 	EVT_TOOL(XRCID("ID_TOOLBAR_RECONNECT"), CMainFrame::OnReconnect)
 	EVT_TOOL(XRCID("ID_MENU_SERVER_RECONNECT"), CMainFrame::OnReconnect)
 	EVT_TOOL(XRCID("ID_TOOLBAR_REFRESH"), CMainFrame::OnRefresh)
-	EVT_MENU(XRCID("ID_REFRESH"), CMainFrame::OnRefresh)
 	EVT_TOOL(XRCID("ID_TOOLBAR_SITEMANAGER"), CMainFrame::OnSiteManager)
 	EVT_CLOSE(CMainFrame::OnClose)
 #ifdef WITH_LIBDBUS
@@ -145,34 +142,20 @@ BEGIN_EVENT_TABLE(CMainFrame, wxNavigationEnabled<wxFrame>)
 	EVT_TOOL(XRCID("ID_TOOLBAR_LOCALTREEVIEW"), CMainFrame::OnToggleDirectoryTreeView)
 	EVT_TOOL(XRCID("ID_TOOLBAR_REMOTETREEVIEW"), CMainFrame::OnToggleDirectoryTreeView)
 	EVT_TOOL(XRCID("ID_TOOLBAR_QUEUEVIEW"), CMainFrame::OnToggleQueueView)
-	EVT_MENU(XRCID("ID_VIEW_TOOLBAR"), CMainFrame::OnToggleToolBar)
-	EVT_MENU(XRCID("ID_VIEW_MESSAGELOG"), CMainFrame::OnToggleLogView)
-	EVT_MENU(XRCID("ID_VIEW_LOCALTREE"), CMainFrame::OnToggleDirectoryTreeView)
-	EVT_MENU(XRCID("ID_VIEW_REMOTETREE"), CMainFrame::OnToggleDirectoryTreeView)
-	EVT_MENU(XRCID("ID_VIEW_QUEUE"), CMainFrame::OnToggleQueueView)
-	EVT_MENU(wxID_ABOUT, CMainFrame::OnMenuHelpAbout)
 	EVT_TOOL(XRCID("ID_TOOLBAR_FILTER"), CMainFrame::OnFilter)
 	EVT_TOOL_RCLICKED(XRCID("ID_TOOLBAR_FILTER"), CMainFrame::OnFilterRightclicked)
-#if FZ_MANUALUPDATECHECK
-	EVT_MENU(XRCID("ID_CHECKFORUPDATES"), CMainFrame::OnCheckForUpdates)
-	EVT_MENU(GetAvailableUpdateMenuId(), CMainFrame::OnCheckForUpdates)
-#endif //FZ_MANUALUPDATECHECK
 	EVT_TOOL_RCLICKED(XRCID("ID_TOOLBAR_SITEMANAGER"), CMainFrame::OnSitemanagerDropdown)
 #ifdef EVT_TOOL_DROPDOWN
 	EVT_TOOL_DROPDOWN(XRCID("ID_TOOLBAR_SITEMANAGER"), CMainFrame::OnSitemanagerDropdown)
 #endif
 	EVT_NAVIGATION_KEY(CMainFrame::OnNavigationKeyEvent)
 	EVT_CHAR_HOOK(CMainFrame::OnChar)
-	EVT_MENU(XRCID("ID_MENU_VIEW_FILTERS"), CMainFrame::OnFilter)
 	EVT_ACTIVATE(CMainFrame::OnActivate)
 	EVT_TOOL(XRCID("ID_TOOLBAR_COMPARISON"), CMainFrame::OnToolbarComparison)
 	EVT_TOOL_RCLICKED(XRCID("ID_TOOLBAR_COMPARISON"), CMainFrame::OnToolbarComparisonDropdown)
 #ifdef EVT_TOOL_DROPDOWN
 	EVT_TOOL_DROPDOWN(XRCID("ID_TOOLBAR_COMPARISON"), CMainFrame::OnToolbarComparisonDropdown)
 #endif
-	EVT_MENU(XRCID("ID_COMPARE_SIZE"), CMainFrame::OnDropdownComparisonMode)
-	EVT_MENU(XRCID("ID_COMPARE_DATE"), CMainFrame::OnDropdownComparisonMode)
-	EVT_MENU(XRCID("ID_COMPARE_HIDEIDENTICAL"), CMainFrame::OnDropdownComparisonHide)
 	EVT_TOOL(XRCID("ID_TOOLBAR_SYNCHRONIZED_BROWSING"), CMainFrame::OnSyncBrowse)
 #ifdef __WXMAC__
 	EVT_CHILD_FOCUS(CMainFrame::OnChildFocused)
@@ -183,9 +166,6 @@ BEGIN_EVENT_TABLE(CMainFrame, wxNavigationEnabled<wxFrame>)
 	EVT_COMMAND(wxID_ANY, fzEVT_TASKBAR_CLICK_DELAYED, CMainFrame::OnTaskBarClick_Delayed)
 #endif
 	EVT_TOOL(XRCID("ID_TOOLBAR_FIND"), CMainFrame::OnSearch)
-	EVT_MENU(XRCID("ID_MENU_SERVER_SEARCH"), CMainFrame::OnSearch)
-	EVT_MENU(XRCID("ID_MENU_FILE_NEWTAB"), CMainFrame::OnMenuNewTab)
-	EVT_MENU(XRCID("ID_MENU_FILE_CLOSETAB"), CMainFrame::OnMenuCloseTab)
 END_EVENT_TABLE()
 
 class CMainFrameStateEventHandler final : public CGlobalStateEventHandler
@@ -650,7 +630,67 @@ void CMainFrame::CreateQuickconnectBar()
 
 void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 {
-	if (event.GetId() == XRCID("wxID_EXIT")) {
+	if (!wxDialogEx::IsActiveTLW(this)) {
+		return;
+	}
+
+	if (event.GetId() == XRCID("ID_MENU_SERVER_SEARCH")) {
+		OnSearch(event);
+	}
+	else if (event.GetId() == XRCID("ID_MENU_FILE_NEWTAB")) {
+		OnMenuNewTab(event);
+	}
+	else if (event.GetId() == XRCID("ID_MENU_FILE_CLOSETAB")) {
+		OnMenuCloseTab(event);
+	}
+	else if (event.GetId() == XRCID("ID_MENU_SERVER_DISCONNECT")) {
+		OnDisconnect(event);
+	}
+	else if (event.GetId() == XRCID("ID_CANCEL")) {
+		OnCancel(event);
+	}
+	else if (event.GetId() == XRCID("ID_REFRESH")) {
+		OnRefresh(event);
+	}
+	else if (event.GetId() == XRCID("ID_VIEW_TOOLBAR")) {
+		OnToggleToolBar(event);
+	}
+	else if (event.GetId() == XRCID("ID_VIEW_MESSAGELOG")) {
+		OnToggleLogView(event);
+	}
+	else if (event.GetId() == XRCID("ID_VIEW_LOCALTREE")) {
+		OnToggleDirectoryTreeView(event);
+	}
+	else if (event.GetId() == XRCID("ID_VIEW_REMOTETREE")) {
+		OnToggleDirectoryTreeView(event);
+	}
+	else if (event.GetId() == XRCID("ID_VIEW_QUEUE")) {
+		OnToggleQueueView(event);
+	}
+	else if (event.GetId() == wxID_ABOUT) {
+		OnMenuHelpAbout(event);
+	}
+#if FZ_MANUALUPDATECHECK
+	else if (event.GetId() == XRCID("ID_CHECKFORUPDATES")) {
+		OnCheckForUpdates(event);
+	}
+	else if (event.GetId() == GetAvailableUpdateMenuId()) {
+		OnCheckForUpdates(event);
+	}
+#endif //FZ_MANUALUPDATECHECK
+	else if (event.GetId() == XRCID("ID_MENU_VIEW_FILTERS")) {
+		OnFilter(event);
+	}
+	else if (event.GetId() == XRCID("ID_COMPARE_SIZE")) {
+		OnDropdownComparisonMode(event);
+	}
+	else if (event.GetId() == XRCID("ID_COMPARE_DATE")) {
+		OnDropdownComparisonMode(event);
+	}
+	else if (event.GetId() == XRCID("ID_COMPARE_HIDEIDENTICAL")) {
+		OnDropdownComparisonHide(event);
+	}
+	else if (event.GetId() == XRCID("wxID_EXIT")) {
 		Close();
 	}
 	else if (event.GetId() == XRCID("ID_MENU_FILE_SITEMANAGER")) {

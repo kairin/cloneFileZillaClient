@@ -174,13 +174,7 @@ bool wxDialogEx::ReplaceControl(wxWindow* old, wxWindow* wnd)
 
 bool wxDialogEx::CanShowPopupDialog(wxTopLevelWindow * parent)
 {
-	if (IsShowingMessageBox()) {
-		// There already a message box showing
-		return false;
-	}
-
-	if (!shown_dialogs_.empty() && shown_dialogs_.back() != parent) {
-		// There is an open dialog which isn't the expected parent
+	if (!IsActiveTLW()) {
 		return false;
 	}
 
@@ -203,6 +197,21 @@ bool wxDialogEx::CanShowPopupDialog(wxTopLevelWindow * parent)
 		return false;
 	}
 #endif
+
+	return true;
+}
+
+bool wxDialogEx::IsActiveTLW(wxTopLevelWindow * parent)
+{
+	if (IsShowingMessageBox()) {
+		// There already a message box showing
+		return false;
+	}
+
+	if (!shown_dialogs_.empty() && shown_dialogs_.back() != parent) {
+		// There is an open dialog which isn't the expected parent
+		return false;
+	}
 
 	return true;
 }
