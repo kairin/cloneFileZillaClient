@@ -10,7 +10,7 @@
 
 namespace {
 	constexpr int toolbarStyle = wxTB_FLAT | wxTB_HORIZONTAL | wxTB_NODIVIDER
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !wxCHECK_VERSION(3, 2, 1)
 		| wxTB_NOICONS
 #endif
 		;
