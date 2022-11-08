@@ -127,8 +127,6 @@ void CToolBar::MakeTools()
 #ifdef __WXMSW__
 bool CToolBar::Realize()
 {
-	wxASSERT(HasFlag(wxTB_NOICONS));
-
 	bool ret = wxToolBar::Realize();
 	if (!ret) {
 		return false;
