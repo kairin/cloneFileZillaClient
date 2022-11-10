@@ -89,7 +89,7 @@ wxWindowID const nullID = wxID_HIGHEST;
 
 std::wstring LabelEscape(std::wstring_view const& label, size_t maxlen = 2000);
 
-#ifdef __WXMAC__
+#if defined(__WXMAC__) && !wxCHECK_VERSION(3, 2, 1)
 void FixPasswordPaste(std::vector<wxAcceleratorEntry> & entries);
 #endif
 
