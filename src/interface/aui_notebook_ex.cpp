@@ -74,7 +74,12 @@ void PrepareTabIcon(wxBitmapBundle & active, wxBitmapBundle & disabled, wxString
 }
 #endif
 
-class wxAuiTabArtEx : public wxAuiDefaultTabArt
+#ifdef __WXGTK__
+typedef wxAuiDefaultTabArt TabArtBase;
+#else
+typedef wxAuiGenericTabArt TabArtBase;
+#endif
+class wxAuiTabArtEx : public TabArtBase
 {
 public:
 	wxAuiTabArtEx(wxAuiNotebookEx* pNotebook, std::shared_ptr<wxAuiTabArtExData> const& data)
@@ -87,7 +92,7 @@ public:
 #endif
 	}
 
-	virtual wxAuiTabArt* Clone()
+	virtual wxAuiTabArt* Clone() override
 	{
 		wxAuiTabArtEx *art = new wxAuiTabArtEx(m_pNotebook, m_data);
 		art->SetNormalFont(m_normalFont);
@@ -96,9 +101,13 @@ public:
 		return art;
 	}
 
-	virtual wxSize GetTabSize(wxDC& dc, wxWindow* wnd, const wxString& caption, const wxBitmap& bitmap, bool active, int close_button_state, int* x_extent)
+#if wxCHECK_VERSION(3, 2, 1)
+	virtual wxSize GetTabSize(wxDC& dc, wxWindow* wnd, const wxString& caption, const wxBitmapBundle& bitmap, bool active, int close_button_state, int* x_extent) override
+#else
+	virtual wxSize GetTabSize(wxDC& dc, wxWindow* wnd, const wxString& caption, const wxBitmap& bitmap, bool active, int close_button_state, int* x_extent) override
+#endif
 	{
-		wxSize size = wxAuiDefaultTabArt::GetTabSize(dc, wnd, caption, bitmap, active, close_button_state, x_extent);
+		wxSize size = TabArtBase::GetTabSize(dc, wnd, caption, bitmap, active, close_button_state, x_extent);
 
 		wxString text = caption;
 		int pos;
@@ -146,7 +155,7 @@ public:
 			m_baseColour = base;
 			m_activeColour = active;
 
-			wxAuiDefaultTabArt::DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent);
+			TabArtBase::DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent);
 
 			m_baseColour = baseOrig;
 			m_activeColour = baseOrig;
@@ -156,7 +165,7 @@ public:
 				out_tab_rect = &tab_rect;
 			}
 
-			wxAuiDefaultTabArt::DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent);
+			TabArtBase::DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent);
 
 			wxMemoryDC *mdc = dynamic_cast<wxMemoryDC*>(&dc);
 			if (mdc) {
@@ -170,7 +179,7 @@ public:
 #endif
 		}
 		else {
-			wxAuiDefaultTabArt::DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent);
+			TabArtBase::DrawTab(dc, wnd, page, rect, close_button_state, out_tab_rect, out_button_rect, x_extent);
 		}
 	}
 
@@ -180,7 +189,7 @@ protected:
 #if wxCHECK_VERSION(3, 2, 1)
 	virtual void UpdateColoursFromSystem() override
 	{
-		wxAuiDefaultTabArt::UpdateColoursFromSystem();
+		TabArtBase::UpdateColoursFromSystem();
 		PrepareIcons();
 	}
 #endif
