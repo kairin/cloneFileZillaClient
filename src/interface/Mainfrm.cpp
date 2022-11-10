@@ -2924,6 +2924,7 @@ void CMainFrame::SetupKeyboardAccelerators()
 #ifdef __WXMAC__
 	entries.emplace_back(wxACCEL_CMD, ',', XRCID("wxID_PREFERENCES"));
 
+#if !wxCHECK_VERSION(3, 2,1)
 	keyboardCommands[wxNewId()] = std::make_pair([](wxTextEntry* e) { e->Cut(); }, 'X');
 	keyboardCommands[wxNewId()] = std::make_pair([](wxTextEntry* e) { e->Copy(); }, 'C');
 	keyboardCommands[wxNewId()] = std::make_pair([](wxTextEntry* e) { e->Paste(); }, 'V');
@@ -2932,6 +2933,7 @@ void CMainFrame::SetupKeyboardAccelerators()
 	for (auto const& command : keyboardCommands) {
 		entries.emplace_back(wxACCEL_CMD, command.second.second, command.first);
 	}
+#endif
 
 	// Ctrl+(Shift+)Tab to switch between tabs
 	int id = wxNewId();
