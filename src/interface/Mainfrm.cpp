@@ -634,69 +634,70 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 		return;
 	}
 
-	if (event.GetId() == XRCID("ID_MENU_SERVER_SEARCH")) {
+	auto const id = event.GetId();
+	if (id == XRCID("ID_MENU_SERVER_SEARCH")) {
 		OnSearch(event);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_FILE_NEWTAB")) {
+	else if (id == XRCID("ID_MENU_FILE_NEWTAB")) {
 		OnMenuNewTab(event);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_FILE_CLOSETAB")) {
+	else if (id == XRCID("ID_MENU_FILE_CLOSETAB")) {
 		OnMenuCloseTab(event);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_SERVER_DISCONNECT")) {
+	else if (id == XRCID("ID_MENU_SERVER_DISCONNECT")) {
 		OnDisconnect(event);
 	}
-	else if (event.GetId() == XRCID("ID_CANCEL")) {
+	else if (id == XRCID("ID_CANCEL")) {
 		OnCancel(event);
 	}
-	else if (event.GetId() == XRCID("ID_REFRESH")) {
+	else if (id == XRCID("ID_REFRESH")) {
 		OnRefresh(event);
 	}
-	else if (event.GetId() == XRCID("ID_VIEW_TOOLBAR")) {
+	else if (id == XRCID("ID_VIEW_TOOLBAR")) {
 		OnToggleToolBar(event);
 	}
-	else if (event.GetId() == XRCID("ID_VIEW_MESSAGELOG")) {
+	else if (id == XRCID("ID_VIEW_MESSAGELOG")) {
 		OnToggleLogView(event);
 	}
-	else if (event.GetId() == XRCID("ID_VIEW_LOCALTREE")) {
+	else if (id == XRCID("ID_VIEW_LOCALTREE")) {
 		OnToggleDirectoryTreeView(event);
 	}
-	else if (event.GetId() == XRCID("ID_VIEW_REMOTETREE")) {
+	else if (id == XRCID("ID_VIEW_REMOTETREE")) {
 		OnToggleDirectoryTreeView(event);
 	}
-	else if (event.GetId() == XRCID("ID_VIEW_QUEUE")) {
+	else if (id == XRCID("ID_VIEW_QUEUE")) {
 		OnToggleQueueView(event);
 	}
-	else if (event.GetId() == wxID_ABOUT) {
+	else if (id == wxID_ABOUT) {
 		OnMenuHelpAbout(event);
 	}
 #if FZ_MANUALUPDATECHECK
-	else if (event.GetId() == XRCID("ID_CHECKFORUPDATES")) {
+	else if (id == XRCID("ID_CHECKFORUPDATES")) {
 		OnCheckForUpdates(event);
 	}
-	else if (event.GetId() == GetAvailableUpdateMenuId()) {
+	else if (id == GetAvailableUpdateMenuId()) {
 		OnCheckForUpdates(event);
 	}
 #endif //FZ_MANUALUPDATECHECK
-	else if (event.GetId() == XRCID("ID_MENU_VIEW_FILTERS")) {
+	else if (id == XRCID("ID_MENU_VIEW_FILTERS")) {
 		OnFilter(event);
 	}
-	else if (event.GetId() == XRCID("ID_COMPARE_SIZE")) {
+	else if (id == XRCID("ID_COMPARE_SIZE")) {
 		OnDropdownComparisonMode(event);
 	}
-	else if (event.GetId() == XRCID("ID_COMPARE_DATE")) {
+	else if (id == XRCID("ID_COMPARE_DATE")) {
 		OnDropdownComparisonMode(event);
 	}
-	else if (event.GetId() == XRCID("ID_COMPARE_HIDEIDENTICAL")) {
+	else if (id == XRCID("ID_COMPARE_HIDEIDENTICAL")) {
 		OnDropdownComparisonHide(event);
 	}
-	else if (event.GetId() == XRCID("wxID_EXIT")) {
+	else if (id == XRCID("wxID_EXIT")) {
 		Close();
 	}
-	else if (event.GetId() == XRCID("ID_MENU_FILE_SITEMANAGER")) {
+	else if (id == XRCID("ID_MENU_FILE_SITEMANAGER")) {
 		OpenSiteManager();
 	}
-	else if (event.GetId() == XRCID("ID_MENU_FILE_COPYSITEMANAGER")) {
+	else if (id == XRCID("ID_MENU_FILE_COPYSITEMANAGER")) {
 		Site site;
 		CState* pState = CContextManager::Get()->GetCurrentContext();
 		if (pState) {
@@ -708,7 +709,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 		}
 		OpenSiteManager(&site);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_SERVER_CMD")) {
+	else if (id == XRCID("ID_MENU_SERVER_CMD")) {
 		CState* pState = CContextManager::Get()->GetCurrentContext();
 		if (!pState || !pState->m_pCommandQueue || !pState->IsRemoteConnected() || !pState->IsRemoteIdle()) {
 			return;
@@ -747,16 +748,16 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 		}
 		pState->m_pCommandQueue->ProcessCommand(new CRawCommand(dlg.GetValue().ToStdWstring()));
 	}
-	else if (event.GetId() == XRCID("wxID_PREFERENCES")) {
+	else if (id == XRCID("wxID_PREFERENCES")) {
 		OnMenuEditSettings(event);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_EDIT_NETCONFWIZARD")) {
+	else if (id == XRCID("ID_MENU_EDIT_NETCONFWIZARD")) {
 		CNetConfWizard wizard(this, &options_, m_engineContext);
 		wizard.Load();
 		wizard.Run();
 	}
 	// Debug menu
-	else if (event.GetId() == XRCID("ID_CIPHERS")) {
+	else if (id == XRCID("ID_CIPHERS")) {
 		CInputDialog dlg;
 		dlg.Create(this, _T("Ciphers"), _T("Priority string:"));
 		dlg.AllowEmpty(true);
@@ -765,21 +766,21 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 			wxMessageBoxEx(fz::to_wstring(ciphers), _T("Ciphers"));
 		}
 	}
-	else if (event.GetId() == XRCID("ID_CLEARCACHE_LAYOUT")) {
+	else if (id == XRCID("ID_CLEARCACHE_LAYOUT")) {
 		CWrapEngine::ClearCache();
 	}
-	else if (event.GetId() == XRCID("ID_CLEAR_UPDATER")) {
+	else if (id == XRCID("ID_CLEAR_UPDATER")) {
 #if FZ_MANUALUPDATECHECK
 		if (m_pUpdater) {
 			m_pUpdater->Reset();
 		}
 #endif
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_FILEEXISTS")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_FILEEXISTS")) {
 		CDefaultFileExistsDlg dlg;
 		dlg.Run(this, false);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_EDIT_CLEARPRIVATEDATA")) {
+	else if (id == XRCID("ID_MENU_EDIT_CLEARPRIVATEDATA")) {
 		CClearPrivateDataDialog* pDlg = CClearPrivateDataDialog::Create(this);
 		if (!pDlg) {
 			return;
@@ -795,7 +796,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 			m_pToolBar->UpdateToolbarState();
 		}
 	}
-	else if (event.GetId() == XRCID("ID_MENU_SERVER_VIEWHIDDEN")) {
+	else if (id == XRCID("ID_MENU_SERVER_VIEWHIDDEN")) {
 		bool showHidden = options_.get_int(OPTION_VIEW_HIDDEN_FILES) ? 0 : 1;
 		if (showHidden) {
 			CConditionalDialog dlg(this, CConditionalDialog::viewhidden, CConditionalDialog::ok, false);
@@ -817,28 +818,28 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 			}
 		}
 	}
-	else if (event.GetId() == XRCID("ID_EXPORT")) {
+	else if (id == XRCID("ID_EXPORT")) {
 		CExportDialog dlg(this, m_pQueueView);
 		dlg.Run();
 	}
-	else if (event.GetId() == XRCID("ID_IMPORT")) {
+	else if (id == XRCID("ID_IMPORT")) {
 		CImportDialog dlg(this, m_pQueueView);
 		dlg.Run();
 	}
-	else if (event.GetId() == XRCID("ID_MENU_FILE_EDITED")) {
+	else if (id == XRCID("ID_MENU_FILE_EDITED")) {
 		CEditHandlerStatusDialog dlg(this);
 		dlg.ShowModal();
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_TYPE_AUTO")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_TYPE_AUTO")) {
 		options_.set(OPTION_ASCIIBINARY, 0);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_TYPE_ASCII")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_TYPE_ASCII")) {
 		options_.set(OPTION_ASCIIBINARY, 1);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_TYPE_BINARY")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_TYPE_BINARY")) {
 		options_.set(OPTION_ASCIIBINARY, 2);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_PRESERVETIMES")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_PRESERVETIMES")) {
 		if (event.IsChecked()) {
 			CConditionalDialog dlg(this, CConditionalDialog::confirm_preserve_timestamps, CConditionalDialog::ok, true);
 			dlg.SetTitle(_("Preserving file timestamps"));
@@ -847,16 +848,16 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 		}
 		options_.set(OPTION_PRESERVE_TIMESTAMPS, event.IsChecked() ? 1 : 0);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_PROCESSQUEUE")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_PROCESSQUEUE")) {
 		if (m_pQueueView) {
 			m_pQueueView->SetActive(event.IsChecked());
 		}
 	}
-	else if (event.GetId() == XRCID("ID_MENU_HELP_GETTINGHELP") ||
-			 event.GetId() == XRCID("ID_MENU_HELP_BUGREPORT"))
+	else if (id == XRCID("ID_MENU_HELP_GETTINGHELP") ||
+			 id == XRCID("ID_MENU_HELP_BUGREPORT"))
 	{
 		wxString url(_T("https://filezilla-project.org/support.php?type=client&mode="));
-		if (event.GetId() == XRCID("ID_MENU_HELP_GETTINGHELP")) {
+		if (id == XRCID("ID_MENU_HELP_GETTINGHELP")) {
 			url += _T("help");
 		}
 		else {
@@ -884,7 +885,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 		}
 		wxLaunchDefaultBrowser(url);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_VIEW_FILELISTSTATUSBAR")) {
+	else if (id == XRCID("ID_MENU_VIEW_FILELISTSTATUSBAR")) {
 		bool show = options_.get_int(OPTION_FILELIST_STATUSBAR) == 0;
 		options_.set(OPTION_FILELIST_STATUSBAR, show ? 1 : 0);
 		CContextControl::_context_controls* controls = m_pContextControl ? m_pContextControl->GetCurrentControls() : 0;
@@ -905,7 +906,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 			}
 		}
 	}
-	else if (event.GetId() == XRCID("ID_VIEW_QUICKCONNECT")) {
+	else if (id == XRCID("ID_VIEW_QUICKCONNECT")) {
 		if (!m_pQuickconnectBar) {
 			CreateQuickconnectBar();
 		}
@@ -917,7 +918,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 		}
 		options_.set(OPTION_SHOW_QUICKCONNECT, m_pQuickconnectBar != 0);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_MANUAL")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_MANUAL")) {
 		CState* pState = CContextManager::Get()->GetCurrentContext();
 		if (!pState || !m_pQueueView) {
 			wxBell();
@@ -926,7 +927,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 		CManualTransfer dlg(options_, m_pQueueView);
 		dlg.Run(this, pState);
 	}
-	else if (event.GetId() == XRCID("ID_BOOKMARK_ADD") || event.GetId() == XRCID("ID_BOOKMARK_MANAGE")) {
+	else if (id == XRCID("ID_BOOKMARK_ADD") || id == XRCID("ID_BOOKMARK_MANAGE")) {
 		CState* pState = CContextManager::Get()->GetCurrentContext();
 		if (!pState) {
 			return;
@@ -942,7 +943,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 
 		// controls->last_bookmark_path can get modified if it's empty now
 		int res;
-		if (event.GetId() == XRCID("ID_BOOKMARK_ADD")) {
+		if (id == XRCID("ID_BOOKMARK_ADD")) {
 			CNewBookmarkDialog dlg(this, sitePath, old_site ? &old_site : 0);
 			res = dlg.Run(pState->GetLocalDir().GetPath(), pState->GetRemotePath());
 		}
@@ -964,11 +965,11 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 			}
 		}
 	}
-	else if (event.GetId() == XRCID("ID_MENU_HELP_WELCOME")) {
+	else if (id == XRCID("ID_MENU_HELP_WELCOME")) {
 		CWelcomeDialog dlg(options_, this);
 		dlg.Run(true);
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_SPEEDLIMITS_ENABLE")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_SPEEDLIMITS_ENABLE")) {
 		bool enable = options_.get_int(OPTION_SPEEDLIMIT_ENABLE) == 0;
 
 		const int downloadLimit = options_.get_int(OPTION_SPEEDLIMIT_INBOUND);
@@ -981,11 +982,11 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 			options_.set(OPTION_SPEEDLIMIT_ENABLE, enable ? 1 : 0);
 		}
 	}
-	else if (event.GetId() == XRCID("ID_MENU_TRANSFER_SPEEDLIMITS_CONFIGURE")) {
+	else if (id == XRCID("ID_MENU_TRANSFER_SPEEDLIMITS_CONFIGURE")) {
 		CSpeedLimitsDialog dlg;
 		dlg.Run(this);
 	}
-	else if (event.GetId() == m_comparisonToggleAcceleratorId) {
+	else if (id == m_comparisonToggleAcceleratorId) {
 		CState* pState = CContextManager::Get()->GetCurrentContext();
 		if (!pState) {
 			return;
@@ -1004,7 +1005,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 	}
 	else {
 		for (int i = 0; i < 10; ++i) {
-			if (event.GetId() != tab_hotkey_ids[i]) {
+			if (id != tab_hotkey_ids[i]) {
 				continue;
 			}
 
@@ -1021,7 +1022,7 @@ void CMainFrame::OnMenuHandler(wxCommandEvent &event)
 			return;
 		}
 
-		std::unique_ptr<Site> pData = CSiteManager::GetSiteById(event.GetId());
+		std::unique_ptr<Site> pData = CSiteManager::GetSiteById(id);
 
 		if (!pData) {
 			event.Skip();
