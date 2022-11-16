@@ -593,6 +593,7 @@ private:
 	int m_focusItem{-1};
 	std::vector<bool> m_selections;
 	int m_pending_focus_processing{};
+	bool updateAllSelections_{};
 #endif
 
 #if defined(__WXGTK__) && !defined(__WXGTK3__)

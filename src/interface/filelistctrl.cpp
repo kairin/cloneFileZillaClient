@@ -877,6 +877,49 @@ template<class CFileData> void CFileListCtrl<CFileData>::OnItemDeselected(wxList
 #endif
 
 	const int item = event.GetIndex();
+
+#if !defined(__WXMSW__) && wxCHECK_VERSION(3, 2, 1)
+	if (item == -1) {
+		if (wxGetKeyState(WXK_SHIFT)) {
+			// Sad, so expensive.
+			if (m_pending_focus_processing) {
+				updateAllSelections_ = true;
+			}
+			else {
+				UpdateSelections(0, static_cast<int>(m_selections.size()) - 1);
+			}
+		}
+		else {
+			// Everything deselected...
+			for (unsigned int i = 0; i < m_selections.size(); ++i) {
+				m_selections[i] = false;
+			}
+			m_pFilelistStatusBar->UnselectAll();
+
+			// ...but possibly the focus
+			if (m_focusItem >= 0 && m_focusItem < GetItemCount()) {
+				bool selected = GetItemState(m_focusItem, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED;
+				if (selected) {
+					m_selections[m_focusItem] = true;
+					const int index = m_indexMapping[m_focusItem];
+					const CFileData& data = m_fileData[index];
+					if (data.comparison_flags == fill) {
+						return;
+					}
+
+					if (ItemIsDir(index)) {
+						m_pFilelistStatusBar->SelectDirectory();
+					}
+					else {
+						m_pFilelistStatusBar->SelectFile(ItemGetSize(index));
+					}
+				}
+			}
+		}
+		return;
+	}
+#endif
+
 	if (item < 0 || item >= (int)m_indexMapping.size()) {
 		return;
 	}
@@ -948,6 +991,12 @@ template<class CFileData> void CFileListCtrl<CFileData>::SetItemCount(int count)
 template<class CFileData> void CFileListCtrl<CFileData>::OnProcessFocusChange(wxCommandEvent& event)
 {
 	m_pending_focus_processing--;
+	if (updateAllSelections_) {
+		updateAllSelections_ = false;
+		UpdateSelections(0, static_cast<int>(m_selections.size()) - 1);
+		return;
+	}
+
 	int old_focus = event.GetInt();
 	int new_focus = (int)event.GetExtraLong();
 
@@ -1068,13 +1117,18 @@ template<class CFileData> void CFileListCtrl<CFileData>::OnProcessMouseEvent(wxC
 	}
 
 	bool selected = GetItemState(m_focusItem, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED;
-	if (!selected && m_selections[m_focusItem]) {
-		// Need to deselect all
-		if (m_pFilelistStatusBar) {
-			m_pFilelistStatusBar->UnselectAll();
+	if (!selected) {
+		if (wxGetKeyState(WXK_CONTROL)) {
+			UpdateSelections(0, static_cast<int>(m_selections.size()) - 1);
 		}
-		for (unsigned int i = 0; i < m_selections.size(); ++i) {
-			m_selections[i] = 0;
+		else {
+			// Need to deselect all
+			if (m_pFilelistStatusBar) {
+				m_pFilelistStatusBar->UnselectAll();
+			}
+			for (unsigned int i = 0; i < m_selections.size(); ++i) {
+				m_selections[i] = 0;
+			}
 		}
 	}
 }
