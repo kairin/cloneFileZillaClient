@@ -10,6 +10,13 @@ Legend:
     *nix: Unix (e.g BSD) and Unix-like systems (e.g. Linux)
     macOS/OS X: Apple macOS
 
+3.62.1 (2022-11-17)
+
+- Fixed a crash if main menu events arrive while a dialog is already open
+- macOS: Fixed an issue with keyboard shortcuts
+- macOS: Fix selected item count in file list status bars
+- macOS: Fixed graphical corruption in some controls
+
 3.62.0 (2022-10-27)
 
 - Fixed sizing issues in about and welcome dialogs
