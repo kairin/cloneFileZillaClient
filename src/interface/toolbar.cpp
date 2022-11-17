@@ -26,23 +26,17 @@ CToolBar::CToolBar(CMainFrame& mainFrame, COptions& options)
 	, mainFrame_(mainFrame)
 	, options_(options)
 {
-	iconSize_ = CThemeProvider::GetIconSize(iconSizeSmall, true);
-
 #ifdef __WXMAC__
 	fix_toolbar_style(mainFrame_);
 
-	// OS X only knows two hardcoded toolbar sizes.
-	if (iconSize_.x >= 32) {
-		iconSize_ = wxSize(32, 32);
-	}
-	else {
-		iconSize_ = wxSize(24, 24);
-	}
+	// These days, OS X only knows one hardcoded toolbar size
+	iconSize_ = wxSize(32, 32);
 	if (wxGetApp().GetTopWindow()) {
                 double scale = wxGetApp().GetTopWindow()->GetContentScaleFactor();
                 iconSize_.Scale(scale, scale);
 	}
 #else
+	iconSize_ = CThemeProvider::GetIconSize(iconSizeSmall, true);
 	SetToolBitmapSize(iconSize_);
 #endif
 
