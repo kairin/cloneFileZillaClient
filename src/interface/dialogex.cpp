@@ -174,7 +174,7 @@ bool wxDialogEx::ReplaceControl(wxWindow* old, wxWindow* wnd)
 
 bool wxDialogEx::CanShowPopupDialog(wxTopLevelWindow * parent)
 {
-	if (!IsActiveTLW()) {
+	if (!IsActiveTLW(parent)) {
 		return false;
 	}
 
@@ -208,7 +208,7 @@ bool wxDialogEx::IsActiveTLW(wxTopLevelWindow * parent)
 		return false;
 	}
 
-	if (!shown_dialogs_.empty() && shown_dialogs_.back() != parent) {
+	if (parent && !shown_dialogs_.empty() && shown_dialogs_.back() != parent) {
 		// There is an open dialog which isn't the expected parent
 		return false;
 	}

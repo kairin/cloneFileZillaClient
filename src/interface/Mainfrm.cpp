@@ -1867,7 +1867,7 @@ void CMainFrame::TriggerUpdateDialog()
 		return;
 	}
 
-	if (!wxDialogEx::CanShowPopupDialog()) {
+	if (!wxDialogEx::CanShowPopupDialog(this)) {
 		update_dialog_timer_.Start(1000, true);
 		return;
 	}
@@ -2825,7 +2825,7 @@ void CMainFrame::PostInitialize()
 	bool startupReconnect = startupAction == 2;
 
 	if (startupAction == 1) {
-		if (wxDialogEx::CanShowPopupDialog()) {
+		if (wxDialogEx::CanShowPopupDialog(this)) {
 			OpenSiteManager();
 		}
 		startupReconnect = false;
