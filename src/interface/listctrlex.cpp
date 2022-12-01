@@ -49,6 +49,11 @@ wxListCtrlEx::wxListCtrlEx(wxWindow *parent,
 						   const wxValidator& validator,
 						   const wxString& name)
 {
+#if defined(__WXMSW__) && wxCHECK_VERSION(3, 2, 1)
+	// This gets rid of vertical lines between columns
+	EnableSystemTheme(false);
+#endif
+
 	Create(parent, id, pos, size, style, validator, name);
 
 #ifndef __WXMSW__
