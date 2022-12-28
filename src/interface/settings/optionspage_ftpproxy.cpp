@@ -88,7 +88,7 @@ bool COptionsPageFtpProxy::CreateControls(wxWindow* parent)
 		flex->Add(new wxStaticText(box, nullID, _("Pro&xy password:")), lay.valign);
 		impl_->pass_ = new wxTextCtrlEx(box, nullID, wxString(), wxDefaultPosition, lay.defTextCtrlSize);
 		flex->Add(impl_->pass_, lay.valign);
-		inner->Add(new wxStaticText(box, nullID, _("Note: This only works with plain, unencrytped FTP connections.")));
+		inner->Add(new wxStaticText(box, nullID, _("Note: This only works with plain, unencrypted FTP connections.")));
 
 		impl_->none_->Bind(wxEVT_RADIOBUTTON, &COptionsPageFtpProxy::OnProxyTypeChanged, this);
 		impl_->userhost_->Bind(wxEVT_RADIOBUTTON, &COptionsPageFtpProxy::OnProxyTypeChanged, this);
