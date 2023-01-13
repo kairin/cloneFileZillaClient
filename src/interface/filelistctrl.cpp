@@ -894,24 +894,31 @@ template<class CFileData> void CFileListCtrl<CFileData>::OnItemDeselected(wxList
 			for (unsigned int i = 0; i < m_selections.size(); ++i) {
 				m_selections[i] = false;
 			}
-			m_pFilelistStatusBar->UnselectAll();
+			if (m_pFilelistStatusBar) {
+				m_pFilelistStatusBar->UnselectAll();
+			}
 
 			// ...but possibly the focus
 			if (m_focusItem >= 0 && m_focusItem < GetItemCount()) {
 				bool selected = GetItemState(m_focusItem, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED;
 				if (selected) {
 					m_selections[m_focusItem] = true;
+					if (m_focusItem >= m_indexMapping.size()) {
+						return;
+					}
 					const int index = m_indexMapping[m_focusItem];
 					const CFileData& data = m_fileData[index];
 					if (data.comparison_flags == fill) {
 						return;
 					}
 
-					if (ItemIsDir(index)) {
-						m_pFilelistStatusBar->SelectDirectory();
-					}
-					else {
-						m_pFilelistStatusBar->SelectFile(ItemGetSize(index));
+					if (m_pFilelistStatusBar) {
+						if (ItemIsDir(index)) {
+							m_pFilelistStatusBar->SelectDirectory();
+						}
+						else {
+							m_pFilelistStatusBar->SelectFile(ItemGetSize(index));
+						}
 					}
 				}
 			}
