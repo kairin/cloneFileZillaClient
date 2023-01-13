@@ -1427,6 +1427,12 @@ void CMainFrame::OnClose(wxCloseEvent &event)
 
 	for (std::vector<CState*>::const_iterator iter = pStates->begin(); iter != pStates->end(); ++iter) {
 		CState *pState = *iter;
+		if (!pState) {
+			continue;
+		}
+		if (async_request_queue_) {
+			async_request_queue_->ClearPending(pState->engine_.get());
+		}
 		pState->DestroyEngine();
 	}
 
@@ -2154,7 +2160,9 @@ bool CMainFrame::ConnectToSite(Site & data, Bookmark const& bookmark, CState* pS
 
 void CMainFrame::CheckChangedSettings()
 {
-	async_request_queue_->RecheckDefaults();
+	if (async_request_queue_) {
+		async_request_queue_->RecheckDefaults();
+	}
 
 	CAutoAsciiFiles::SettingsChanged(options_);
 
