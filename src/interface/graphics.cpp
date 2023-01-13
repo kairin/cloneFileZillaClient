@@ -50,12 +50,14 @@ void CWindowTinter::SetBackgroundTint(site_colour tint)
 
 wxColour CWindowTinter::GetOriginalColor()
 {
-#ifdef __WXMAC__
+#ifndef __WXMSW__
 	auto listctrl = dynamic_cast<wxListCtrl*>(m_wnd.GetParent());
 	if (listctrl && reinterpret_cast<wxWindow*>(listctrl->m_mainWin) == &m_wnd) {
 		return listctrl->GetDefaultAttributes().colBg;
 	}
+#endif
 
+#ifdef __WXMAC__
 	auto combo = dynamic_cast<wxComboBox*>(&m_wnd);
 	if (combo) {
 		return wxTextCtrl::GetClassDefaultAttributes().colBg;
