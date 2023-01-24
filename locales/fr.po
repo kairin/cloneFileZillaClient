@@ -2426,7 +2426,7 @@ msgstr "Transferts simultanés"
 
 #: ../src/interface/filteredit.cpp:132 ../src/interface/search.cpp:698
 msgid "Conditions are c&ase sensitive"
-msgstr "Conditions sensiblent à la c&asse"
+msgstr "Conditions sensibles à la c&asse"
 
 #: ../src/interface/resources/xrc/netconfwizard.xrc:341
 msgid "Configuration test"
