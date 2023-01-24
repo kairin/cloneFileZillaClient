@@ -37,7 +37,7 @@ bool CAboutDialog::Create(wxWindow* parent)
 		version += L"-nightly";
 	}
 	topRight->Add(new wxStaticText(this, -1, version));
-	topRight->Add(new wxStaticText(this, -1, L"Copyright (C) 2004-2022  Tim Kosse"));
+	topRight->Add(new wxStaticText(this, -1, L"Copyright (C) 2004-2023  Tim Kosse"));
 
 	auto homepage = lay.createFlex(2);
 	homepage->Add(new wxStaticText(this, -1, _("Homepage:")), lay.valign);
