@@ -37,6 +37,10 @@ protected:
 	std::map<int, wxToolBarToolBase*> m_hidden_tools;
 
 #ifdef __WXMSW__
+
+#if wxCHECK_VERSION(3, 2, 1)
+	virtual void DoSetToolBitmapSize(wxSize const&) override;
+#endif
 	std::unique_ptr<wxImageList> toolImages_;
 	std::unique_ptr<wxImageList> disabledToolImages_;
 #endif

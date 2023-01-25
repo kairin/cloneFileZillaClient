@@ -311,3 +311,11 @@ bool CToolBar::HideTool(int id)
 
 	return true;
 }
+
+#if defined(__WXMSW__) && wxCHECK_VERSION(3, 2, 1)
+void CToolBar::DoSetToolBitmapSize(wxSize const&)
+{
+	// wx internally taints the sizes. Ignore the passed size and pass along out own, proper size.
+	wxToolBar::DoSetToolBitmapSize(iconSize_);
+}
+#endif
