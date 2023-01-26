@@ -330,7 +330,7 @@ wxBitmap CThemeProvider::CreateBitmap(wxArtID const& id, wxArtClient const& clie
 		if (newSize.x <= 0 || newSize.y <= 0) {
 			newSize = GetIconSize(iconSizeSmall);
 		}
-#ifdef __WXMSW__
+#if defined(__WXMSW__) && !wxCHECK_VERSION(3, 2, 1)
 		else {
 			// wxMSW doesn't conside the UI scale factor for menu items
 			if (client == wxART_MENU) {
@@ -613,7 +613,7 @@ double CThemeProvider::GetUIScaleFactor()
 wxStaticBitmap* CThemeProvider::createStaticBitmap(wxWindow* parent, std::wstring const& name, iconSize s)
 {
 	auto const size = CThemeProvider::GetIconSize(s);
-	return new wxStaticBitmap(parent, -1, CreateBitmap(name, wxString(), size), wxDefaultPosition, size);
+	return new wxStaticBitmap(parent, -1, MakeBmpBundle(CreateBitmap(name, wxString(), size)), wxDefaultPosition, size);
 }
 
 

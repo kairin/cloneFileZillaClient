@@ -917,10 +917,10 @@ void CRemoteTreeView::OnContextMenu(wxTreeEvent& event)
 
 	wxMenu menu;
 	auto item = new wxMenuItem(&menu, XRCID("ID_DOWNLOAD"), _("&Download"), _("Download selected directory"));
-	item->SetBitmap(wxArtProvider::GetBitmap(_T("ART_DOWNLOAD"), wxART_MENU));
+	item->SetBitmap(MakeBmpBundle(wxArtProvider::GetBitmap(_T("ART_DOWNLOAD"), wxART_MENU)));
 	menu.Append(item);
 	item = new wxMenuItem(&menu, XRCID("ID_ADDTOQUEUE"), _("&Add to queue"), _("Add selected directory to the transfer queue"));
-	item->SetBitmap(wxArtProvider::GetBitmap(_T("ART_DOWNLOADADD"), wxART_MENU));
+	item->SetBitmap(MakeBmpBundle(wxArtProvider::GetBitmap(_T("ART_DOWNLOADADD"), wxART_MENU)));
 	menu.Append(item);
 
 	menu.AppendSeparator();

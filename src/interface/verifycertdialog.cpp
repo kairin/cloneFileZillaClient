@@ -421,7 +421,7 @@ bool CVerifyCertDialog::CreateVerificationDialog(CCertificateNotification const&
 	}
 
 	if (warning_) {
-		icon->SetBitmap(wxArtProvider::GetBitmap(wxART_WARNING));
+		icon->SetBitmap(MakeBmpBundle(wxArtProvider::GetBitmap(wxART_WARNING)));
 		if (impl_->always_) {
 			impl_->always_->Enable(false);
 		}

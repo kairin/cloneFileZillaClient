@@ -1047,10 +1047,10 @@ void CRemoteListView::OnContextMenu(wxContextMenuEvent& event)
 
 	wxMenu menu;
 	auto item = new wxMenuItem(&menu, XRCID("ID_DOWNLOAD"), _("&Download"), _("Download selected files and directories"));
-	item->SetBitmap(wxArtProvider::GetBitmap(_T("ART_DOWNLOAD"), wxART_MENU));
+	item->SetBitmap(MakeBmpBundle(wxArtProvider::GetBitmap(_T("ART_DOWNLOAD"), wxART_MENU)));
 	menu.Append(item);
 	item = new wxMenuItem(&menu, XRCID("ID_ADDTOQUEUE"), _("&Add files to queue"), _("Add selected files and folders to the transfer queue"));
-	item->SetBitmap(wxArtProvider::GetBitmap(_T("ART_DOWNLOADADD"), wxART_MENU));
+	item->SetBitmap(MakeBmpBundle(wxArtProvider::GetBitmap(_T("ART_DOWNLOADADD"), wxART_MENU)));
 	menu.Append(item);
 	menu.Append(XRCID("ID_ENTER"), _("E&nter directory"), _("Enter selected directory"));
 	menu.Append(XRCID("ID_EDIT"), _("&View/Edit"));

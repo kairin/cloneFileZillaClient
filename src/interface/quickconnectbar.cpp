@@ -75,7 +75,7 @@ CQuickconnectBar::CQuickconnectBar(CMainFrame & parent)
 #else
 	wxSize dropdownSize(-1, -1);
 #endif
-	connectSizer->Add(new wxBitmapButton(this, XRCID("ID_QUICKCONNECT_DROPDOWN"), bmp, wxDefaultPosition, dropdownSize, wxBU_AUTODRAW | wxBU_EXACTFIT), flags);
+	connectSizer->Add(new wxBitmapButton(this, XRCID("ID_QUICKCONNECT_DROPDOWN"), MakeBmpBundle(bmp), wxDefaultPosition, dropdownSize, wxBU_AUTODRAW | wxBU_EXACTFIT), flags);
 
 #ifdef __WXMAC__
 	// Under OS X default buttons are toplevel window wide, where under Windows / GTK they stop at the parent panel.

@@ -808,10 +808,10 @@ void CLocalListView::OnContextMenu(wxContextMenuEvent& event)
 	wxMenu menu;
 
 	auto item = new wxMenuItem(&menu, XRCID("ID_UPLOAD"), _("&Upload"), _("Upload selected files and directories"));
-	item->SetBitmap(wxArtProvider::GetBitmap(_T("ART_UPLOAD"), wxART_MENU));
+	item->SetBitmap(MakeBmpBundle(wxArtProvider::GetBitmap(_T("ART_UPLOAD"), wxART_MENU)));
 	menu.Append(item);
 	item = new wxMenuItem(&menu, XRCID("ID_ADDTOQUEUE"), _("&Add files to queue"), _("Add selected files and folders to the transfer queue"));
-	item->SetBitmap(wxArtProvider::GetBitmap(_T("ART_UPLOADADD"), wxART_MENU));
+	item->SetBitmap(MakeBmpBundle(wxArtProvider::GetBitmap(_T("ART_UPLOADADD"), wxART_MENU)));
 	menu.Append(item);
 	menu.Append(XRCID("ID_ENTER"), _("E&nter directory"), _("Enter selected directory"));
 

@@ -118,4 +118,41 @@ private:
 	std::map<wxSize, wxBitmap, wxSize_cmp> emptyBitmaps_;
 };
 
+#if !defined __WXMSW__ || !wxCHECK_VERSION(3, 2, 1)
+#define MakeBmpBundle(x) x
+#else
+
+class ProperlyScaledBitmapBundle final : public wxBitmapBundleImpl
+{
+public:
+	ProperlyScaledBitmapBundle(wxBitmap const& bmp, double scale)
+		: bmp_(bmp)
+		, scale_(scale)
+	{
+	}
+
+	wxSize GetDefaultSize() const override { return bmp_.GetSize() / scale_; }
+	wxSize GetPreferredBitmapSizeAtScale(double scale) const override {
+		return GetDefaultSize() * scale;
+	}
+
+	wxBitmap GetBitmap(const wxSize& size) override {
+		if (size != bmp_.GetSize()) {
+			wxImage img = bmp_.ConvertToImage();
+			img.Rescale(size.x, size.y, wxIMAGE_QUALITY_HIGH);
+			return wxBitmap(img);
+		}
+		return bmp_;
+	}
+
+private:
+	wxBitmap bmp_;
+	double scale_;
+};
+
+inline wxBitmapBundle MakeBmpBundle(wxBitmap const& bmp) {
+	return wxBitmapBundle::FromImpl(new ProperlyScaledBitmapBundle(bmp, CThemeProvider::GetUIScaleFactor()));
+}
+#endif
+
 #endif

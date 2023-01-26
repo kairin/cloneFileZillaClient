@@ -286,7 +286,7 @@ class CIndicator final : public wxStaticBitmap
 {
 public:
 	CIndicator(CStatusBar* pStatusBar, const wxBitmap& bmp, wxSize const& size)
-		: wxStaticBitmap(pStatusBar, wxID_ANY, bmp, wxDefaultPosition, size)
+		: wxStaticBitmap(pStatusBar, wxID_ANY, MakeBmpBundle(bmp), wxDefaultPosition, size)
 	{
 		m_pStatusBar = pStatusBar;
 	}
@@ -762,7 +762,7 @@ void CStatusBar::SetFieldBitmap(int field, wxStaticBitmap*& indicator, wxBitmap 
 		indicator->Destroy();
 		indicator = nullptr;
 #else
-		indicator->SetBitmap(bmp);
+		indicator->SetBitmap(MakeBmpBundle(bmp));
 #endif
 	}
 	if (!indicator) {

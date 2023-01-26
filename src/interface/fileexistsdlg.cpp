@@ -188,7 +188,7 @@ void CFileExistsDlg::LoadIcon(int id, std::wstring const& file)
 		dc->DrawIcon(icon, 0, 0);
 		delete dc;
 
-		pStatBmp->SetBitmap(bmp);
+		pStatBmp->SetBitmap(MakeBmpBundle(bmp));
 
 		return;
 	}
@@ -233,7 +233,7 @@ void CFileExistsDlg::LoadIcon(int id, std::wstring const& file)
 	}
 #endif
 
-	pStatBmp->SetBitmap(CThemeProvider::Get()->CreateBitmap(_T("ART_FILE"), wxART_OTHER, size));
+	pStatBmp->SetBitmap(MakeBmpBundle(CThemeProvider::Get()->CreateBitmap(_T("ART_FILE"), wxART_OTHER, size)));
 }
 
 void CFileExistsDlg::OnOK(wxCommandEvent&)
