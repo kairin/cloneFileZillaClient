@@ -10,7 +10,11 @@ Legend:
     *nix: Unix (e.g BSD) and Unix-like systems (e.g. Linux)
     macOS/OS X: Apple macOS
 
-3.63.0 (2022-01-24)
+3.63.1 (2023-01-26)
+
+- MSW: Fixed icon sizing issue on high DPI scale factors
+
+3.63.0 (2023-01-24)
 
 - All official FileZilla binares now link against wxWidgets 3.2.1
 - Fixed a potential crash when closing FileZilla
