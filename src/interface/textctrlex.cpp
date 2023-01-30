@@ -18,6 +18,11 @@ wxTextCtrlEx::wxTextCtrlEx(wxWindow* parent, int id, wxString const& value, wxPo
 		});
 	}
 #endif
+
+#if defined(__WXMAC__) && wxCHECK_VERSION(3,2,1)
+	OSXEnableAutomaticQuoteSubstitution(false);
+	OSXEnableAutomaticDashSubstitution(false);
+#endif
 }
 
 bool wxTextCtrlEx::Create(wxWindow* parent, int id, wxString const& value, wxPoint const& pos, wxSize const& size, long style)
