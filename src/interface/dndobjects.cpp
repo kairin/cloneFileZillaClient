@@ -259,10 +259,11 @@ bool CShellExtensionInterface::CreateDragDirectory()
 		value *= 10;
 		value += i;
 
-		wxFileName dirname(wxStandardPaths::Get().GetTempDir(), DRAG_EXT_DUMMY_DIR_PREFIX + std::to_wstring(value));
+		wxFileName dirname(wxStandardPaths::Get().GetTempDir(), L"");
 		dirname.Normalize();
-		std::wstring dir = dirname.GetFullPath().ToStdWstring();
+		dirname.AppendDir(DRAG_EXT_DUMMY_DIR_PREFIX + std::to_wstring(value));
 
+		std::wstring dir = dirname.GetFullPath().ToStdWstring();
 		if (dir.size() > DRAG_EXT_MAX_PATH) {
 			return false;
 		}
