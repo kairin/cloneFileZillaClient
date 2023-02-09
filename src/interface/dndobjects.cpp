@@ -264,6 +264,9 @@ bool CShellExtensionInterface::CreateDragDirectory()
 		dirname.AppendDir(DRAG_EXT_DUMMY_DIR_PREFIX + std::to_wstring(value));
 
 		std::wstring dir = dirname.GetFullPath().ToStdWstring();
+		if (dir.size() > 2 && (dir.back() == '/' || dir.back() == '\\')) {
+			dir.pop_back();
+		}
 		if (dir.size() > DRAG_EXT_MAX_PATH) {
 			return false;
 		}

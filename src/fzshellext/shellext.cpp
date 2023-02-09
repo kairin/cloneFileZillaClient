@@ -887,6 +887,11 @@ STDMETHODIMP_(UINT) CShellExt::CopyCallback(HWND, UINT wFunc, UINT wFlags,
 					data[DRAG_EXT_MAPPING_LENGTH - 2] = 0;
 
 					wchar_t* file = reinterpret_cast<wchar_t *>(data + 2);
+					auto const flen = wcslen(file);
+					if (flen > 2 && (file[flen - 1] == '/' || file[flen - 1] == '\\')) {
+						file[flen - 1] = 0;
+					}
+
 					DEBUG_MSG("Dragged file:");
 					DEBUG_MSG_W(file);
 
