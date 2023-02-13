@@ -105,6 +105,7 @@
   Var REINSTALL_UNINSTALLBUTTON
   Var ALL_USERS_DEFAULT
   Var ALL_USERS
+  Var PREVIOUS_ALL_USERS
   Var ALL_USERS_BUTTON
   Var IS_ADMIN
   Var USERNAME
@@ -272,7 +273,7 @@ Function ReadPreviousVersion
     ; Detect version
     ReadRegStr $PREVIOUS_VERSION HKLM "${INSTALLER_REGKEY}" "Version"
     ${If} $PREVIOUS_VERSION != ""
-      StrCpy $ALL_USERS 1
+      StrCpy $PREVIOUS_ALL_USERS 1
       SetShellVarContext all
       return
     ${EndIf}
@@ -286,7 +287,7 @@ Function ReadPreviousVersion
     ; Detect version
     ReadRegStr $PREVIOUS_VERSION HKCU "${INSTALLER_REGKEY}" "Version"
     ${If} $PREVIOUS_VERSION != ""
-      StrCpy $ALL_USERS 0
+      StrCpy $PREVIOUS_ALL_USERS 0
       SetShellVarContext current
       return
     ${EndIf}
@@ -356,6 +357,13 @@ Function ReadSkipUAC
     StrCpy $SKIPUAC 1
   ${EndIf}
 
+  ${If} $ALL_USERS == 0
+    ${If} ${Silent}
+    ${OrIf} $PERFORM_UPDATE == 1
+      StrCpy $SKIPUAC 1
+    ${EndIf}
+  ${EndIf}
+
 FunctionEnd
 
 Function ReadQuiet
@@ -398,6 +406,27 @@ install64on32:
     ${EndUnless}
   !endif
 
+  ; /update argument
+  Call ReadUpdateCommandline
+
+  Call ReadSkipLicense
+
+  ; See if previous version exists
+  Call ReadPreviousVersion
+
+  ; Initialize $ALL_USERS with default value
+  ${If} $ALL_USERS == ''
+    ${If} $PREVIOUS_ALL_USERS != ''
+      StrCpy $ALL_USERS $PREVIOUS_ALL_USERS
+    ${ElseIf} $IS_ADMIN == 1
+      StrCpy $ALL_USERS 1
+    ${Else}
+      StrCpy $ALL_USERS 0
+    ${EndIf}
+  ${EndIf}
+  Call UpdateShellVarContext
+
+  ; Elevate if needed
   Call ReadSkipUAc
 
   ${If} $SKIPUAC != 1
@@ -421,24 +450,8 @@ install64on32:
     SetErrorLevel -1
   ${EndIf}
 
-  ; /update argument
-  Call ReadUpdateCommandline
-
-  Call ReadSkipLicense
-
+  ; Must call after UAC
   Call GetUserInfo
-
-  ; Initialize $ALL_USERS with default value
-  ${If} $IS_ADMIN == 1
-    StrCpy $ALL_USERS 1
-  ${Else}
-    StrCpy $ALL_USERS 0
-  ${EndIf}
-  Call UpdateShellVarContext
-
-  ; See if previous version exists
-  ; This can change ALL_USERS
-  Call ReadPreviousVersion
 
   ${If} $PREVIOUS_VERSION != ""
     StrCpy $REINSTALL_UNINSTALL 1
@@ -452,16 +465,13 @@ install64on32:
 
   Call ReadAllUsersCommandline
 
-  ${If} $ALL_USERS == 1
-    ${If} $IS_ADMIN == 0
-
-      ${If} $PREVIOUS_VERSION != ""
-        ${MessageBox} MB_ICONSTOP "FileZilla has been previously installed for all users.$\nPlease restart the installer with Administrator privileges." IDOK ''
-        Abort
-      ${Else}
-        ${MessageBox} MB_ICONSTOP "Cannot install for all users.$\nPlease restart the installer with Administrator privileges." IDOK ''
-        Abort
-      ${EndIf}
+  ${If} $IS_ADMIN == 0
+    ${If} $PREVIOUS_ALL_USERS == 1
+      ${MessageBox} MB_ICONSTOP "FileZilla has been previously installed for all users.$\nPlease restart the installer with Administrator privileges." IDOK ''
+      Abort
+    ${ElseIf} $ALL_USERS == 1
+      ${MessageBox} MB_ICONSTOP "Cannot install for all users.$\nPlease restart the installer with Administrator privileges." IDOK ''
+      Abort
     ${EndIf}
   ${EndIf}
 
@@ -748,7 +758,7 @@ FunctionEnd
 
 Function RunUninstaller
 
-  ${If} $ALL_USERS_DEFAULT == 1
+  ${If} $PREVIOUS_ALL_USERS == 1
     ReadRegStr $R1 HKLM "${UNINSTALLER_REGKEY}" "UninstallString"
   ${Else}
     ReadRegStr $R1 HKCU "${UNINSTALLER_REGKEY}" "UninstallString"
@@ -866,7 +876,7 @@ Function PageAllUsers
   Pop $R0
 
   ${If} $PREVIOUS_VERSION != ""
-    ${If} $ALL_USERS_DEFAULT == 1
+    ${If} $PREVIOUS_ALL_USERS == 1
       nsDialogs::CreateItem /NOUNLOAD STATIC ${WS_VISIBLE}|${WS_CHILD}|${WS_CLIPSIBLINGS} 0 0 -30 100% 30 "FileZilla has been previously installed for all users."
     ${Else}
       nsDialogs::CreateItem /NOUNLOAD STATIC ${WS_VISIBLE}|${WS_CHILD}|${WS_CLIPSIBLINGS} 0 0 -30 100% 30 "FileZilla has been previously installed for this user only."
@@ -1557,7 +1567,7 @@ Function un.RemoveRegistryEntries
     DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Version"
     DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecDesktop"
     DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecIconSets"
-    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecSecLang"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecLang"
     DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecShellExt"
     DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSectionUsed"
   ${EndIf}
