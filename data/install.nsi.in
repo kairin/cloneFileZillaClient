@@ -1547,6 +1547,25 @@ FunctionEnd
 
 !macroend
 
+Function un.RemoveRegistryEntries
+  ${un.GetOptions} $CommandLine "/frominstall" $R1
+  ${If} ${Errors}
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Package"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Updated"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Channel"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Startmenu"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Version"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecDesktop"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecIconSets"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecSecLang"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSection_SecShellExt"
+    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "MementoSectionUsed"
+  ${EndIf}
+  DeleteRegKey /ifempty SHCTX "${INSTALLER_REGKEY}"
+  DeleteRegKey SHCTX "${UNINSTALLER_REGKEY}"
+
+FunctionEnd
+
 Section "Uninstall"
 
   ${If} ${RunningX64}
@@ -1639,18 +1658,12 @@ Section "Uninstall"
   ${un.GetOptions} $CommandLine "/frominstall" $R1
   ${If} ${Errors}
     RMDir /REBOOTOK "$INSTDIR"
-
-    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Package"
-    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Updated"
-    DeleteRegValue SHCTX "${INSTALLER_REGKEY}" "Channel"
   ${EndIf}
 
   ${If} $un.REMOVE_ALL_USERS == 1
     SetShellVarContext all
     Call un.RemoveStartmenu
-
-    DeleteRegKey /ifempty HKLM "${INSTALLER_REGKEY}"
-    DeleteRegKey HKLM "${UNINSTALLER_REGKEY}"
+    Call un.RemoveRegistryEntries
 
     Delete "$DESKTOP\FileZilla Client.lnk"
 
@@ -1678,9 +1691,7 @@ Section "Uninstall"
   ${If} $un.REMOVE_CURRENT_USER == 1
     SetShellVarContext current
     Call un.RemoveStartmenu
-
-    DeleteRegKey /ifempty HKCU "${INSTALLER_REGKEY}"
-    DeleteRegKey HKCU "${UNINSTALLER_REGKEY}"
+    Call un.RemoveRegistryEntries
 
     Delete "$DESKTOP\FileZilla Client.lnk"
   ${EndIf}
