@@ -414,6 +414,8 @@ install64on32:
   ; See if previous version exists
   Call ReadPreviousVersion
 
+  Call ReadAllUsersCommandline
+
   ; Initialize $ALL_USERS with default value
   ${If} $ALL_USERS == ''
     ${If} $PREVIOUS_ALL_USERS != ''
@@ -462,8 +464,6 @@ install64on32:
   ; previous installation. After this call, $ALL_USERS reflects the requested
   ; installation mode for this installation.
   Call LoadPreviousSettings
-
-  Call ReadAllUsersCommandline
 
   ${If} $IS_ADMIN == 0
     ${If} $PREVIOUS_ALL_USERS == 1
