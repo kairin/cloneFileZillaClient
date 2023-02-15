@@ -899,6 +899,9 @@ template<class CFileData> void CFileListCtrl<CFileData>::OnItemDeselected(wxList
 			}
 
 			// ...but possibly the focus
+			if (m_hasParent && !m_focusItem) {
+				return;
+			}
 			if (m_focusItem >= 0 && m_focusItem < GetItemCount()) {
 				bool selected = GetItemState(m_focusItem, wxLIST_STATE_SELECTED) == wxLIST_STATE_SELECTED;
 				if (selected) {
