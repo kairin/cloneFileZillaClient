@@ -3,6 +3,7 @@
 
 #if defined(__WXMAC__) && wxCHECK_VERSION(3, 1, 0)
 
+#include "themeprovider.h"
 #include <wx/renderer.h>
 
 namespace {
@@ -34,6 +35,16 @@ public:
 			dc.DrawLine(0, position, size.x, position);
 			dc.DrawLine(0, position + height - 1, size.x, position + height - 1);
 		}
+	}
+
+	virtual void DrawTreeItemButton(wxWindow* win, wxDC& dc, wxRect const& rect, int flags) override
+	{
+		std::wstring name = L"ART_TREEITEM_";
+		name += (flags & wxCONTROL_EXPANDED) ? L"EXPANDED" : L"COLLAPSED";
+		name += wxSystemSettingsNative::GetAppearance().IsDark() ? L"_LIGHT" : L"_DARK";
+		
+		auto bmp = CThemeProvider::Get()->CreateBitmap(name, wxART_OTHER, rect.GetSize());
+		dc.DrawBitmap(bmp, rect.x, rect.y);
 	}
 };
 }

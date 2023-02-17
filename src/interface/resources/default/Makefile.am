@@ -48,6 +48,14 @@ dist_resources480_DATA = \
 		480x480/uploadadd.png
 
 if MACAPPBUNDLE
+dist_resources480_DATA += \
+	480x480/treeitem_collapsed_dark.png \
+	480x480/treeitem_collapsed_light.png \
+	480x480/treeitem_expanded_dark.png \
+	480x480/treeitem_expanded_light.png
+endif
+
+if MACAPPBUNDLE
 mac-copy-resources: $(dist_resources_DATA)
 	mkdir -p "$(top_builddir)/FileZilla.app/Contents/SharedSupport/resources/default/480x480";
 	for i in $(dist_resources480_DATA); do \
